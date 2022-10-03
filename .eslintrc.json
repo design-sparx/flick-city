@@ -24,6 +24,7 @@
       2,
       "always"
     ],
-    "@typescript-eslint/semi": 0
+    "@typescript-eslint/semi": 0,
+    "no-extra-boolean-cast": 0
   }
 }
