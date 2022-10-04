@@ -6,7 +6,7 @@ import {
   Container, Stack, Group, SimpleGrid, Avatar, UnstyledButton, Badge, Button, Divider
 } from '@mantine/core';
 import React from 'react';
-import { BoxOfficeTitle as MovieItem } from '../constants/Titles';
+import { BoxOfficeTitle as MovieItem } from '../../constants/Titles';
 import { BsPlay } from 'react-icons/bs';
 
 const useStyles = createStyles((theme: MantineTheme) => ({
@@ -114,9 +114,9 @@ const HeroCard = ({ data }: HeroCardProps): JSX.Element => {
               </Title>
               <Group>
                 <Text>Time: {runtime?.seconds}</Text>
-                <Divider orientation='vertical'/>
+                <Divider orientation="vertical"/>
                 <Text>Year of release: {releaseYear?.year}</Text>
-                <Divider orientation='vertical'/>
+                <Divider orientation="vertical"/>
                 <Text>Ratings: {ratingsSummary?.aggregateRating}/10</Text>
               </Group>
               <Group>
@@ -138,7 +138,7 @@ const HeroCard = ({ data }: HeroCardProps): JSX.Element => {
                           {p.name.nameText.text}
                         </Text>
                         <Group>
-                          {p.characters?.map(ch => <Text key={`character-${ch.name}`} size='sm'>{ch.name}</Text>)}
+                          {p.characters?.map(ch => <Text key={`character-${ch.name}`} size="sm">{ch.name}</Text>)}
                         </Group>
                       </div>
                     </Group>
