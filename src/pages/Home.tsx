@@ -4,11 +4,10 @@ import { BoxOfficeTitles, Titles } from '../constants/Titles';
 import { Carousel } from '@mantine/carousel';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import Autoplay from 'embla-carousel-autoplay';
-import { Container, Grid, Stack, Title } from '@mantine/core';
-import { HeroCard, MovieCard, Section, TrailersCard } from '../components/Home';
+import { Container, Stack } from '@mantine/core';
+import { HeroCard, Section } from '../components/Home';
 
 const { Slide } = Carousel;
-const { Col } = Grid;
 
 const Home = (): JSX.Element => {
   const [heroData, setHeroData] = useState<BoxOfficeTitles>();
@@ -130,6 +129,7 @@ const Home = (): JSX.Element => {
     fetchTopRatedMovies().then(() => console.log('')).catch(e => console.log(e));
     fetchTopBoxOfficeMovies().then(() => console.log('')).catch(e => console.log(e));
     fetchTopRatedMoviesEnglish().then(() => console.log('')).catch(e => console.log(e));
+    console.log(trailers);
   }, [fetchHeroTitles, fetchTrailers, fetchPopularSeries, fetchPopularMovies, fetchTopRatedMoviesEnglish, fetchTopRatedMovies, fetchTopRatedSeries, fetchTopBoxOfficeMovies]);
 
   return (
@@ -158,53 +158,29 @@ const Home = (): JSX.Element => {
         {heroData?.results.map(data => <Slide key={data.id}><HeroCard data={data}/></Slide>)}
       </Carousel>
       <Container fluid>
-        <Grid>
-          <Col span={9}>
-            <Stack>
-              {Boolean(popularMovies) &&
-                <Section title="popular movies" data={popularMovies}>
-                  {popularMovies?.results.map(movie => <MovieCard key={movie.id} data={movie}/>)}
-                </Section>
-              }
-              {Boolean(boxOfficeMovies) &&
-                <Section title="box movies" data={boxOfficeMovies}>
-                  {boxOfficeMovies?.results.map(movie => <MovieCard key={movie.id} data={movie}/>)}
-                </Section>
-              }
-              {Boolean(topMovies) &&
-                <Section title="top movies" data={topMovies}>
-                  {topMovies?.results.map(movie => <MovieCard key={movie.id} data={movie}/>)}
-                </Section>
-              }
-              {Boolean(topEnglishMovies) &&
-                <Section title="top english movies" data={topEnglishMovies}>
-                  {topMovies?.results.map(movie => <MovieCard key={movie.id} data={movie}/>)}
-                </Section>
-              }
-              {Boolean(lowRatedMovies) &&
-                <Section title="low movies" data={lowRatedMovies}>
-                  {lowRatedMovies?.results.map(movie => <MovieCard key={movie.id} data={movie}/>)}
-                </Section>
-              }
-              {Boolean(popularSeries) &&
-                <Section title="popular series" data={popularSeries}>
-                  {popularSeries?.results.map(movie => <MovieCard key={movie.id} data={movie}/>)}
-                </Section>
-              }
-              {Boolean(topSeries) &&
-                <Section title="top series" data={topSeries}>
-                  {topSeries?.results.map(movie => <MovieCard key={movie.id} data={movie}/>)}
-                </Section>
-              }
-            </Stack>
-          </Col>
-          <Col span={3}>
-            <Title>New releases</Title>
-            <Stack>
-              {trailers?.results.map(t => <TrailersCard key={t.id} data={t}/>)}
-            </Stack>
-          </Col>
-        </Grid>
+        <Stack>
+          {Boolean(popularMovies) &&
+            <Section title="popular movies" data={popularMovies}/>
+          }
+          {Boolean(boxOfficeMovies) &&
+            <Section title="box movies" data={boxOfficeMovies}/>
+          }
+          {Boolean(topMovies) &&
+            <Section title="top movies" data={topMovies}/>
+          }
+          {Boolean(topEnglishMovies) &&
+            <Section title="top english movies" data={topEnglishMovies}/>
+          }
+          {Boolean(lowRatedMovies) &&
+            <Section title="low movies" data={lowRatedMovies}/>
+          }
+          {Boolean(popularSeries) &&
+            <Section title="popular series" data={popularSeries}/>
+          }
+          {Boolean(topSeries) &&
+            <Section title="top series" data={topSeries}/>
+          }
+        </Stack>
       </Container>
     </Wrapper>
   );

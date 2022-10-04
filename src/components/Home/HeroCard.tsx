@@ -128,7 +128,7 @@ const HeroCard = ({ data }: HeroCardProps): JSX.Element => {
               <Group>
                 {keywords?.edges.map((k) => <Badge key={`keyword-${k.node.text}`}>{k.node.text}</Badge>)}
               </Group>
-              <SimpleGrid cols={3} spacing={0}>
+              <SimpleGrid cols={2} spacing={0}>
                 {principalCast[0].credits.map(p =>
                   <UnstyledButton key={p.name.id} className={classes.user}>
                     <Group>
