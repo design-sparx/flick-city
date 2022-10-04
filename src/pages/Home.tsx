@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Wrapper from './Wrapper';
 import { BoxOfficeTitles } from '../constants/Titles';
 import { Carousel } from '@mantine/carousel';
 import HeroCard from '../components/HeroCard';
+import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
+import Autoplay from 'embla-carousel-autoplay';
 
 const { Slide } = Carousel;
 
 const Home = (): JSX.Element => {
   const [heroData, setHeroData] = useState<BoxOfficeTitles>();
+  const autoplay = useRef(Autoplay({ delay: 2000 }));
 
   const headerOptions = {
     method: 'GET',
@@ -36,7 +39,13 @@ const Home = (): JSX.Element => {
       <Carousel
         mx="auto"
         withIndicators
-        height='80vh'
+        controlSize={48}
+        nextControlIcon={<BsChevronRight size={20}/>}
+        previousControlIcon={<BsChevronLeft size={20}/>}
+        loop
+        plugins={[autoplay.current]}
+        onMouseEnter={autoplay.current.stop}
+        onMouseLeave={autoplay.current.reset}
         styles={{
           indicator: {
             width: 12,

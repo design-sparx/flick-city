@@ -54,7 +54,7 @@ const AppBar = ({ links }: AppBarProps): JSX.Element => {
   const { classes } = useStyles();
 
   return (
-    <Header height={56} className={classes.header} mb={30}>
+    <Header height={56} className={classes.header}>
       <div className={classes.inner}>
         <Group>
           <Burger opened={opened} onClick={toggle} size="sm"/>
