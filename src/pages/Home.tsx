@@ -160,25 +160,25 @@ const Home = (): JSX.Element => {
       <Container fluid>
         <Stack>
           {Boolean(popularMovies) &&
-            <Section title="popular movies" data={popularMovies}/>
+            <Section title="popular movies" description="Most popular movies" data={popularMovies}/>
           }
           {Boolean(boxOfficeMovies) &&
-            <Section title="box movies" data={boxOfficeMovies}/>
+            <Section title="box movies" description="Top selling movies of all time" data={boxOfficeMovies}/>
           }
           {Boolean(topMovies) &&
-            <Section title="top movies" data={topMovies}/>
+            <Section title="top movies" description="Movies with highest user rating" data={topMovies}/>
           }
           {Boolean(topEnglishMovies) &&
-            <Section title="top english movies" data={topEnglishMovies}/>
+            <Section title="top english movies" description="English movies with highest user rating" data={topEnglishMovies}/>
           }
           {Boolean(lowRatedMovies) &&
-            <Section title="low movies" data={lowRatedMovies}/>
+            <Section title="low movies" description="Movies with lowest user rating" data={lowRatedMovies}/>
           }
           {Boolean(popularSeries) &&
-            <Section title="popular series" data={popularSeries}/>
+            <Section title="popular series" description="Most popular tv series" data={popularSeries}/>
           }
           {Boolean(topSeries) &&
-            <Section title="top series" data={topSeries}/>
+            <Section title="top series" description="Tv series with highest user rating" data={topSeries}/>
           }
         </Stack>
       </Container>

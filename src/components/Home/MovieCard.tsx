@@ -1,7 +1,7 @@
 import { Card, Center, createStyles, Group, Text } from '@mantine/core';
 import React from 'react';
 import { Title as MovieItem } from '../../constants/Titles';
-import { IconEye, IconMessageCircle } from '@tabler/icons';
+import { IconCalendar } from '@tabler/icons';
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const image = getRef('image');
@@ -96,7 +96,9 @@ const MovieCard = ({
         className={classes.image}
         style={{
           background: Boolean(primaryImage) ? `url(${primaryImage.url})` : 'radial-gradient(circle, rgba(13,19,50,1) 0%, rgba(28,38,55,1) 100%)',
-          backgroundPosition: 'center'
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover'
         }}
       />
       <div className={classes.overlay}/>
@@ -111,20 +113,12 @@ const MovieCard = ({
               {titleType.text}
             </Text>
 
-            <Group spacing="lg">
-              <Center>
-                <IconEye size={16} stroke={1.5} color={theme.colors.dark[2]}/>
-                <Text size="sm" className={classes.bodyText}>
-                  {Boolean(releaseYear) ? releaseYear.year : ''}
-                </Text>
-              </Center>
-              <Center>
-                <IconMessageCircle size={16} stroke={1.5} color={theme.colors.dark[2]}/>
-                <Text size="sm" className={classes.bodyText}>
-                  {data.position}
-                </Text>
-              </Center>
-            </Group>
+            <Center>
+              <IconCalendar size={16} stroke={1.5} color={theme.colors.dark[2]}/>
+              <Text size="sm" className={classes.bodyText}>
+                {Boolean(releaseYear) ? releaseYear.year : ''}
+              </Text>
+            </Center>
           </Group>
         </div>
       </div>
