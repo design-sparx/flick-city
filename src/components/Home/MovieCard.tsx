@@ -1,4 +1,4 @@
-import { Card, Center, createStyles, Group, Text } from '@mantine/core';
+import { Box, Card, Center, createStyles, Group, Text } from '@mantine/core';
 import React from 'react';
 import { Title as MovieItem } from '../../constants/Titles';
 import { IconCalendar } from '@tabler/icons';
@@ -51,12 +51,12 @@ const useStyles = createStyles((theme, _params, getRef) => {
     },
 
     bodyText: {
-      color: theme.colors.dark[2],
+      color: theme.white,
       marginLeft: 7
     },
 
     author: {
-      color: theme.colors.dark[2]
+      color: theme.white
     }
   };
 });
@@ -78,7 +78,8 @@ const MovieCard = ({
     primaryImage,
     titleText,
     titleType,
-    releaseYear
+    releaseYear,
+    position
   } = data;
 
   return (
@@ -103,6 +104,22 @@ const MovieCard = ({
       />
       <div className={classes.overlay}/>
       <div className={classes.content}>
+        <Box
+          component="span"
+          color={theme.white}
+          px="sm"
+          py={2}
+          sx={{
+            position: 'absolute',
+            top: 0,
+            background: 'white',
+            borderRadius: theme.radius.md,
+            fontWeight: 500,
+            boxShadow: theme.shadows.md
+          }}
+        >
+          {position}
+        </Box>
         <div>
           <Text size="lg" className={classes.title} weight={500}>
             {titleText.text}
@@ -113,12 +130,14 @@ const MovieCard = ({
               {titleType.text}
             </Text>
 
-            <Center>
-              <IconCalendar size={16} stroke={1.5} color={theme.colors.dark[2]}/>
-              <Text size="sm" className={classes.bodyText}>
-                {Boolean(releaseYear) ? releaseYear.year : ''}
-              </Text>
-            </Center>
+            <Group>
+              <Center>
+                <IconCalendar size={16} stroke={1.5} color={theme.white}/>
+                <Text size="sm" className={classes.bodyText}>
+                  {Boolean(releaseYear) ? releaseYear.year : ''}
+                </Text>
+              </Center>
+            </Group>
           </Group>
         </div>
       </div>

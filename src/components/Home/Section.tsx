@@ -7,6 +7,7 @@ import { MovieCard } from './index';
 interface SectionProps {
   title: string
   description: string
+  listType: string
   data?: Titles
   children?: React.ReactNode
 }
@@ -16,14 +17,12 @@ const PRIMARY_COL_HEIGHT = 600;
 const Section = ({
   data,
   description,
+  listType,
   title
 }: SectionProps): JSX.Element => {
   const theme = useMantineTheme();
   const SECONDARY_COL_HEIGHT = PRIMARY_COL_HEIGHT / 2 - theme.spacing.md / 2;
 
-  /**
-   * @ts-expect-error
-   */
   return (
     <Container fluid py="lg">
       <Group position="apart" align="end" py="lg">
@@ -33,7 +32,13 @@ const Section = ({
             <Text>{description}</Text>
           </Stack>
         </Group>
-        <Button variant="subtle" rightIcon={<BsChevronRight/>} >View All</Button>
+        <Button
+          variant="subtle"
+          rightIcon={<BsChevronRight/>}
+          component='a' href={`/lists/${listType}`}
+        >
+          View All
+        </Button>
       </Group>
       <SimpleGrid cols={5}>
         {data?.results.map((d) =>

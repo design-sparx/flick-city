@@ -157,28 +157,28 @@ const Home = (): JSX.Element => {
       >
         {heroData?.results.map(data => <Slide key={data.id}><HeroCard data={data}/></Slide>)}
       </Carousel>
-      <Container fluid>
+      <Container fluid px="xl">
         <Stack>
           {Boolean(popularMovies) &&
-            <Section title="popular movies" description="Most popular movies" data={popularMovies}/>
+            <Section title="popular movies" description="Most popular movies" listType='most_pop_movies' data={popularMovies}/>
           }
           {Boolean(boxOfficeMovies) &&
-            <Section title="box movies" description="Top selling movies of all time" data={boxOfficeMovies}/>
+            <Section title="box office movies" description="Top selling movies of all time" listType='top_boxoffice_200' data={boxOfficeMovies}/>
           }
           {Boolean(topMovies) &&
-            <Section title="top movies" description="Movies with highest user rating" data={topMovies}/>
+            <Section title="top movies" description="Movies with highest user rating" listType='top_rated_250' data={topMovies}/>
           }
           {Boolean(topEnglishMovies) &&
-            <Section title="top english movies" description="English movies with highest user rating" data={topEnglishMovies}/>
+            <Section title="top english movies" description="English movies with highest user rating" listType='top_rated_english_250'data={topEnglishMovies}/>
           }
           {Boolean(lowRatedMovies) &&
-            <Section title="low movies" description="Movies with lowest user rating" data={lowRatedMovies}/>
+            <Section title="low movies" description="Movies with lowest user rating" listType='top_rated_lowest_100' data={lowRatedMovies}/>
           }
           {Boolean(popularSeries) &&
-            <Section title="popular series" description="Most popular tv series" data={popularSeries}/>
+            <Section title="popular series" description="Most popular tv series" listType='most_pop_series' data={popularSeries}/>
           }
           {Boolean(topSeries) &&
-            <Section title="top series" description="Tv series with highest user rating" data={topSeries}/>
+            <Section title="top series" description="Tv series with highest user rating" listType='top_rated_series_250' data={topSeries}/>
           }
         </Stack>
       </Container>
