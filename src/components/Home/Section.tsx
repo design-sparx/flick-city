@@ -1,5 +1,6 @@
 import { Button, Container, Group, SimpleGrid, Stack, Text, Title, useMantineTheme } from '@mantine/core';
 import React from 'react';
+import { BsChevronRight } from 'react-icons/bs';
 import { Titles } from '../../constants/Titles';
 import { MovieCard } from './index';
 
@@ -32,7 +33,7 @@ const Section = ({
             <Text>{description}</Text>
           </Stack>
         </Group>
-        <Button>view all</Button>
+        <Button variant="subtle" rightIcon={<BsChevronRight/>} >View All</Button>
       </Group>
       <SimpleGrid cols={5}>
         {data?.results.map((d) =>
