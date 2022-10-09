@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { MovieCard } from '../components/Home';
 import { ListTypes } from '../constants/ListTypes';
 
-const Home = (): JSX.Element => {
+const List = (): JSX.Element => {
   const { listType } = useParams();
   const [data, setData] = useState<Titles>();
   const [listTitle, setListTitle] = useState('');
@@ -82,4 +82,4 @@ const Home = (): JSX.Element => {
   );
 };
 
-export default Home;
+export default List;

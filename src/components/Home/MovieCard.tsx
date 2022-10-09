@@ -79,7 +79,8 @@ const MovieCard = ({
     titleText,
     titleType,
     releaseYear,
-    position
+    position,
+    id
   } = data;
 
   return (
@@ -89,8 +90,7 @@ const MovieCard = ({
       className={classes.card}
       radius="md"
       component="a"
-      href={''}
-      target="_blank"
+      href={`/titles/${id}`}
       style={{ height }}
     >
       <div

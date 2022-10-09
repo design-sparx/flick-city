@@ -24,7 +24,7 @@ const Section = ({
   const SECONDARY_COL_HEIGHT = PRIMARY_COL_HEIGHT / 2 - theme.spacing.md / 2;
 
   return (
-    <Container fluid py="lg">
+    <Container fluid py="lg" m={0}>
       <Group position="apart" align="end" py="lg">
         <Group align="center">
           <Stack spacing="xs">
