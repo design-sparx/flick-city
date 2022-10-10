@@ -87,8 +87,40 @@ export interface BaseInfo {
     }
     '__typename': string
   }
+  'principalCast': [
+    {
+      'credits': SingleCredit[]
+    },
+  ]
+  'trailer': string
+  'keywords': {
+    'total': number
+    'edges': [{ 'node': { 'text': string, '__typename': string }, '__typename': string }]
+    '__typename': string
+  }
 }
 
+/**
+ * principal cast credits
+ */
+export interface SingleCredit {
+  'name': {
+    'id': string
+    'nameText': { 'text': string, '__typename': string }
+    'primaryImage': { 'url': string, 'width': number, 'height': number, '__typename': string }
+    '__typename': string
+  }
+  'attributes': null | string | number
+  'characters': [
+    { 'name': string, '__typename': string }
+  ]
+  'episodeCredits': { 'total': number, 'yearRange': null | number, '__typename': string }
+  '__typename': string
+}
+
+/**
+ * actors / cast
+ */
 export interface Cast {
   id: string
   cast: {
@@ -96,6 +128,9 @@ export interface Cast {
   }
 }
 
+/**
+ * single cast
+ */
 export interface SingleCast {
   node: {
     name: {
@@ -120,6 +155,9 @@ export interface SingleCast {
   }
 }
 
+/**
+ * revenue data
+ */
 export interface Revenue {
   id: string
   productionBudget: {
@@ -151,60 +189,35 @@ export interface Revenue {
   }
 }
 
+/**
+ * creator is a director, producer or writer in this context
+ */
 export interface Creators {
   id: string
-  creators: [
-    {
-      totalCredits: number
-      category: {
-        text: string
-      }
-      credits: [
-        {
-          name: {
-            id: string
-            nameText: {
-              text: string
-            }
-          }
-        }
-      ]
+  creators: Creator[]
+  directors: Creator[]
+  writers: Creator[]
+}
+
+/**
+ * creator object
+ */
+export interface Creator {
+  totalCredits: number
+  category: {
+    text: string
+  }
+  credits: CreatorPerson[]
+}
+
+/**
+ * creator user
+ */
+export interface CreatorPerson {
+  name: {
+    id: string
+    nameText: {
+      text: string
     }
-  ]
-  directors: [
-    {
-      totalCredits: number
-      category: {
-        text: string
-      }
-      credits: [
-        {
-          name: {
-            id: string
-            nameText: {
-              text: string
-            }
-          }
-        }
-      ]
-    }
-  ]
-  writers: [
-    {
-      totalCredits: number
-      category: {
-        text: string
-      }
-      credits: [
-        {
-          name: {
-            id: string
-            nameText: {
-              text: string
-            }
-          }
-        }
-      ]
-    }
-  ]
+  }
 }
