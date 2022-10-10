@@ -22,17 +22,23 @@ const ActorCard = ({
     >
       {Boolean(cast)
         ? <>
-          <Avatar src={cast?.node.name.primaryImage.url} size={120} radius={120} mx="auto"/>
-          <Text align="center" size="lg" weight={500} mt="md">
+          <Avatar src={Boolean(cast?.node.name.primaryImage) ? cast?.node.name.primaryImage.url : null} size={120}
+                  radius={120} mx="auto"/>
+          <Text align="center" weight={500} mt="md">
             {cast?.node.name.nameText.text}
           </Text>
           <Stack spacing={0}>
-            {cast?.node.characters.map(c => <Text key={c.name} align="center" color="dimmed" size="sm">{c.name}</Text>)}
+            {
+              Boolean(cast?.node.characters) &&
+              cast?.node.characters.map(c =>
+                <Text key={c.name} align="center" color="dimmed" size="sm">{c.name}</Text>)
+            }
           </Stack>
         </>
         : <>
-          <Avatar src={credit?.name.primaryImage.url} size={120} radius={120} mx="auto"/>
-          <Text align="center" size="lg" weight={500} mt="md">
+          <Avatar src={Boolean(credit?.name.primaryImage) ? credit?.name.primaryImage.url : null} size={120}
+                  radius={120} mx="auto"/>
+          <Text align="center" weight={500} mt="md">
             {credit?.name.nameText.text}
           </Text>
           <Stack spacing={0}>

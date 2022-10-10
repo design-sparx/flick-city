@@ -8,13 +8,16 @@ export interface MovieTitle {
   }
 }
 
+/**
+ * custom title info
+ */
 export interface BaseInfo {
   'ratingsSummary': {
     'aggregateRating': number
     'voteCount': number
     '__typename': string
   }
-  'episodes': null | string
+  'episodes': null | Episodes
   'primaryImage': {
     'id': string
     'width': number
@@ -98,6 +101,33 @@ export interface BaseInfo {
     'edges': [{ 'node': { 'text': string, '__typename': string }, '__typename': string }]
     '__typename': string
   }
+}
+
+/**
+ * if movie title is a series
+ */
+export interface Episodes {
+  episodes: {
+    total: number
+  }
+  seasons: [{
+    number: number
+  }]
+  topRated: {
+    edges: [
+      {
+        node: {
+          ratingSummary: {
+            aggregateRating: number
+          }
+        }
+      }
+    ]
+  }
+  totalEpisodes: {
+    total: number
+  }
+  years: [{ year: number }]
 }
 
 /**
