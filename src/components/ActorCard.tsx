@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar, Text, Paper, Stack } from '@mantine/core';
-import { SingleCast, SingleCredit } from '../../constants/MovieTitle';
+import { SingleCast, SingleCredit } from '../constants/MovieTitle';
 
 interface ActorProps {
   cast?: SingleCast

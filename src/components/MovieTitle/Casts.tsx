@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, SimpleGrid, Title } from '@mantine/core';
-import ActorCard from '../Home/ActorCard';
+import ActorCard from '../ActorCard';
 import { BaseInfo, Cast } from '../../constants/MovieTitle';
 
 interface CastsProps {
