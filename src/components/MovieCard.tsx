@@ -1,6 +1,6 @@
 import { Box, Card, Center, createStyles, Group, Text } from '@mantine/core';
-import React from 'react';
-import { Title as MovieItem } from '../../constants/Titles';
+import React, { useEffect, useState } from 'react';
+import { Title as MovieItem } from '../constants/Titles';
 import { IconCalendar } from '@tabler/icons';
 
 const useStyles = createStyles((theme, _params, getRef) => {
@@ -61,19 +61,25 @@ const useStyles = createStyles((theme, _params, getRef) => {
   };
 });
 
+/**
+ * is ranking param check if card is used for ranking movies
+ */
 interface MovieProps {
   data: MovieItem
   height: number
+  isRanking?: boolean
 }
 
 const MovieCard = ({
   data,
-  height
+  height,
+  isRanking
 }: MovieProps): JSX.Element => {
   const {
     classes,
     theme
   } = useStyles();
+  const [pictureUrl, setPictureUrl] = useState('');
   const {
     primaryImage,
     titleText,
@@ -82,6 +88,10 @@ const MovieCard = ({
     position,
     id
   } = data;
+
+  useEffect(() => {
+    setPictureUrl(Boolean(primaryImage) ? primaryImage.url : 'https://img.freepik.com/free-vector/realistic-3d-cinema-film-strip-perspective-isolated_260559-136.jpg?w=900&t=st=1665596829~exp=1665597429~hmac=f4246a22f5b655d08befac083fa0d1d6055581e46c3a3728a36c83bc980b7c68');
+  }, [primaryImage]);
 
   return (
     <Card
@@ -96,7 +106,7 @@ const MovieCard = ({
       <div
         className={classes.image}
         style={{
-          background: Boolean(primaryImage) ? `url(${primaryImage.url})` : 'radial-gradient(circle, rgba(13,19,50,1) 0%, rgba(28,38,55,1) 100%)',
+          background: `url(${pictureUrl})`,
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover'
@@ -104,24 +114,26 @@ const MovieCard = ({
       />
       <div className={classes.overlay}/>
       <div className={classes.content}>
-        <Box
-          component="span"
-          color={theme.white}
-          px="sm"
-          py={2}
-          sx={{
-            position: 'absolute',
-            top: 0,
-            background: 'white',
-            borderRadius: theme.radius.md,
-            fontWeight: 500,
-            boxShadow: theme.shadows.md
-          }}
-        >
-          {position}
-        </Box>
+        {Boolean(isRanking) &&
+          <Box
+            component="span"
+            color={theme.white}
+            px="sm"
+            py={2}
+            sx={{
+              position: 'absolute',
+              top: 0,
+              background: 'white',
+              borderRadius: theme.radius.md,
+              fontWeight: 500,
+              boxShadow: theme.shadows.md
+            }}
+          >
+            {position}
+          </Box>
+        }
         <div>
-          <Text size="lg" className={classes.title} weight={500}>
+          <Text size="lg" className={classes.title} weight={500} lineClamp={2}>
             {titleText.text}
           </Text>
 

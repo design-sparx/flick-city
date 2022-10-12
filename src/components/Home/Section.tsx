@@ -42,7 +42,7 @@ const Section = ({
       </Group>
       <SimpleGrid cols={5}>
         {data?.results.map((d) =>
-          <MovieCard data={d} height={SECONDARY_COL_HEIGHT} key={d.id}/>
+          <MovieCard data={d} height={SECONDARY_COL_HEIGHT} key={d.id} isRanking/>
         )}
       </SimpleGrid>
     </Container>

@@ -1,14 +1,27 @@
-import React from 'react';
-import { createStyles, Header, Group, Burger, TextInput, Text } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { FaFilm, FaSearch } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import {
+  createStyles,
+  Header,
+  Group,
+  Burger,
+  TextInput,
+  Text,
+  Container
+} from '@mantine/core';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { Genres } from '../constants/Genres';
+import { BsSearch } from 'react-icons/bs';
+import { FcFilmReel } from 'react-icons/fc';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
   header: {
-    paddingLeft: theme.spacing.md,
-    paddingRight: theme.spacing.md,
-    position: 'sticky'
+    paddingTop: theme.spacing.xs,
+    paddingBottom: theme.spacing.xs,
+    paddingLeft: theme.spacing.xl,
+    paddingRight: theme.spacing.xl,
+    position: 'sticky',
+    boxShadow: theme.shadows.md
   },
 
   inner: {
@@ -25,6 +38,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   search: {
+    width: 500,
     [theme.fn.smallerThan('xs')]: {
       display: 'none'
     }
@@ -33,12 +47,13 @@ const useStyles = createStyles((theme) => ({
   link: {
     display: 'block',
     lineHeight: 1,
-    padding: '8px 12px',
+    padding: theme.spacing.sm,
     borderRadius: theme.radius.sm,
     textDecoration: 'none',
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
     fontSize: theme.fontSizes.sm,
     fontWeight: 500,
+    textTransform: 'capitalize',
 
     '&:hover': {
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0]
@@ -52,49 +67,69 @@ interface AppBarProps {
 
 const AppBar = ({ links }: AppBarProps): JSX.Element => {
   const [opened, { toggle }] = useDisclosure(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const isMobile = useMediaQuery('(max-width: 600px)');
   const { classes } = useStyles();
+  const { query } = useParams();
+  const navigate = useNavigate();
+
+  const handleKeyDown = (event: React.KeyboardEvent): void => {
+    if (event.key === 'Enter') {
+      navigate(`/search/${searchTerm}`);
+    }
+  };
+
+  useEffect(() => {
+    setSearchTerm(query ?? '');
+  }, [query]);
 
   return (
-    <Header height={56} className={classes.header}>
-      <div className={classes.inner}>
-        <Group>
-          <Burger opened={opened} onClick={toggle} size="sm"/>
-          <FaFilm size={28}/>
-          <Text size="lg" weight={500}>flickcity</Text>
-        </Group>
+    <Header height="100%" className={classes.header}>
+      <Container fluid>
+        <div className={classes.inner}>
+          <Group>
+            {isMobile && <Burger opened={opened} onClick={toggle} size="sm"/>}
+            <FcFilmReel size={28}/>
+            <Text size="lg" weight={500} component='a' href='/'>flickcity</Text>
+          </Group>
 
-        <Group spacing={5} className={classes.links}>
-          <a
-            key='home'
-            href='/home'
-            className={classes.link}
-            onClick={(event) => event.preventDefault()}
-          >
-            home
-          </a>
-          <a
-            key='movies'
-            href='/movies'
-            className={classes.link}
-            onClick={(event) => event.preventDefault()}
-          >
-            movies
-          </a>
-          <a
-            key='series'
-            href='/series'
-            className={classes.link}
-            onClick={(event) => event.preventDefault()}
-          >
-            series
-          </a>
           <TextInput
+            icon={<BsSearch size={14}/>}
+            placeholder="Search for movies, series, tv shows, people..."
             className={classes.search}
-            placeholder="Search"
-            icon={<FaSearch size={16}/>}
+            onKeyDown={handleKeyDown}
+            onChange={(event) => setSearchTerm(event.currentTarget.value)}
+            value={searchTerm}
           />
-        </Group>
-      </div>
+
+          <Group spacing={4} className={classes.links}>
+            <a
+              key="home"
+              href="/home"
+              className={classes.link}
+              onClick={(event) => event.preventDefault()}
+            >
+              home
+            </a>
+            <a
+              key="movies"
+              href="/movies"
+              className={classes.link}
+              onClick={(event) => event.preventDefault()}
+            >
+              movies
+            </a>
+            <a
+              key="series"
+              href="/series"
+              className={classes.link}
+              onClick={(event) => event.preventDefault()}
+            >
+              series
+            </a>
+          </Group>
+        </div>
+      </Container>
     </Header>
   );
 };

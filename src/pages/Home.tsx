@@ -120,15 +120,15 @@ const Home = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    fetchHeroTitles().then(() => console.log('')).catch(e => console.log(e));
-    fetchTrailers().then(() => console.log('')).catch(e => console.log(e));
-    fetchPopularMovies().then(() => console.log('')).catch(e => console.log(e));
-    fetchLowRatedMovies().then(() => console.log('')).catch(e => console.log(e));
-    fetchPopularSeries().then(() => console.log('')).catch(e => console.log(e));
-    fetchTopRatedSeries().then(() => console.log('')).catch(e => console.log(e));
-    fetchTopRatedMovies().then(() => console.log('')).catch(e => console.log(e));
-    fetchTopBoxOfficeMovies().then(() => console.log('')).catch(e => console.log(e));
-    fetchTopRatedMoviesEnglish().then(() => console.log('')).catch(e => console.log(e));
+    void fetchHeroTitles();
+    void fetchTrailers();
+    void fetchPopularMovies();
+    void fetchLowRatedMovies();
+    void fetchPopularSeries();
+    void fetchTopRatedSeries();
+    void fetchTopRatedMovies();
+    void fetchTopBoxOfficeMovies();
+    void fetchTopRatedMoviesEnglish();
     console.log(trailers);
   }, [fetchHeroTitles, fetchTrailers, fetchPopularSeries, fetchPopularMovies, fetchTopRatedMoviesEnglish, fetchTopRatedMovies, fetchTopRatedSeries, fetchTopBoxOfficeMovies]);
 
