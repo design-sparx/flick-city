@@ -23,7 +23,6 @@ const useStyles = createStyles((theme, _params, getRef) => {
       left: 0,
       right: 0,
       bottom: 0,
-      backgroundSize: 'cover',
       transition: 'transform 500ms ease'
     },
 
@@ -106,7 +105,7 @@ const MovieCard = ({
       <div
         className={classes.image}
         style={{
-          background: `url(${pictureUrl})`,
+          backgroundImage: `url(${pictureUrl})`,
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover'
