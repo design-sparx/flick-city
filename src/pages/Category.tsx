@@ -13,6 +13,7 @@ const Category = (): JSX.Element => {
   const { title } = useParams();
   const [searchParams] = useSearchParams();
   const list = searchParams.get('list');
+  const genre = searchParams.get('genre');
 
   const headerOptions = {
     method: 'GET',
@@ -27,7 +28,11 @@ const Category = (): JSX.Element => {
   const fetchCategoryData = useCallback(async (): Promise<any> => {
     let filters = '';
     if (Boolean(list) && list !== 'undefined') {
-      filters += `&list=${list ?? ''}`;
+      filters += `&list=${String(list) ?? ''}`;
+    }
+
+    if (Boolean(genre) && genre !== 'undefined') {
+      filters += `&genre=${String(genre) ?? ''}`;
     }
 
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
@@ -35,7 +40,7 @@ const Category = (): JSX.Element => {
       .then(async response => await response.json())
       .then(response => setData(response))
       .catch(err => console.error(err));
-  }, [list]);
+  }, [genre]);
 
   /**
    * fetch genres
@@ -54,7 +59,7 @@ const Category = (): JSX.Element => {
 
   useEffect(() => {
     void fetchCategoryData();
-  }, [list, title]);
+  }, [list, title, genre]);
 
   return (
     <Wrapper>

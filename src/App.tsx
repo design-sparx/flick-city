@@ -3,10 +3,13 @@ import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { MantineProvider } from '@mantine/core';
 import { CategoryPage, HomePage, ListPage, MovieTitlePage, SearchPage } from './pages';
+import { QueryParamProvider } from 'use-query-params';
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 
 const App = (): JSX.Element => {
   return (
     <BrowserRouter>
+      <QueryParamProvider adapter={ReactRouter6Adapter}>
       <MantineProvider withNormalizeCSS withGlobalStyles>
         <Routes>
           <Route path="">
@@ -20,6 +23,7 @@ const App = (): JSX.Element => {
           </Route>
         </Routes>
       </MantineProvider>
+      </QueryParamProvider>
     </BrowserRouter>
   );
 };

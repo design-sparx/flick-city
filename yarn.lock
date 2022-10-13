@@ -8423,6 +8423,11 @@ serialize-javascript@^6.0.0:
   dependencies:
     randombytes "^2.1.0"
 
+serialize-query-params@^2.0.0:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/serialize-query-params/-/serialize-query-params-2.0.1.tgz#f28f45a3da77ad5b578832fc8c9dc8ee08df9348"
+  integrity sha512-MCw3M1sc0N0vTxsXfInqogI7Cygsnlv4Vdy1Sc+QAN50bpteYCIQRRS3FXT/mcCKOLxCR8ohLg29WmeOEXyjmw==
+
 serve-index@^1.9.1:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/serve-index/-/serve-index-1.9.1.tgz#d3768d69b1e7d82e5ce050fff5b453bea12a9239"
@@ -9187,6 +9192,13 @@ use-latest@^1.2.1:
   integrity sha512-xA+AVm/Wlg3e2P/JiItTziwS7FK92LWrDB0p+hgXloIMuVCeJJ8v6f0eeHyPZaJrM+usM1FkFfbNCrJGs8A/zw==
   dependencies:
     use-isomorphic-layout-effect "^1.1.1"
+
+use-query-params@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/use-query-params/-/use-query-params-2.1.1.tgz#6b9abc9b96aed5f4476a28a91e92c4d98c283a66"
+  integrity sha512-6trNvHhbb9PjtNxIFA0l31A09WmafRrmcGtSPnqwKgoI7i+m741Oh3gjz9SkJFhE5FFruBWtXx7QyfmjGcI0jA==
+  dependencies:
+    serialize-query-params "^2.0.0"
 
 util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"

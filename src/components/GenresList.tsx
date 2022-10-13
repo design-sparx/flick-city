@@ -1,6 +1,7 @@
 import { Button, Group, Paper } from '@mantine/core';
 import React from 'react';
 import { Genres } from '../constants/Genres';
+import { useQueryParams } from 'use-query-params';
 import { useSearchParams } from 'react-router-dom';
 
 interface GenresProps {
@@ -8,10 +9,17 @@ interface GenresProps {
 }
 
 const GenresList = ({ genres }: GenresProps): JSX.Element => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [queryParams, setQueryParams] = useQueryParams();
+  const [params] = useSearchParams();
+  const genre = params.get('genre');
 
+  /**
+   * set active button and disable
+   * @param g
+   */
   const handleActiveButton = (g: string): boolean => {
-    return searchParams.get('genre') === g;
+    return genre === g;
   };
 
   return (
@@ -22,7 +30,7 @@ const GenresList = ({ genres }: GenresProps): JSX.Element => {
             key={g}
             compact
             variant="outline"
-            onClick={() => setSearchParams({ genre: g })}
+            onClick={() => setQueryParams({ genre: g })}
             disabled={handleActiveButton(g)}
           >
             {g}
