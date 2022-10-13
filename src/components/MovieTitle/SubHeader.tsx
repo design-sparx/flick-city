@@ -12,14 +12,19 @@ const SubHeader = ({ data }: SubHeaderProps): JSX.Element => {
     <>
       <Card>
         <SimpleGrid cols={2} style={{ alignItems: 'start' }}>
-          <Group spacing="xs">
-            {data?.genres.genres.map(g => <Button key={g.id} compact variant="light">{g.text}</Button>)}
-          </Group>
-          <Group position="right">
+          {Boolean(data?.genres.genres.length) &&
+            <Group spacing="xs">
+              {data?.genres.genres.map(g => <Button key={g.id} compact variant="light">{g.text}</Button>)}
+            </Group>
+          }
+          <Group position={Boolean(data?.genres.genres.length) ? 'right' : 'left'}>
             <Text>Release year: {data?.releaseYear.year}</Text>
             {Boolean(data?.runtime) && <Text>Runtime: {secondsToTime(data?.runtime.seconds)}</Text>}
-            <Text>Ratings: {data?.ratingsSummary.aggregateRating},
-              ({numberWithCommas(data?.ratingsSummary.voteCount)})</Text>
+            {Boolean(data?.ratingsSummary.voteCount) &&
+              <Text>Ratings: {data?.ratingsSummary.aggregateRating},
+                ({numberWithCommas(data?.ratingsSummary.voteCount)})
+              </Text>
+            }
           </Group>
         </SimpleGrid>
       </Card>

@@ -1,13 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Wrapper from './Wrapper';
 import {
-  Container,
-  Image,
+  Container, createStyles,
+  Image, MantineTheme,
   Stack
 } from '@mantine/core';
 import { useParams } from 'react-router-dom';
 import { BaseInfo, Cast, Creators, Revenue } from '../constants/MovieTitle';
 import { Casts, CreatorsSection, MovieHeader, MovieSubHeader, Revenues, Seasons, Trailers } from '../components/MovieTitle';
+
+const useStyles = createStyles((theme: MantineTheme) => ({
+  coverImage: {
+    marginBottom: theme.spacing.md
+  }
+}));
 
 const MovieTitle = (): JSX.Element => {
   const { id } = useParams();
@@ -15,6 +21,7 @@ const MovieTitle = (): JSX.Element => {
   const [revenueData, setRevenueData] = useState<Revenue>();
   const [creatorsData, setCreatorsData] = useState<Creators>();
   const [castData, setCastData] = useState<Cast>();
+  const { classes } = useStyles();
 
   const headerOptions = {
     method: 'GET',
@@ -81,13 +88,16 @@ const MovieTitle = (): JSX.Element => {
         radius={0}
         src={baseInfoData?.primaryImage.url}
         alt={baseInfoData?.primaryImage.caption.plainText}
-        height={500}
+        height={400}
+        className={classes.coverImage}
       />
       <Container>
         <Stack>
           <MovieHeader data={baseInfoData}/>
           <MovieSubHeader data={baseInfoData}/>
-          <CreatorsSection creatorsData={creatorsData} baseInfo={baseInfoData}/>
+          {Boolean(baseInfoData?.plot) &&
+            <CreatorsSection creatorsData={creatorsData} baseInfo={baseInfoData}/>
+          }
           {Boolean(baseInfoData?.episodes) &&
             <Seasons data={baseInfoData}/>
           }
@@ -95,7 +105,9 @@ const MovieTitle = (): JSX.Element => {
           {(Boolean(revenueData?.openingWeekendGross) && Boolean(revenueData?.worldwideGross) && Boolean(revenueData?.lifetimeGross) && Boolean(revenueData?.productionBudget)) &&
             <Revenues data={revenueData}/>
           }
-          <Casts cast={castData} credit={baseInfoData}/>
+          {Boolean(castData?.cast.edges.length) &&
+            <Casts cast={castData} credit={baseInfoData}/>
+          }
         </Stack>
       </Container>
     </Wrapper>

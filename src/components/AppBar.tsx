@@ -9,10 +9,10 @@ import {
   Container
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { Genres } from '../constants/Genres';
 import { BsSearch } from 'react-icons/bs';
 import { FcFilmReel } from 'react-icons/fc';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigateSearch } from '../hooks';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -62,7 +62,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface AppBarProps {
-  links?: Genres
+  links: Array<{ link: string, label: string, list?: string }>
 }
 
 const AppBar = ({ links }: AppBarProps): JSX.Element => {
@@ -72,11 +72,28 @@ const AppBar = ({ links }: AppBarProps): JSX.Element => {
   const { classes } = useStyles();
   const { query } = useParams();
   const navigate = useNavigate();
+  const navigateSearch = useNavigateSearch();
 
+  /**
+   * on enter pressed
+   * @param event
+   */
   const handleKeyDown = (event: React.KeyboardEvent): void => {
     if (event.key === 'Enter') {
       navigate(`/search/${searchTerm}`);
     }
+  };
+
+  /**
+   * handle link open/navigate
+   */
+  const handleLinkOpen = (linkObj: { link: string, label: string, list?: string }): void => {
+    const {
+      list,
+      link
+    } = linkObj;
+
+    navigateSearch(link, { list });
   };
 
   useEffect(() => {
@@ -90,7 +107,7 @@ const AppBar = ({ links }: AppBarProps): JSX.Element => {
           <Group>
             {isMobile && <Burger opened={opened} onClick={toggle} size="sm"/>}
             <FcFilmReel size={28}/>
-            <Text size="lg" weight={500} component='a' href='/'>flickcity</Text>
+            <Text size="lg" weight={500} component="a" href="/">flickcity</Text>
           </Group>
 
           <TextInput
@@ -103,30 +120,15 @@ const AppBar = ({ links }: AppBarProps): JSX.Element => {
           />
 
           <Group spacing={4} className={classes.links}>
-            <a
-              key="home"
-              href="/home"
-              className={classes.link}
-              onClick={(event) => event.preventDefault()}
-            >
-              home
-            </a>
-            <a
-              key="movies"
-              href="/movies"
-              className={classes.link}
-              onClick={(event) => event.preventDefault()}
-            >
-              movies
-            </a>
-            <a
-              key="series"
-              href="/series"
-              className={classes.link}
-              onClick={(event) => event.preventDefault()}
-            >
-              series
-            </a>
+            {links.map(link =>
+              <a
+                key={link.label}
+                className={classes.link}
+                onClick={() => handleLinkOpen(link)}
+              >
+                {link.label}
+              </a>
+            )}
           </Group>
         </div>
       </Container>

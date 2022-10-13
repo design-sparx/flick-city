@@ -41,9 +41,11 @@ const ActorCard = ({
           <Text align="center" weight={500} mt="md">
             {credit?.name.nameText.text}
           </Text>
-          <Stack spacing={0}>
-            {credit?.characters.map(c => <Text key={c.name} align="center" color="dimmed" size="sm">{c.name},</Text>)}
-          </Stack>
+          {Boolean(credit?.characters) &&
+            <Stack spacing={0}>
+              {credit?.characters.map(c => <Text key={c.name} align="center" color="dimmed" size="sm">{c.name},</Text>)}
+            </Stack>
+          }
         </>
       }
     </Paper>
