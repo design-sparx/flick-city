@@ -3,3 +3,4 @@ export { default as ListPage } from './Lists';
 export { default as MovieTitlePage } from './MovieTitle';
 export { default as SearchPage } from './Search';
 export { default as CategoryPage } from './Category';
+export { default as ActorPage } from './Actor';

@@ -21,7 +21,7 @@ const useStyles = createStyles((theme) => ({
     paddingLeft: theme.spacing.xl,
     paddingRight: theme.spacing.xl,
     position: 'sticky',
-    boxShadow: theme.shadows.md
+    boxShadow: theme.shadows.sm
   },
 
   inner: {

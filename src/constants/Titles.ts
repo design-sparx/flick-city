@@ -9,7 +9,7 @@ export interface Titles {
 
 export interface Title {
   'id': string
-  'position': number
+  'position'?: number
   'primaryImage': {
     'id': string
     'width': number

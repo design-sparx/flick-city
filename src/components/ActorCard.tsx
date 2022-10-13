@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Text, Paper, Stack } from '@mantine/core';
+import { Avatar, Card, Text, Stack } from '@mantine/core';
 import { SingleCast, SingleCredit } from '../constants/MovieTitle';
 
 interface ActorProps {
@@ -11,14 +11,18 @@ const ActorCard = ({
   cast,
   credit
 }: ActorProps): JSX.Element => {
+  const id = Boolean(cast?.node) ? cast?.node.name.id : credit?.name.id;
+
   return (
-    <Paper
+    <Card
       radius="md"
       withBorder
       p="lg"
       sx={(theme) => ({
         backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white
       })}
+      component='a'
+      href={`/actor/${id ?? ''}`}
     >
       {Boolean(cast)
         ? <>
@@ -48,7 +52,7 @@ const ActorCard = ({
           }
         </>
       }
-    </Paper>
+    </Card>
   );
 };
 
