@@ -58,7 +58,6 @@ const Category = (): JSX.Element => {
       .catch(err => console.error(err));
   };
 
-  console.log(data);
   /**
    * fetch genres
    */

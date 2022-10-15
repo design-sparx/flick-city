@@ -1,6 +1,15 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { useRoutes } from 'react-router-dom';
-import { ActorPage, CategoryPage, Home404Page, HomePage, MovieTitlePage, SearchPage, UpcomingPage } from '../pages';
+import {
+  ActorPage,
+  CategoryPage,
+  Home404Page,
+  HomePage,
+  ListPage,
+  MovieTitlePage,
+  SearchPage,
+  UpcomingPage
+} from '../pages';
 
 const Router = (): JSX.Element => {
   return useRoutes([
@@ -10,11 +19,18 @@ const Router = (): JSX.Element => {
       children: [
         {
           path: '',
-          element: <HomePage/>
-        },
+          element: <Suspense fallback={<>...</>}><HomePage/></Suspense>,
+          errorElement: <Home404Page/>
+        }
+      ]
+    },
+    {
+      path: 'titles',
+      errorElement: <Home404Page/>,
+      children: [
         {
           path: ':title',
-          element: <CategoryPage/>
+          element: <Suspense fallback={<>...</>}><CategoryPage/></Suspense>
         }
       ]
     },
@@ -23,15 +39,15 @@ const Router = (): JSX.Element => {
       errorElement: <Home404Page/>,
       children: [{
         path: ':listType',
-        element: <CategoryPage/>
+        element: <Suspense fallback={<>...</>}><ListPage/></Suspense>
       }]
     },
     {
-      path: 'titles',
+      path: 'title',
       errorElement: <Home404Page/>,
       children: [{
         path: ':id',
-        element: <MovieTitlePage/>
+        element: <Suspense fallback={<>...</>}><MovieTitlePage/></Suspense>
       }]
     },
     {
@@ -39,7 +55,7 @@ const Router = (): JSX.Element => {
       errorElement: <Home404Page/>,
       children: [{
         path: ':query',
-        element: <SearchPage/>
+        element: <Suspense fallback={<>...</>}><SearchPage/></Suspense>
       }]
     },
     {
@@ -47,7 +63,7 @@ const Router = (): JSX.Element => {
       errorElement: <Home404Page/>,
       children: [{
         path: ':actorId',
-        element: <ActorPage/>
+        element: <Suspense fallback={<>...</>}><ActorPage/></Suspense>
       }]
     },
     {
@@ -56,11 +72,11 @@ const Router = (): JSX.Element => {
       children: [
         {
           path: '',
-          element: <UpcomingPage/>
+          element: <Suspense fallback={<>...</>}><UpcomingPage/></Suspense>
         },
         {
           path: ':listType',
-          element: <UpcomingPage/>
+          element: <Suspense fallback={<>...</>}><UpcomingPage/></Suspense>
         }
       ]
     }

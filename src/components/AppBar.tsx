@@ -11,7 +11,7 @@ import {
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { BsSearch } from 'react-icons/bs';
 import { FcFilmReel } from 'react-icons/fc';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useNavigateSearch } from '../hooks';
 
 const useStyles = createStyles((theme) => ({
@@ -56,7 +56,8 @@ const useStyles = createStyles((theme) => ({
     textTransform: 'capitalize',
 
     '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0]
+      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+      cursor: 'pointer'
     }
   }
 }));
@@ -95,7 +96,7 @@ const AppBar = ({ links }: AppBarProps): JSX.Element => {
       link
     } = linkObj;
 
-    requireList ? navigateSearch(link, { list }) : navigateSearch(link);
+    requireList ? navigateSearch(`/titles${link}`, { list }) : navigateSearch(`/titles${link}`);
   };
 
   useEffect(() => {
@@ -131,6 +132,13 @@ const AppBar = ({ links }: AppBarProps): JSX.Element => {
                 {link.label}
               </a>
             )}
+            <Link
+              key='upcoming'
+              className={classes.link}
+              to='/upcoming'
+            >
+              Upcoming
+            </Link>
           </Group>
         </div>
       </Container>

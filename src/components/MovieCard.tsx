@@ -99,7 +99,7 @@ const MovieCard = ({
       className={classes.card}
       radius="md"
       component="a"
-      href={`/titles/${id}`}
+      href={`/title/${id}`}
       style={{ height }}
     >
       <div

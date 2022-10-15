@@ -19,8 +19,6 @@ const List = (): JSX.Element => {
     }
   };
 
-  console.log(listType);
-
   /**
    * fetch data based on list type
    */

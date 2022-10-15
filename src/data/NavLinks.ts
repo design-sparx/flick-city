@@ -17,10 +17,6 @@ export const NavLinks = {
     {
       link: '/videoGame',
       label: 'Video Game'
-    },
-    {
-      link: '/upcoming',
-      label: 'Upcoming'
     }
   ]
 };
