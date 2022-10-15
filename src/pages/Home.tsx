@@ -19,6 +19,14 @@ const Home = (): JSX.Element => {
   const [topMovies, setTopMovies] = useState<Titles>();
   const [boxOfficeMovies, setBoxOfficeMovies] = useState<Titles>();
   const [topEnglishMovies, setTopEnglishMovies] = useState<Titles>();
+  const [isHeroLoading, setIsHeroLoading] = useState(false);
+  const [isPopularMovieLoading, setIsPopularMovieLoading] = useState(false);
+  const [isPopularSeriesLoading, setIsPopularSeriesLoading] = useState(false);
+  const [isTopSeriesLoading, setIsTopSeriesLoading] = useState(false);
+  const [isTopMoviesLoading, setIsTopMoviesLoading] = useState(false);
+  const [isBoxOfficeLoading, setIsBoxOfficeLoading] = useState(false);
+  const [isTopEnglishLoading, setIsTopEnglishLoading] = useState(false);
+  const [isLowRatedLoading, setIsLowRatedLoading] = useState(false);
   const autoplay = useRef(Autoplay({ delay: 30000 }));
 
   const headerOptions = {
@@ -33,9 +41,14 @@ const Home = (): JSX.Element => {
    * fetch hero carousel data
    */
   const fetchHeroTitles = useCallback(async (): Promise<void> => {
+    setIsHeroLoading(true);
+
     await fetch('https://moviesdatabase.p.rapidapi.com/titles/?info=custom_info&list=top_boxoffice_last_weekend_10', headerOptions)
       .then(async response => await response.json())
-      .then(response => setHeroData(response))
+      .then(response => {
+        setHeroData(response);
+        setIsHeroLoading(false);
+      })
       .catch(err => console.error(err));
   }, []);
 
@@ -53,9 +66,13 @@ const Home = (): JSX.Element => {
    * fetch popular movies
    */
   const fetchPopularMovies = useCallback(async (): Promise<void> => {
-    await fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=most_pop_movies&info=mini_info&limit=15&sort=pos.incr&page=1', headerOptions)
+    setIsPopularMovieLoading(true);
+    await fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=most_pop_movies&info=mini_info&limit=10&sort=pos.incr&page=1', headerOptions)
       .then(async response => await response.json())
-      .then(response => setPopularMovies(response))
+      .then(response => {
+        setPopularMovies(response);
+        setIsPopularMovieLoading(false);
+      })
       .catch(err => console.error(err));
   }, []);
 
@@ -63,9 +80,13 @@ const Home = (): JSX.Element => {
    * fetch top box office movies
    */
   const fetchTopBoxOfficeMovies = useCallback(async (): Promise<void> => {
-    fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=top_boxoffice_200&info=mini_info&limit=15&sort=pos.incr&page=1', headerOptions)
+    setIsBoxOfficeLoading(true);
+    fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=top_boxoffice_200&info=mini_info&limit=10&sort=pos.incr&page=1', headerOptions)
       .then(async response => await response.json())
-      .then(response => setBoxOfficeMovies(response))
+      .then(response => {
+        setBoxOfficeMovies(response);
+        setIsBoxOfficeLoading(false);
+      })
       .catch(err => console.error(err));
   }, []);
 
@@ -73,19 +94,27 @@ const Home = (): JSX.Element => {
    * fetch top rated movies
    */
   const fetchTopRatedMovies = useCallback(async (): Promise<void> => {
-    fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=top_rated_250&info=mini_info&limit=15&sort=pos.incr&page=1', headerOptions)
+    setIsTopMoviesLoading(true);
+    fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=top_rated_250&info=mini_info&limit=10&sort=pos.incr&page=1', headerOptions)
       .then(async response => await response.json())
-      .then(response => setTopMovies(response))
+      .then(response => {
+        setTopMovies(response);
+        setIsTopMoviesLoading(false);
+      })
       .catch(err => console.error(err));
   }, []);
 
   /**
-   * fetch top rated movies - english
+   * fetch top-rated movies - english
    */
   const fetchTopRatedMoviesEnglish = useCallback(async (): Promise<void> => {
-    fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=top_rated_english_250&info=custom_info&limit=15&sort=pos.incr&page=1', headerOptions)
+    setIsTopEnglishLoading(true);
+    fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=top_rated_english_250&info=custom_info&limit=10&sort=pos.incr&page=1', headerOptions)
       .then(async response => await response.json())
-      .then(response => setTopEnglishMovies(response))
+      .then(response => {
+        setTopEnglishMovies(response);
+        setIsTopEnglishLoading(false);
+      })
       .catch(err => console.error(err));
   }, []);
 
@@ -93,9 +122,13 @@ const Home = (): JSX.Element => {
    * fetch top box office
    */
   const fetchLowRatedMovies = useCallback(async (): Promise<void> => {
-    fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=top_rated_lowest_100&info=mini_info&limit=15&sort=pos.incr&page=1', headerOptions)
+    setIsLowRatedLoading(true);
+    fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=top_rated_lowest_100&info=mini_info&limit=10&sort=pos.incr&page=1', headerOptions)
       .then(async response => await response.json())
-      .then(response => setLowRatedMovies(response))
+      .then(response => {
+        setLowRatedMovies(response);
+        setIsLowRatedLoading(false);
+      })
       .catch(err => console.error(err));
   }, []);
 
@@ -103,19 +136,27 @@ const Home = (): JSX.Element => {
    * fetch popular series
    */
   const fetchPopularSeries = useCallback(async (): Promise<void> => {
-    fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=most_pop_series&info=mini_info&limit=15&sort=pos.incr&page=1', headerOptions)
+    setIsPopularSeriesLoading(true);
+    fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=most_pop_series&info=mini_info&limit=10&sort=pos.incr&page=1', headerOptions)
       .then(async response => await response.json())
-      .then(response => setPopularSeries(response))
+      .then(response => {
+        setPopularSeries(response);
+        setIsPopularSeriesLoading(false);
+      })
       .catch(err => console.error(err));
   }, []);
 
   /**
-   * fetch top rated series
+   * fetch top-rated series
    */
   const fetchTopRatedSeries = useCallback(async (): Promise<void> => {
-    fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=top_rated_series_250&info=mini_info&limit=15&sort=pos.incr&page=1', headerOptions)
+    setIsTopSeriesLoading(true);
+    fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=top_rated_series_250&info=mini_info&limit=10&sort=pos.incr&page=1', headerOptions)
       .then(async response => await response.json())
-      .then(response => setTopSeries(response))
+      .then(response => {
+        setTopSeries(response);
+        setIsTopSeriesLoading(false);
+      })
       .catch(err => console.error(err));
   }, []);
 
@@ -132,6 +173,7 @@ const Home = (): JSX.Element => {
     console.log(trailers);
   }, [fetchHeroTitles, fetchTrailers, fetchPopularSeries, fetchPopularMovies, fetchTopRatedMoviesEnglish, fetchTopRatedMovies, fetchTopRatedSeries, fetchTopBoxOfficeMovies]);
 
+  console.log(isPopularMovieLoading);
   return (
     <Wrapper>
       <Carousel
@@ -155,37 +197,37 @@ const Home = (): JSX.Element => {
           }
         }}
       >
-        {heroData?.results.map(data => <Slide key={data.id}><HeroCard data={data}/></Slide>)}
+        {heroData?.results.map(data => <Slide key={data.id}><HeroCard data={data} isLoading={isHeroLoading}/></Slide>)}
       </Carousel>
       <Container fluid px="xl">
         <Stack>
           {Boolean(popularMovies) &&
             <Section title="popular movies" description="Most popular movies" listType="most_pop_movies"
-                     data={popularMovies}/>
+                     data={popularMovies} isLoading={isPopularMovieLoading}/>
           }
           {Boolean(boxOfficeMovies) &&
             <Section title="box office movies" description="Top selling movies of all time" listType="top_boxoffice_200"
-                     data={boxOfficeMovies}/>
+                     data={boxOfficeMovies} isLoading={isBoxOfficeLoading}/>
           }
           {Boolean(topMovies) &&
             <Section title="top rated movies" description="Movies with highest user rating" listType="top_rated_250"
-                     data={topMovies}/>
+                     data={topMovies} isLoading={isTopMoviesLoading}/>
           }
           {Boolean(topEnglishMovies) &&
             <Section title="top english movies" description="English movies with highest user rating"
-                     listType="top_rated_english_250" data={topEnglishMovies}/>
+                     listType="top_rated_english_250" data={topEnglishMovies} isLoading={isTopEnglishLoading}/>
           }
           {Boolean(lowRatedMovies) &&
             <Section title="low rated movies" description="Movies with lowest user rating"
-                     listType="top_rated_lowest_100" data={lowRatedMovies}/>
+                     listType="top_rated_lowest_100" data={lowRatedMovies} isLoading={isLowRatedLoading}/>
           }
           {Boolean(popularSeries) &&
             <Section title="popular series" description="Most popular tv series" listType="most_pop_series"
-                     data={popularSeries}/>
+                     data={popularSeries} isLoading={isPopularSeriesLoading}/>
           }
           {Boolean(topSeries) &&
             <Section title="top series" description="Tv series with highest user rating" listType="top_rated_series_250"
-                     data={topSeries}/>
+                     data={topSeries} isLoading={isTopSeriesLoading}/>
           }
         </Stack>
       </Container>

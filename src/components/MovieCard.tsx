@@ -1,4 +1,4 @@
-import { Box, Card, Center, createStyles, Group, Text } from '@mantine/core';
+import { Box, Card, Center, createStyles, Group, Skeleton, Text } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
 import { Title as MovieItem } from '../constants/Titles';
 import { IconCalendar } from '@tabler/icons';
@@ -67,12 +67,14 @@ interface MovieProps {
   data: MovieItem
   height: number
   isRanking?: boolean
+  isLoading?: boolean
 }
 
 const MovieCard = ({
   data,
   height,
-  isRanking
+  isRanking,
+  isLoading
 }: MovieProps): JSX.Element => {
   const {
     classes,
@@ -93,68 +95,70 @@ const MovieCard = ({
   }, [primaryImage]);
 
   return (
-    <Card
-      p="lg"
-      shadow="lg"
-      className={classes.card}
-      radius="md"
-      component="a"
-      href={`/title/${id}`}
-      style={{ height }}
-    >
-      <div
-        className={classes.image}
-        style={{
-          backgroundImage: `url(${pictureUrl})`,
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover'
-        }}
-      />
-      <div className={classes.overlay}/>
-      <div className={classes.content}>
-        {Boolean(isRanking) &&
-          <Box
-            component="span"
-            color={theme.white}
-            px="sm"
-            py={2}
-            sx={{
-              position: 'absolute',
-              top: 0,
-              background: 'white',
-              borderRadius: theme.radius.md,
-              fontWeight: 500,
-              boxShadow: theme.shadows.md
-            }}
-          >
-            {position}
-          </Box>
-        }
-        <div>
-          <Text size="lg" className={classes.title} weight={500} lineClamp={2}>
-            {titleText.text}
-          </Text>
-
-          <Group position="apart" spacing="xs">
-            <Text size="sm" className={classes.author}>
-              {titleType.text}
+    <Skeleton visible={isLoading}>
+      <Card
+        p="lg"
+        shadow="lg"
+        className={classes.card}
+        radius="md"
+        component="a"
+        href={`/title/${id}`}
+        style={{ height }}
+      >
+        <div
+          className={classes.image}
+          style={{
+            backgroundImage: `url(${pictureUrl})`,
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover'
+          }}
+        />
+        <div className={classes.overlay}/>
+        <div className={classes.content}>
+          {Boolean(isRanking) &&
+            <Box
+              component="span"
+              color={theme.white}
+              px="sm"
+              py={2}
+              sx={{
+                position: 'absolute',
+                top: 0,
+                background: 'white',
+                borderRadius: theme.radius.md,
+                fontWeight: 500,
+                boxShadow: theme.shadows.md
+              }}
+            >
+              {position}
+            </Box>
+          }
+          <div>
+            <Text size="lg" className={classes.title} weight={500} lineClamp={2}>
+              {titleText.text}
             </Text>
 
-            {Boolean(releaseYear) &&
-              <Group>
-                <Center>
-                  <IconCalendar size={16} stroke={1.5} color={theme.white}/>
-                  <Text size="sm" className={classes.bodyText}>
-                    {Boolean(releaseYear) ? releaseYear.year : ''}
-                  </Text>
-                </Center>
-              </Group>
-            }
-          </Group>
+            <Group position="apart" spacing="xs">
+              <Text size="sm" className={classes.author}>
+                {titleType.text}
+              </Text>
+
+              {Boolean(releaseYear) &&
+                <Group>
+                  <Center>
+                    <IconCalendar size={16} stroke={1.5} color={theme.white}/>
+                    <Text size="sm" className={classes.bodyText}>
+                      {Boolean(releaseYear) ? releaseYear.year : ''}
+                    </Text>
+                  </Center>
+                </Group>
+              }
+            </Group>
+          </div>
         </div>
-      </div>
-    </Card>
+      </Card>
+    </Skeleton>
   );
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Avatar, Card, Text, Stack } from '@mantine/core';
 import { SingleCast, SingleCredit } from '../constants/MovieTitle';
+import { Link } from 'react-router-dom';
 
 interface ActorProps {
   cast?: SingleCast
@@ -21,8 +22,8 @@ const ActorCard = ({
       sx={(theme) => ({
         backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white
       })}
-      component='a'
-      href={`/actor/${id ?? ''}`}
+      component={Link}
+      to={`/actor/${id ?? ''}`}
     >
       {Boolean(cast)
         ? <>
