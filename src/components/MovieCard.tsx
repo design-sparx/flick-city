@@ -141,14 +141,16 @@ const MovieCard = ({
               {titleType.text}
             </Text>
 
-            <Group>
-              <Center>
-                <IconCalendar size={16} stroke={1.5} color={theme.white}/>
-                <Text size="sm" className={classes.bodyText}>
-                  {Boolean(releaseYear) ? releaseYear.year : ''}
-                </Text>
-              </Center>
-            </Group>
+            {Boolean(releaseYear) &&
+              <Group>
+                <Center>
+                  <IconCalendar size={16} stroke={1.5} color={theme.white}/>
+                  <Text size="sm" className={classes.bodyText}>
+                    {Boolean(releaseYear) ? releaseYear.year : ''}
+                  </Text>
+                </Center>
+              </Group>
+            }
           </Group>
         </div>
       </div>

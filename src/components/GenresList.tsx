@@ -6,9 +6,10 @@ import { useSearchParams } from 'react-router-dom';
 
 interface GenresProps {
   genres?: Genres
+  handleReset?: () => void
 }
 
-const GenresList = ({ genres }: GenresProps): JSX.Element => {
+const GenresList = ({ genres, handleReset }: GenresProps): JSX.Element => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [queryParams, setQueryParams] = useQueryParams();
   const [params] = useSearchParams();
@@ -30,7 +31,12 @@ const GenresList = ({ genres }: GenresProps): JSX.Element => {
             key={g}
             compact
             variant="outline"
-            onClick={() => setQueryParams({ genre: g })}
+            onClick={() => {
+              if (handleReset != null) {
+                handleReset();
+              }
+              setQueryParams({ genre: g });
+            }}
             disabled={handleActiveButton(g)}
           >
             {g}

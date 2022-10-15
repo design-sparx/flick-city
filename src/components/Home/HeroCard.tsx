@@ -8,6 +8,7 @@ import {
 import React from 'react';
 import { BoxOfficeTitle as MovieItem } from '../../constants/Titles';
 import { BsPlay } from 'react-icons/bs';
+import { secondsToTime } from '../../utils';
 
 const useStyles = createStyles((theme: MantineTheme) => ({
   root: {
@@ -95,7 +96,8 @@ const HeroCard = ({ data }: HeroCardProps): JSX.Element => {
     ratingsSummary,
     genres,
     keywords,
-    principalCast
+    principalCast,
+    trailer
   } = data;
 
   return (
@@ -113,7 +115,7 @@ const HeroCard = ({ data }: HeroCardProps): JSX.Element => {
                 {titleText.text}
               </Title>
               <Group>
-                <Text>Time: {runtime?.seconds}</Text>
+                <Text>Runtime: {secondsToTime(runtime?.seconds)}</Text>
                 <Divider orientation="vertical"/>
                 <Text>Year of release: {releaseYear?.year}</Text>
                 <Divider orientation="vertical"/>
@@ -146,7 +148,7 @@ const HeroCard = ({ data }: HeroCardProps): JSX.Element => {
                 )}
               </SimpleGrid>
             </Stack>
-            <Button leftIcon={<BsPlay/>}>trailer</Button>
+            {Boolean(trailer) && <Button size="lg" variant="white" leftIcon={<BsPlay size={24}/>}>Watch trailer</Button>}
           </div>
         </div>
       </Container>

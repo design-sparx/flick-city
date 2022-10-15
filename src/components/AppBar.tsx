@@ -86,14 +86,16 @@ const AppBar = ({ links }: AppBarProps): JSX.Element => {
 
   /**
    * handle link open/navigate
+   * @param linkObj
+   * @param requireList
    */
-  const handleLinkOpen = (linkObj: { link: string, label: string, list?: string }): void => {
+  const handleLinkOpen = (linkObj: { link: string, label: string, list?: string }, requireList: boolean): void => {
     const {
       list,
       link
     } = linkObj;
 
-    navigateSearch(link, { list });
+    requireList ? navigateSearch(link, { list }) : navigateSearch(link);
   };
 
   useEffect(() => {
@@ -124,7 +126,7 @@ const AppBar = ({ links }: AppBarProps): JSX.Element => {
               <a
                 key={link.label}
                 className={classes.link}
-                onClick={() => handleLinkOpen(link)}
+                onClick={() => handleLinkOpen(link, Boolean(link.list))}
               >
                 {link.label}
               </a>

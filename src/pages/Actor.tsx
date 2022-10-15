@@ -71,20 +71,20 @@ const Actor = (): JSX.Element => {
               <Text>Year of birth:</Text>
               <Text weight={500}>{data?.results.birthYear}</Text>
             </Group>
-            <Stack spacing="sm">
+            <Group spacing="sm">
               <Text>Professions: </Text>
               <Group spacing='xs'>
                 {data?.results.primaryProfession.split(',').map(prof =>
                   <Badge key={prof}>{prof}</Badge>
                 )}
               </Group>
-            </Stack>
+            </Group>
             <Stack>
               {Boolean(moviesData?.results) &&
                 <>
                   <Text>Appeared in: </Text>
                   <SimpleGrid cols={4}>
-                    {moviesData?.results.map(movie => <MovieCard key={movie.id} data={movie} height={200}/>)}
+                    {moviesData?.results.map(movie => <MovieCard key={movie.id} data={movie} height={250}/>)}
                   </SimpleGrid>
                 </>
               }

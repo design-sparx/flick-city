@@ -1,5 +1,4 @@
 // Info for multiple titles
-
 export interface Titles {
   'page': string
   'next': string
@@ -60,7 +59,7 @@ export interface BoxOfficeTitle {
     'id': string
     'width': number
     'height': number
-    'url': 'https://m.media-amazon.com/images/M/MV5BNDEwNDUzNjAtNzhkOC00ZDNlLTljNDAtYWI3YmEwMTUzNTM5XkEyXkFqcGdeQXVyMjMyMzI4MzY@._V1_.jpg'
+    'url': string
     'caption': { 'plainText': string, '__typename': string }
     '__typename': string
   }
