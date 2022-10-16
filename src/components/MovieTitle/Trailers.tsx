@@ -17,7 +17,7 @@ const Trailers = ({
       <Card>
         <Skeleton visible={isLoading}>
           <Title order={3} py="md">Trailer</Title>
-          <Video url={data?.trailer} isLoading={isLoading}/>
+          <Video url={data?.trailer} isLoading={isLoading} size={'sm'}/>
         </Skeleton>
       </Card>
       <Divider/>

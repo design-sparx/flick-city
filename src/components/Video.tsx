@@ -1,19 +1,24 @@
 import React from 'react';
 import 'video-react/dist/video-react.css';
-import { Skeleton } from '@mantine/core';
+import { MantineSize, Skeleton } from '@mantine/core';
 
 interface VideoProps {
   url?: string
-  isLoading: boolean
+  isLoading?: boolean
+  size?: MantineSize
 }
 
 const Video = ({
   url,
-  isLoading
+  isLoading,
+  size
 }: VideoProps): JSX.Element => {
+  const height = size === 'sm' ? 315 : 430;
+  const width = size === 'sm' ? 472 : 672;
+
   return (
     <Skeleton visible={isLoading}>
-      <iframe width="472" height="315" src={url}/>
+      <iframe width={width} height={height} src={url}/>
     </Skeleton>
   );
 };

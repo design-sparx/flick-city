@@ -11,7 +11,7 @@ import {
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { BsSearch } from 'react-icons/bs';
 import { FcFilmReel } from 'react-icons/fc';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useNavigateSearch } from '../hooks';
 
 const useStyles = createStyles((theme) => ({
@@ -56,9 +56,27 @@ const useStyles = createStyles((theme) => ({
     textTransform: 'capitalize',
 
     '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+      backgroundColor: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).background,
+      color: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color,
       cursor: 'pointer'
     }
+  },
+
+  active: {
+    display: 'block',
+    lineHeight: 1,
+    padding: theme.spacing.sm,
+    borderRadius: theme.radius.sm,
+    textDecoration: 'none',
+    fontSize: theme.fontSizes.sm,
+    fontWeight: 500,
+    cursor: 'pointer',
+    backgroundColor: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).background,
+    color: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color
+  },
+
+  linkLabel: {
+    marginRight: 5
   }
 }));
 
@@ -73,7 +91,16 @@ const AppBar = ({ links }: AppBarProps): JSX.Element => {
   const { classes } = useStyles();
   const { query } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const navigateSearch = useNavigateSearch();
+
+  /**
+   * resolve current location
+   * @param href
+   */
+  const urlResolver = (href: string): boolean => {
+    return location.pathname.includes(href);
+  };
 
   /**
    * on enter pressed
@@ -109,8 +136,8 @@ const AppBar = ({ links }: AppBarProps): JSX.Element => {
         <div className={classes.inner}>
           <Group>
             {isMobile && <Burger opened={opened} onClick={toggle} size="sm"/>}
-            <FcFilmReel size={28}/>
-            <Text size="lg" weight={500} component={Link} to="/">flickcity</Text>
+            <FcFilmReel size={32}/>
+            <Text size="xl" weight={500} component={Link} to="/">Flickcity</Text>
           </Group>
 
           <TextInput
@@ -122,11 +149,11 @@ const AppBar = ({ links }: AppBarProps): JSX.Element => {
             value={searchTerm}
           />
 
-          <Group spacing={4} className={classes.links}>
+          <Group spacing='sm' className={classes.links}>
             {links.map(link =>
               <a
                 key={link.label}
-                className={classes.link}
+                className={urlResolver(link.link) ? classes.active : classes.link}
                 onClick={() => handleLinkOpen(link, Boolean(link.list))}
               >
                 {link.label}

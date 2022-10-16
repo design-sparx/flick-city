@@ -6,6 +6,8 @@ import { MovieCard } from '../components/Home';
 import { Titles } from '../constants/Titles';
 import { Genres } from '../constants/Genres';
 import GenresList from '../components/GenresList';
+import { Helmet } from 'react-helmet';
+import BackBtn from '../components/BackBtn';
 
 const Search = (): JSX.Element => {
   const { query } = useParams();
@@ -39,7 +41,7 @@ const Search = (): JSX.Element => {
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     Boolean(genre) && (filters += `&genre=${genre}`);
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    fetch(`https://moviesdatabase.p.rapidapi.com/titles/search/title/${query}/?info=mini_info&limit=20&page=${pageNumber}${filters}`, headerOptions)
+    fetch(`https://moviesdatabase.p.rapidapi.com/titles/search/title/${query}/?info=mini_info&limit=15&page=${pageNumber}${filters}`, headerOptions)
       .then(async response => await response.json())
       .then(response => {
         setData({
@@ -81,8 +83,12 @@ const Search = (): JSX.Element => {
 
   return (
     <Wrapper>
+      <Helmet>
+        <title>Flick city - Search - {`${query ?? ''}`}</title>
+      </Helmet>
       <Container fluid py="lg">
         <Stack>
+          <BackBtn />
           <Skeleton visible={isLoading}>
             {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
             <Text size="lg" weight={500}>Search results for: {`"${query}"`}</Text>

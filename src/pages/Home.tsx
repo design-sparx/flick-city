@@ -169,7 +169,7 @@ const Home = (): JSX.Element => {
   return (
     <Wrapper>
       <Helmet>
-        <title>Flick city | Home</title>
+        <title>Flick city - Home</title>
       </Helmet>
       <Carousel
         mx="auto"

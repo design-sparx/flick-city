@@ -5,6 +5,8 @@ import { Button, Container, SimpleGrid, Skeleton, Stack, Title } from '@mantine/
 import { useParams } from 'react-router-dom';
 import { MovieCard } from '../components/Home';
 import { ListTypes } from '../constants/ListTypes';
+import { Helmet } from 'react-helmet';
+import BackBtn from '../components/BackBtn';
 
 const List = (): JSX.Element => {
   const { listType } = useParams();
@@ -93,8 +95,12 @@ const List = (): JSX.Element => {
 
   return (
     <Wrapper>
+      <Helmet>
+        <title>Flick city - List - {`${listType ?? ''}`}</title>
+      </Helmet>
       <Container fluid p="xl">
         <Stack>
+          <BackBtn />
           <Skeleton visible={isLoading} width={Boolean(isLoading) ? 300 : ''} height={Boolean(isLoading) ? 40 : ''}>
             <Title mb="xl">{listTitle}</Title>
           </Skeleton>

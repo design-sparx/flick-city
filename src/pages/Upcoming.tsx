@@ -1,10 +1,12 @@
-import { Button, Container, Group, SimpleGrid, Stack, Title } from '@mantine/core';
+import { Button, Container, Group, SimpleGrid, Skeleton, Stack, Title } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
 import Wrapper from './Wrapper';
 import { Titles } from '../constants/Titles';
 import { useSearchParams } from 'react-router-dom';
 import { useQueryParams } from 'use-query-params';
 import { MovieCard } from '../components/Home';
+import { Helmet } from 'react-helmet';
+import BackBtn from '../components/BackBtn';
 
 const titleTypes = [{
   label: 'TV Series',
@@ -30,6 +32,7 @@ const Upcoming = (): JSX.Element => {
   const [page, setPage] = useState(1);
   const [searchParams] = useSearchParams();
   const [queryParams, setQueryParams] = useQueryParams();
+  const [isLoading, setIsLoading] = useState(false);
   const titleType = searchParams.get('titleType');
 
   const headerOptions = {
@@ -45,13 +48,14 @@ const Upcoming = (): JSX.Element => {
    * @param pageNumber
    */
   const fetchUpcomingData = async (pageNumber: number): Promise<void> => {
+    setIsLoading(true);
     let filters = '';
     if (Boolean(titleType)) {
       filters += `&titleType=${String(titleType) ?? ''}`;
     }
 
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    await fetch(`https://moviesdatabase.p.rapidapi.com/titles/x/upcoming?page=${pageNumber}&info=mini_info&sort=year.incr&limit=10${filters}`, headerOptions)
+    await fetch(`https://moviesdatabase.p.rapidapi.com/titles/x/upcoming?page=${pageNumber}&info=mini_info&sort=year.incr&limit=15${filters}`, headerOptions)
       .then(async response => await response.json())
       .then((response: Titles) => {
         setData({
@@ -60,6 +64,7 @@ const Upcoming = (): JSX.Element => {
           page: response.page,
           results: [...data.results, ...response.results]
         });
+        setIsLoading(false);
       })
       .catch(err => console.error(err));
   };
@@ -86,38 +91,46 @@ const Upcoming = (): JSX.Element => {
 
   return (
     <Wrapper>
+      <Helmet>
+        <title>Flick city - Upcoming</title>
+      </Helmet>
       <Container fluid py="lg">
         <Stack>
-          <Title>Upcoming</Title>
-          <Group spacing="xs">
-            {titleTypes.map(t =>
-              <Button
-                key={t.link}
-                compact
-                variant="outline"
-                onClick={() => {
-                  setQueryParams({ titleType: t.link });
-                  setData({
-                    page: '',
-                    entries: 0,
-                    results: [],
-                    next: ''
-                  });
-                }}
-                disabled={handleActiveButton(t.link)}
-              >
-                {t.label}
-              </Button>
-            )}
-          </Group>
+          <BackBtn />
+          <Skeleton visible={isLoading}>
+            <Title>Upcoming </Title>
+          </Skeleton>
+          <Skeleton visible={isLoading}>
+            <Group spacing="xs">
+              {titleTypes.map(t =>
+                <Button
+                  key={t.link}
+                  compact
+                  variant="outline"
+                  onClick={() => {
+                    setQueryParams({ titleType: t.link });
+                    setData({
+                      page: '',
+                      entries: 0,
+                      results: [],
+                      next: ''
+                    });
+                  }}
+                  disabled={handleActiveButton(t.link)}
+                >
+                  {t.label}
+                </Button>
+              )}
+            </Group>
+          </Skeleton>
           <SimpleGrid cols={5}>
             {Boolean(data?.results) &&
               data?.results.map((d) =>
-                <MovieCard data={d} height={300} key={d.id}/>
+                <MovieCard data={d} height={300} key={d.id} isLoading={isLoading}/>
               )
             }
           </SimpleGrid>
-          <Button size="md" variant="outline" onClick={increasePageCount}>Load more</Button>
+          <Button size="md" variant="outline" onClick={increasePageCount} loading={isLoading}>Load more</Button>
         </Stack>
       </Container>
     </Wrapper>

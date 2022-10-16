@@ -6,15 +6,19 @@ import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import Router from './routes';
 import { BrowserRouter } from 'react-router-dom';
 import RouteTransition from './components/RouteTransition';
+import { ModalsProvider } from '@mantine/modals';
+import VideoModal from './components/VideoModal';
 
 const App = (): JSX.Element => {
   return (
     <BrowserRouter>
       <QueryParamProvider adapter={ReactRouter6Adapter}>
         <MantineProvider withNormalizeCSS withGlobalStyles>
-          <RouteTransition>
-            <Router/>
-          </RouteTransition>
+          <ModalsProvider modals={{ videoModal: VideoModal }}>
+            <RouteTransition>
+              <Router/>
+            </RouteTransition>
+          </ModalsProvider>
         </MantineProvider>
       </QueryParamProvider>
     </BrowserRouter>

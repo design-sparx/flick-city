@@ -6,6 +6,8 @@ import { Button, Container, SimpleGrid, Skeleton, Stack } from '@mantine/core';
 import GenresList from '../components/GenresList';
 import { MovieCard } from '../components/Home';
 import { Genres } from '../constants/Genres';
+import { Helmet } from 'react-helmet';
+import BackBtn from '../components/BackBtn';
 
 const Category = (): JSX.Element => {
   const [data, setData] = useState<Titles>({
@@ -98,8 +100,12 @@ const Category = (): JSX.Element => {
 
   return (
     <Wrapper>
+      <Helmet>
+        <title>Flick city - Category - {`${title ?? ''}`}</title>
+      </Helmet>
       <Container fluid py="lg">
         <Stack spacing="lg">
+          <BackBtn />
           <Skeleton visible={isGenresLoading}>
             <GenresList genres={genresData} handleReset={() => {
               setData({

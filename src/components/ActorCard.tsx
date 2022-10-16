@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Card, Text, Skeleton, Stack } from '@mantine/core';
+import { Avatar, Card, Text, Skeleton, Stack, createStyles } from '@mantine/core';
 import { SingleCast, SingleCredit } from '../constants/MovieTitle';
 import { Link } from 'react-router-dom';
 
@@ -9,24 +9,34 @@ interface ActorProps {
   isLoading?: boolean
 }
 
+const useStyles = createStyles((theme) => ({
+  card: {
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
+
+    '&:hover': {
+      backgroundColor: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).background,
+      color: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color,
+      cursor: 'pointer'
+    }
+  }
+}));
+
 const ActorCard = ({
   cast,
   credit,
   isLoading
 }: ActorProps): JSX.Element => {
+  const { classes } = useStyles();
   const id = Boolean(cast?.node) ? cast?.node.name.id : credit?.name.id;
 
   return (
     <Skeleton visible={isLoading}>
       <Card
         radius="md"
-        withBorder
         p="lg"
-        sx={(theme) => ({
-          backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white
-        })}
         component={Link}
         to={`/actor/${id ?? ''}`}
+        className={classes.card}
       >
         {Boolean(cast)
           ? <>
@@ -39,7 +49,7 @@ const ActorCard = ({
               {
                 Boolean(cast?.node.characters) &&
                 cast?.node.characters.map(c =>
-                  <Text key={c.name} align="center" color="dimmed" size="sm">{c.name}</Text>)
+                  <Text key={c.name} align="center" size="sm">{c.name}</Text>)
               }
             </Stack>
           </>
@@ -54,7 +64,7 @@ const ActorCard = ({
             {Boolean(credit?.characters) &&
               <Stack spacing={0}>
                 {credit?.characters.map(c =>
-                  <Text key={c.name} align="center" color="dimmed" size="sm">{c.name},</Text>
+                  <Text key={c.name} align="center" size="sm">{c.name},</Text>
                 )}
               </Stack>
             }

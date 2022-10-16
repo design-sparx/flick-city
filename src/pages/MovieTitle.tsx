@@ -18,6 +18,7 @@ import {
   Trailers
 } from '../components/MovieTitle';
 import { Helmet } from 'react-helmet';
+import BackBtn from '../components/BackBtn';
 
 const useStyles = createStyles((theme: MantineTheme) => ({
   coverImage: {
@@ -118,9 +119,9 @@ const MovieTitle = (): JSX.Element => {
   return (
     <Wrapper>
       <Helmet>
-        <title>Flick city | {`${baseInfoData?.titleText.text ?? ''}`}</title>
+        <title>Flick city - Title - {`${baseInfoData?.titleText.text ?? ''}`}</title>
       </Helmet>
-      <Skeleton visible={isLoading}>
+      <Skeleton visible={isLoading} radius={0}>
         <Image
           radius={0}
           src={Boolean(baseInfoData?.primaryImage) ? baseInfoData?.primaryImage.url : 'https://img.freepik.com/free-vector/realistic-3d-cinema-film-strip-perspective-isolated_260559-136.jpg?w=900&t=st=1665596829~exp=1665597429~hmac=f4246a22f5b655d08befac083fa0d1d6055581e46c3a3728a36c83bc980b7c68'}
@@ -131,6 +132,7 @@ const MovieTitle = (): JSX.Element => {
       </Skeleton>
       <Container>
         <Stack>
+          <BackBtn />
           <MovieHeader data={baseInfoData} isLoading={isLoading}/>
           <MovieSubHeader data={baseInfoData} isLoading={isLoading}/>
           {Boolean(baseInfoData?.plot) &&

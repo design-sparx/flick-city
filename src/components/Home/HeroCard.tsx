@@ -3,13 +3,15 @@ import {
   Title,
   createStyles,
   MantineTheme,
-  Container, Stack, Group, SimpleGrid, Avatar, UnstyledButton, Badge, Button, Divider, LoadingOverlay
+  Container, Stack, Group, SimpleGrid, Avatar, UnstyledButton, Badge, Button, Divider, LoadingOverlay, Box
 } from '@mantine/core';
 import React from 'react';
 import { BoxOfficeTitle as MovieItem } from '../../constants/Titles';
 import { BsPlay } from 'react-icons/bs';
 import { secondsToTime } from '../../utils';
 import { Link } from 'react-router-dom';
+import { openModal } from '@mantine/modals';
+import Video from '../Video';
 
 const useStyles = createStyles((theme: MantineTheme) => ({
   root: {
@@ -82,7 +84,7 @@ const useStyles = createStyles((theme: MantineTheme) => ({
     borderRadius: theme.radius.sm,
 
     '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[8],
+      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.blue[8] : theme.colors.blue[9],
       cursor: 'pointer'
     }
   }
@@ -111,6 +113,24 @@ const HeroCard = ({
     trailer
   } = data;
 
+  /**
+   * handle open trailer video modal
+   * @param url
+   */
+  const handleOpenVideoModal = (url: string): void => {
+    openModal({
+      title: (
+        <Text weight={500} size="md">Watch {titleText.text} trailer</Text>
+      ),
+      centered: true,
+      children: (
+        <Box>
+          <Video url={url} isLoading={isLoading} size={'md'}/>
+        </Box>
+      )
+    });
+  };
+
   return (
     <div
       className={classes.root}
@@ -120,56 +140,64 @@ const HeroCard = ({
     >
       <LoadingOverlay visible={isLoading} overlayBlur={2}/>
       <Container size="lg">
-          <div className={classes.inner}>
-            <div className={classes.content}>
-              <Stack mb={30}>
-                <Title className={classes.title}>
-                  {titleText.text}
-                </Title>
-                <Group>
-                  <Text>Runtime: {secondsToTime(runtime?.seconds)}</Text>
-                  <Divider orientation="vertical"/>
-                  <Text>Year of release: {releaseYear?.year}</Text>
-                  <Divider orientation="vertical"/>
-                  <Text>Ratings: {ratingsSummary?.aggregateRating}/10</Text>
-                </Group>
-                <Group spacing="sm">
-                  {genres?.genres.map((g) => <Badge key={`genre-${g.text}`} variant="light">{g.text}</Badge>)}
-                </Group>
-                <Text>
-                  {plot.plotText.plainText}
-                </Text>
-                <Group spacing="sm">
-                  {keywords?.edges.map((k) => <Badge key={`keyword-${k.node.text}`}>{k.node.text}</Badge>)}
-                </Group>
-                <SimpleGrid cols={2} spacing={0}>
-                  {principalCast[0].credits.map(p =>
-                    <UnstyledButton
-                      key={p.name.id}
-                      className={classes.user}
-                      component={Link}
-                      to={`/actor/${p.name.id ?? ''}`}
-                    >
-                      <Group>
-                        <Avatar src={(Boolean(p.name.primaryImage)) ? p.name.primaryImage?.url : null} radius="xl"/>
-                        <div style={{ flex: 1 }}>
-                          <Text size="xs" weight={500}>
-                            {p.name.nameText.text}
-                          </Text>
-                          <Group>
-                            {p.characters?.map(ch => <Text key={`character-${ch.name}`} size="sm">{ch.name}</Text>)}
-                          </Group>
-                        </div>
-                      </Group>
-                    </UnstyledButton>
-                  )}
-                </SimpleGrid>
-              </Stack>
-              {Boolean(trailer) &&
-                <Button size="lg" variant="white" leftIcon={<BsPlay size={24}/>}>Watch trailer</Button>}
-            </div>
+        <div className={classes.inner}>
+          <div className={classes.content}>
+            <Stack mb={30}>
+              <Title className={classes.title}>
+                {titleText.text}
+              </Title>
+              <Group>
+                <Text>Runtime: {secondsToTime(runtime?.seconds)}</Text>
+                <Divider orientation="vertical"/>
+                <Text>Year of release: {releaseYear?.year}</Text>
+                <Divider orientation="vertical"/>
+                <Text>Ratings: {ratingsSummary?.aggregateRating}/10</Text>
+              </Group>
+              <Group spacing="sm">
+                {genres?.genres.map((g) => <Badge key={`genre-${g.text}`} variant="light">{g.text}</Badge>)}
+              </Group>
+              <Text>
+                {plot.plotText.plainText}
+              </Text>
+              <Group spacing="sm">
+                {keywords?.edges.map((k) => <Badge key={`keyword-${k.node.text}`}>{k.node.text}</Badge>)}
+              </Group>
+              <SimpleGrid cols={2} spacing={0}>
+                {principalCast[0].credits.map(p =>
+                  <UnstyledButton
+                    key={p.name.id}
+                    className={classes.user}
+                    component={Link}
+                    to={`/actor/${p.name.id ?? ''}`}
+                  >
+                    <Group>
+                      <Avatar src={(Boolean(p.name.primaryImage)) ? p.name.primaryImage?.url : null} radius="xl"/>
+                      <div style={{ flex: 1 }}>
+                        <Text size="xs" weight={500}>
+                          {p.name.nameText.text}
+                        </Text>
+                        <Group>
+                          {p.characters?.map(ch => <Text key={`character-${ch.name}`} size="sm">{ch.name}</Text>)}
+                        </Group>
+                      </div>
+                    </Group>
+                  </UnstyledButton>
+                )}
+              </SimpleGrid>
+            </Stack>
+            {Boolean(trailer) &&
+              <Button
+                size="lg"
+                variant="white"
+                leftIcon={<BsPlay size={24}/>}
+                onClick={() => handleOpenVideoModal(trailer)}
+              >
+                Watch trailer
+              </Button>
+            }
           </div>
-        </Container>
+        </div>
+      </Container>
     </div>
   );
 };

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Wrapper from './Wrapper';
 import {
-  Badge,
   Card,
   Container,
   createStyles,
@@ -15,6 +14,8 @@ import {
 import { Actor as ActorType } from '../constants/Actor';
 import { Titles } from '../constants/Titles';
 import { MovieCard } from '../components/Home';
+import { Helmet } from 'react-helmet';
+import BackBtn from '../components/BackBtn';
 
 const useStyles = createStyles(() => ({
   dFlex: {
@@ -73,16 +74,26 @@ const Actor = (): JSX.Element => {
   };
 
   useEffect(() => {
-    void fetchActorData();
+    fetchActorData();
   }, [actorId]);
 
   useEffect(() => {
-    void fetchActorMovies();
+    const unsub = (): void => {
+      fetchActorMovies();
+    };
+
+    return () => {
+      unsub();
+    };
   }, [data]);
 
   return (
     <Wrapper>
-      <Container>
+      <Helmet>
+        <title>Flick city - Actor - {`${data?.results.primaryName ?? ''}`}</title>
+      </Helmet>
+      <Container py="xl">
+        <BackBtn/>
         <Card
           withBorder
           p="md"
@@ -104,14 +115,20 @@ const Actor = (): JSX.Element => {
                 <Text weight={500}>{data?.results.birthYear}</Text>
               </Skeleton>
             </Group>
+            {Boolean(Number(data?.results.deathYear)) &&
+              <Group spacing={4}>
+                <Skeleton visible={isLoading} className={classes.dFlex}>
+                  <Text>Year of death:</Text>
+                  <Text weight={500}>{data?.results.deathYear}</Text>
+                </Skeleton>
+              </Group>
+            }
             <Group spacing="sm">
               <Skeleton visible={isLoading} className={classes.dFlex}>
                 <Text>Professions: </Text>
-                <Group spacing="xs">
-                  {data?.results.primaryProfession.split(',').map(prof =>
-                    <Badge key={prof}>{prof}</Badge>
-                  )}
-                </Group>
+                {data?.results.primaryProfession.split(',').map(prof =>
+                  <Text key={prof} weight={500} transform="capitalize">{prof}, </Text>
+                )}
               </Skeleton>
             </Group>
             <Stack>
