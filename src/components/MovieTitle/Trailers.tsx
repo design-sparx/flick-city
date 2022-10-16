@@ -1,18 +1,24 @@
 import React from 'react';
-import { Card, Divider, Title } from '@mantine/core';
+import { Card, Divider, Skeleton, Title } from '@mantine/core';
 import Video from '../Video';
 import { BaseInfo } from '../../constants/MovieTitle';
 
 interface TrailersProps {
   data?: BaseInfo
+  isLoading: boolean
 }
 
-const Trailers = ({ data }: TrailersProps): JSX.Element => {
+const Trailers = ({
+  data,
+  isLoading
+}: TrailersProps): JSX.Element => {
   return (
     <>
       <Card>
-        <Title order={3} py="md">Trailer</Title>
-        <Video url={data?.trailer}/>
+        <Skeleton visible={isLoading}>
+          <Title order={3} py="md">Trailer</Title>
+          <Video url={data?.trailer} isLoading={isLoading}/>
+        </Skeleton>
       </Card>
       <Divider/>
     </>

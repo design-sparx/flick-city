@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import Wrapper from './Wrapper';
 import { Titles } from '../constants/Titles';
-import { Button, Container, SimpleGrid, Stack } from '@mantine/core';
+import { Button, Container, SimpleGrid, Skeleton, Stack } from '@mantine/core';
 import GenresList from '../components/GenresList';
 import { MovieCard } from '../components/Home';
 import { Genres } from '../constants/Genres';
@@ -17,6 +17,8 @@ const Category = (): JSX.Element => {
   const [genresData, setGenresData] = useState<Genres>();
   const [page, setPage] = useState(1);
   const [previousUrl, setPreviousUrl] = useState('');
+  const [isGenresLoading, setIsGenresLoading] = useState(false);
+  const [isDataLoading, setIsDataLoading] = useState(false);
   const { title } = useParams();
   const [searchParams] = useSearchParams();
   const list = searchParams.get('list');
@@ -34,6 +36,7 @@ const Category = (): JSX.Element => {
    * @param pageNumber
    */
   const fetchCategoryData = async (pageNumber: number): Promise<void> => {
+    setIsDataLoading(true);
     let filters = '';
     if (Boolean(list) && list !== 'undefined') {
       filters += `&list=${String(list) ?? ''}`;
@@ -44,7 +47,7 @@ const Category = (): JSX.Element => {
     }
 
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    await fetch(`https://moviesdatabase.p.rapidapi.com/titles/?titleType=${title}&info=mini_info&limit=10&page=${pageNumber}${filters}`, headerOptions)
+    await fetch(`https://moviesdatabase.p.rapidapi.com/titles/?titleType=${title}&info=mini_info&limit=15&page=${pageNumber}${filters}`, headerOptions)
       .then(async response => await response.json())
       .then((response: Titles) => {
         setData({
@@ -54,6 +57,7 @@ const Category = (): JSX.Element => {
           results: window.location.href !== previousUrl ? response.results : [...data.results, ...response.results]
         });
         setPreviousUrl(window.location.href);
+        setIsDataLoading(false);
       })
       .catch(err => console.error(err));
   };
@@ -62,10 +66,14 @@ const Category = (): JSX.Element => {
    * fetch genres
    */
   const fetchGenres = (): void => {
+    setIsGenresLoading(true);
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     fetch('https://moviesdatabase.p.rapidapi.com/titles/utils/genres', headerOptions)
       .then(async response => await response.json())
-      .then(response => setGenresData(response))
+      .then(response => {
+        setGenresData(response);
+        setIsGenresLoading(false);
+      })
       .catch(err => console.error(err));
   };
 
@@ -92,22 +100,24 @@ const Category = (): JSX.Element => {
     <Wrapper>
       <Container fluid py="lg">
         <Stack spacing="lg">
-          <GenresList genres={genresData} handleReset={() => {
-            setData({
-              page: '',
-              entries: 0,
-              results: [],
-              next: ''
-            });
-          }}/>
+          <Skeleton visible={isGenresLoading}>
+            <GenresList genres={genresData} handleReset={() => {
+              setData({
+                page: '',
+                entries: 0,
+                results: [],
+                next: ''
+              });
+            }}/>
+          </Skeleton>
           <SimpleGrid cols={5}>
             {Boolean(data?.results) &&
               data?.results.map((d) =>
-                <MovieCard data={d} height={300} key={d.id}/>
+                <MovieCard data={d} height={300} key={d.id} isLoading={isDataLoading}/>
               )
             }
           </SimpleGrid>
-          <Button size="md" variant="outline" onClick={increasePageCount}>Load more</Button>
+          <Button size="md" variant="outline" onClick={increasePageCount} loading={isDataLoading}>Load more</Button>
         </Stack>
       </Container>
     </Wrapper>

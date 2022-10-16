@@ -39,14 +39,15 @@ const Section = ({
             </Skeleton>
           </Stack>
         </Group>
-        <Button
-          variant="subtle"
-          rightIcon={<BsChevronRight/>}
-          component={Link} to={`/lists/${listType}`}
-          loading={isLoading}
-        >
-          View All
-        </Button>
+        <Skeleton visible={isLoading} width={Boolean(isLoading) ? 300 : ''} height={40}>
+          <Button
+            variant="subtle"
+            rightIcon={<BsChevronRight/>}
+            component={Link} to={`/lists/${listType}`}
+          >
+            View All
+          </Button>
+        </Skeleton>
       </Group>
       <SimpleGrid cols={5}>
         {data?.results.map((d) =>

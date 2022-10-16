@@ -110,7 +110,7 @@ const AppBar = ({ links }: AppBarProps): JSX.Element => {
           <Group>
             {isMobile && <Burger opened={opened} onClick={toggle} size="sm"/>}
             <FcFilmReel size={28}/>
-            <Text size="lg" weight={500} component="a" href="/">flickcity</Text>
+            <Text size="lg" weight={500} component={Link} to="/">flickcity</Text>
           </Group>
 
           <TextInput

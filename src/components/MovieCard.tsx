@@ -2,6 +2,7 @@ import { Box, Card, Center, createStyles, Group, Skeleton, Text } from '@mantine
 import React, { useEffect, useState } from 'react';
 import { Title as MovieItem } from '../constants/Titles';
 import { IconCalendar } from '@tabler/icons';
+import { Link } from 'react-router-dom';
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const image = getRef('image');
@@ -101,8 +102,8 @@ const MovieCard = ({
         shadow="lg"
         className={classes.card}
         radius="md"
-        component="a"
-        href={`/title/${id}`}
+        component={Link}
+        to={`/title/${id}`}
         style={{ height }}
       >
         <div

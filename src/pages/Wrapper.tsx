@@ -1,5 +1,6 @@
 import React from 'react';
 import AppBar from '../components/AppBar';
+import AppFooter from '../components/AppFooter';
 import { NavLinks } from '../data/NavLinks';
 
 interface WrapperProps {
@@ -11,6 +12,7 @@ const Wrapper = ({ children }: WrapperProps): JSX.Element => {
     <>
       <AppBar links={NavLinks.links}/>
       {children}
+      <AppFooter/>
     </>
   );
 };

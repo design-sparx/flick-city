@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Wrapper from './Wrapper';
 import { BoxOfficeTitles, Titles } from '../constants/Titles';
 import { Carousel } from '@mantine/carousel';
@@ -6,12 +6,12 @@ import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import Autoplay from 'embla-carousel-autoplay';
 import { Container, Stack } from '@mantine/core';
 import { HeroCard, Section } from '../components/Home';
+import { Helmet } from 'react-helmet';
 
 const { Slide } = Carousel;
 
 const Home = (): JSX.Element => {
   const [heroData, setHeroData] = useState<BoxOfficeTitles>();
-  const [trailers, setTrailers] = useState<Titles>();
   const [popularMovies, setPopularMovies] = useState<Titles>();
   const [lowRatedMovies, setLowRatedMovies] = useState<Titles>();
   const [popularSeries, setPopularSeries] = useState<Titles>();
@@ -40,46 +40,35 @@ const Home = (): JSX.Element => {
   /**
    * fetch hero carousel data
    */
-  const fetchHeroTitles = useCallback(async (): Promise<void> => {
+  const fetchHeroTitles = (): void => {
     setIsHeroLoading(true);
-
-    await fetch('https://moviesdatabase.p.rapidapi.com/titles/?info=custom_info&list=top_boxoffice_last_weekend_10', headerOptions)
+    fetch('https://moviesdatabase.p.rapidapi.com/titles/?info=custom_info&list=top_boxoffice_last_weekend_10', headerOptions)
       .then(async response => await response.json())
       .then(response => {
         setHeroData(response);
         setIsHeroLoading(false);
       })
       .catch(err => console.error(err));
-  }, []);
-
-  /**
-   * fetch trailers data
-   */
-  const fetchTrailers = useCallback(async (): Promise<void> => {
-    await fetch('https://moviesdatabase.p.rapidapi.com/titles?titleType=movie&info=mini_info&year=2022&genre=Action&page=1&limit=10&sort=year.incr', headerOptions)
-      .then(async response => await response.json())
-      .then(response => setTrailers(response))
-      .catch(err => console.error(err));
-  }, []);
+  };
 
   /**
    * fetch popular movies
    */
-  const fetchPopularMovies = useCallback(async (): Promise<void> => {
+  const fetchPopularMovies = (): void => {
     setIsPopularMovieLoading(true);
-    await fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=most_pop_movies&info=mini_info&limit=10&sort=pos.incr&page=1', headerOptions)
+    fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=most_pop_movies&info=mini_info&limit=10&sort=pos.incr&page=1', headerOptions)
       .then(async response => await response.json())
       .then(response => {
         setPopularMovies(response);
         setIsPopularMovieLoading(false);
       })
       .catch(err => console.error(err));
-  }, []);
+  };
 
   /**
    * fetch top box office movies
    */
-  const fetchTopBoxOfficeMovies = useCallback(async (): Promise<void> => {
+  const fetchTopBoxOfficeMovies = (): void => {
     setIsBoxOfficeLoading(true);
     fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=top_boxoffice_200&info=mini_info&limit=10&sort=pos.incr&page=1', headerOptions)
       .then(async response => await response.json())
@@ -88,12 +77,12 @@ const Home = (): JSX.Element => {
         setIsBoxOfficeLoading(false);
       })
       .catch(err => console.error(err));
-  }, []);
+  };
 
   /**
    * fetch top rated movies
    */
-  const fetchTopRatedMovies = useCallback(async (): Promise<void> => {
+  const fetchTopRatedMovies = (): void => {
     setIsTopMoviesLoading(true);
     fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=top_rated_250&info=mini_info&limit=10&sort=pos.incr&page=1', headerOptions)
       .then(async response => await response.json())
@@ -102,12 +91,12 @@ const Home = (): JSX.Element => {
         setIsTopMoviesLoading(false);
       })
       .catch(err => console.error(err));
-  }, []);
+  };
 
   /**
    * fetch top-rated movies - english
    */
-  const fetchTopRatedMoviesEnglish = useCallback(async (): Promise<void> => {
+  const fetchTopRatedMoviesEnglish = (): void => {
     setIsTopEnglishLoading(true);
     fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=top_rated_english_250&info=custom_info&limit=10&sort=pos.incr&page=1', headerOptions)
       .then(async response => await response.json())
@@ -116,12 +105,12 @@ const Home = (): JSX.Element => {
         setIsTopEnglishLoading(false);
       })
       .catch(err => console.error(err));
-  }, []);
+  };
 
   /**
    * fetch top box office
    */
-  const fetchLowRatedMovies = useCallback(async (): Promise<void> => {
+  const fetchLowRatedMovies = (): void => {
     setIsLowRatedLoading(true);
     fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=top_rated_lowest_100&info=mini_info&limit=10&sort=pos.incr&page=1', headerOptions)
       .then(async response => await response.json())
@@ -130,12 +119,12 @@ const Home = (): JSX.Element => {
         setIsLowRatedLoading(false);
       })
       .catch(err => console.error(err));
-  }, []);
+  };
 
   /**
    * fetch popular series
    */
-  const fetchPopularSeries = useCallback(async (): Promise<void> => {
+  const fetchPopularSeries = (): void => {
     setIsPopularSeriesLoading(true);
     fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=most_pop_series&info=mini_info&limit=10&sort=pos.incr&page=1', headerOptions)
       .then(async response => await response.json())
@@ -144,12 +133,12 @@ const Home = (): JSX.Element => {
         setIsPopularSeriesLoading(false);
       })
       .catch(err => console.error(err));
-  }, []);
+  };
 
   /**
    * fetch top-rated series
    */
-  const fetchTopRatedSeries = useCallback(async (): Promise<void> => {
+  const fetchTopRatedSeries = (): void => {
     setIsTopSeriesLoading(true);
     fetch('https://moviesdatabase.p.rapidapi.com/titles/?list=top_rated_series_250&info=mini_info&limit=10&sort=pos.incr&page=1', headerOptions)
       .then(async response => await response.json())
@@ -158,24 +147,30 @@ const Home = (): JSX.Element => {
         setIsTopSeriesLoading(false);
       })
       .catch(err => console.error(err));
-  }, []);
+  };
 
   useEffect(() => {
-    void fetchHeroTitles();
-    void fetchTrailers();
-    void fetchPopularMovies();
-    void fetchLowRatedMovies();
-    void fetchPopularSeries();
-    void fetchTopRatedSeries();
-    void fetchTopRatedMovies();
-    void fetchTopBoxOfficeMovies();
-    void fetchTopRatedMoviesEnglish();
-    console.log(trailers);
-  }, [fetchHeroTitles, fetchTrailers, fetchPopularSeries, fetchPopularMovies, fetchTopRatedMoviesEnglish, fetchTopRatedMovies, fetchTopRatedSeries, fetchTopBoxOfficeMovies]);
+    const unsub = (): void => {
+      void fetchHeroTitles();
+      void fetchPopularMovies();
+      void fetchLowRatedMovies();
+      void fetchPopularSeries();
+      void fetchTopRatedSeries();
+      void fetchTopRatedMovies();
+      void fetchTopBoxOfficeMovies();
+      void fetchTopRatedMoviesEnglish();
+    };
 
-  console.log(isPopularMovieLoading);
+    return () => {
+      unsub();
+    };
+  }, []);
+
   return (
     <Wrapper>
+      <Helmet>
+        <title>Flick city | Home</title>
+      </Helmet>
       <Carousel
         mx="auto"
         withIndicators

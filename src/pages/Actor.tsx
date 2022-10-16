@@ -1,14 +1,33 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Wrapper from './Wrapper';
-import { Badge, Card, Container, Group, SimpleGrid, Stack, Text } from '@mantine/core';
+import {
+  Badge,
+  Card,
+  Container,
+  createStyles,
+  Group,
+  SimpleGrid,
+  Skeleton,
+  Stack,
+  Text
+} from '@mantine/core';
 import { Actor as ActorType } from '../constants/Actor';
 import { Titles } from '../constants/Titles';
 import { MovieCard } from '../components/Home';
 
+const useStyles = createStyles(() => ({
+  dFlex: {
+    display: 'flex',
+    gap: '6px'
+  }
+}));
+
 const Actor = (): JSX.Element => {
+  const { classes } = useStyles();
   const [data, setData] = useState<ActorType>();
   const [moviesData, setMoviesData] = useState<Titles>();
+  const [isLoading, setIsLoading] = useState(false);
   const { actorId } = useParams();
 
   const headerOptions = {
@@ -22,28 +41,36 @@ const Actor = (): JSX.Element => {
   /**
    * fetch search data
    */
-  const fetchActorData = useCallback(async (): Promise<any> => {
+  const fetchActorData = (): void => {
+    setIsLoading(true);
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    await fetch(`https://moviesdatabase.p.rapidapi.com/actors/${actorId}`, headerOptions)
+    fetch(`https://moviesdatabase.p.rapidapi.com/actors/${actorId}`, headerOptions)
       .then(async response => await response.json())
-      .then(response => setData(response))
+      .then(response => {
+        setData(response);
+        setIsLoading(false);
+      })
       .catch(err => console.error(err));
-  }, []);
+  };
 
   /**
    * fetch actor movie titles
    * requires titleIds: string
    */
-  const fetchActorMovies = useCallback(async (): Promise<any> => {
+  const fetchActorMovies = (): void => {
+    setIsLoading(true);
     let idsQuery = '';
     data?.results.knownForTitles.split(',').forEach((title: string, index: number) => {
       idsQuery += `idsList[${index}]=${title}&`;
     });
-    await fetch(`https://moviesdatabase.p.rapidapi.com/titles/x/titles-by-ids?${idsQuery}`, headerOptions)
+    fetch(`https://moviesdatabase.p.rapidapi.com/titles/x/titles-by-ids?${idsQuery}`, headerOptions)
       .then(async response => await response.json())
-      .then(response => setMoviesData(response))
+      .then(response => {
+        setMoviesData(response);
+        setIsLoading(false);
+      })
       .catch(err => console.error(err));
-  }, [data]);
+  };
 
   useEffect(() => {
     void fetchActorData();
@@ -62,29 +89,41 @@ const Actor = (): JSX.Element => {
           mt="xl"
         >
           <Stack>
-            <Text size="xl" weight={600}>Actor information</Text>
+            <Skeleton visible={isLoading} className={classes.dFlex}>
+              <Text size="xl" weight={600}>Actor information</Text>
+            </Skeleton>
             <Group spacing={4}>
-              <Text>Name:</Text>
-              <Text weight={500}>{data?.results.primaryName}</Text>
+              <Skeleton visible={isLoading} className={classes.dFlex}>
+                <Text>Name:</Text>
+                <Text weight={500}>{data?.results.primaryName}</Text>
+              </Skeleton>
             </Group>
             <Group spacing={4}>
-              <Text>Year of birth:</Text>
-              <Text weight={500}>{data?.results.birthYear}</Text>
+              <Skeleton visible={isLoading} className={classes.dFlex}>
+                <Text>Year of birth:</Text>
+                <Text weight={500}>{data?.results.birthYear}</Text>
+              </Skeleton>
             </Group>
             <Group spacing="sm">
-              <Text>Professions: </Text>
-              <Group spacing='xs'>
-                {data?.results.primaryProfession.split(',').map(prof =>
-                  <Badge key={prof}>{prof}</Badge>
-                )}
-              </Group>
+              <Skeleton visible={isLoading} className={classes.dFlex}>
+                <Text>Professions: </Text>
+                <Group spacing="xs">
+                  {data?.results.primaryProfession.split(',').map(prof =>
+                    <Badge key={prof}>{prof}</Badge>
+                  )}
+                </Group>
+              </Skeleton>
             </Group>
             <Stack>
               {Boolean(moviesData?.results) &&
                 <>
-                  <Text>Appeared in: </Text>
+                  <Skeleton visible={isLoading}>
+                    <Text>Appeared in: </Text>
+                  </Skeleton>
                   <SimpleGrid cols={4}>
-                    {moviesData?.results.map(movie => <MovieCard key={movie.id} data={movie} height={250}/>)}
+                    {moviesData?.results.map(movie =>
+                      <MovieCard key={movie.id} data={movie} height={250} isLoading={isLoading}/>
+                    )}
                   </SimpleGrid>
                 </>
               }

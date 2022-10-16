@@ -1,15 +1,22 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Wrapper from './Wrapper';
 import { Titles } from '../constants/Titles';
-import { Container, SimpleGrid, Title } from '@mantine/core';
+import { Button, Container, SimpleGrid, Skeleton, Stack, Title } from '@mantine/core';
 import { useParams } from 'react-router-dom';
 import { MovieCard } from '../components/Home';
 import { ListTypes } from '../constants/ListTypes';
 
 const List = (): JSX.Element => {
   const { listType } = useParams();
-  const [data, setData] = useState<Titles>();
+  const [data, setData] = useState<Titles>({
+    entries: 0,
+    results: [],
+    next: '',
+    page: ''
+  });
+  const [page, setPage] = useState(1);
   const [listTitle, setListTitle] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const headerOptions = {
     method: 'GET',
@@ -21,14 +28,24 @@ const List = (): JSX.Element => {
 
   /**
    * fetch data based on list type
+   * @param pageNumber
    */
-  const fetchListData = useCallback(async (): Promise<void> => {
+  const fetchListData = (pageNumber: number): void => {
+    setIsLoading(true);
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    await fetch(`https://moviesdatabase.p.rapidapi.com/titles/?info=mini_info&list=${listType}&sort=pos.incr&limit=20`, headerOptions)
+    fetch(`https://moviesdatabase.p.rapidapi.com/titles/?info=mini_info&list=${listType}&sort=pos.incr&limit=15&page=${pageNumber}`, headerOptions)
       .then(async response => await response.json())
-      .then(response => setData(response))
+      .then((response: Titles) => {
+        setData({
+          page: response.page,
+          results: [...data?.results, ...response.results],
+          next: response.next,
+          entries: response.entries
+        });
+        setIsLoading(false);
+      })
       .catch(err => console.error(err));
-  }, []);
+  };
 
   /**
    * logic for getting list title
@@ -61,20 +78,31 @@ const List = (): JSX.Element => {
     }
   };
 
+  /**
+   * increase page count
+   */
+  const increasePageCount = (): void => {
+    setPage(page + 1);
+  };
+
   useEffect(() => {
-    fetchListData().then(() => {
-    }).catch(e => console.log(e));
+    void fetchListData(page);
 
     refineListTitle();
-  }, [listTitle]);
+  }, [listTitle, page]);
 
   return (
     <Wrapper>
       <Container fluid p="xl">
-        <Title mb="xl">{listTitle}</Title>
-        <SimpleGrid cols={5}>
-          {data?.results.map(d => <MovieCard key={d.id} data={d} height={300}/>)}
-        </SimpleGrid>
+        <Stack>
+          <Skeleton visible={isLoading} width={Boolean(isLoading) ? 300 : ''} height={Boolean(isLoading) ? 40 : ''}>
+            <Title mb="xl">{listTitle}</Title>
+          </Skeleton>
+          <SimpleGrid cols={5}>
+            {data?.results.map(d => <MovieCard key={d.id} data={d} height={300} isLoading={isLoading}/>)}
+          </SimpleGrid>
+          <Button size="md" variant="outline" onClick={increasePageCount} loading={isLoading}>Load more</Button>
+        </Stack>
       </Container>
     </Wrapper>
   );

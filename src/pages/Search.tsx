@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { Container, SimpleGrid, Stack, Text } from '@mantine/core';
+import { Button, Container, SimpleGrid, Skeleton, Stack, Text } from '@mantine/core';
 import Wrapper from './Wrapper';
 import { MovieCard } from '../components/Home';
 import { Titles } from '../constants/Titles';
@@ -10,8 +10,16 @@ import GenresList from '../components/GenresList';
 const Search = (): JSX.Element => {
   const { query } = useParams();
   const [searchParams] = useSearchParams();
-  const [data, setData] = useState<Titles>();
+  const [data, setData] = useState<Titles>({
+    page: '',
+    results: [],
+    next: '',
+    entries: 0
+  });
   const [genresData, setGenresData] = useState<Genres>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [previousUrl, setPreviousUrl] = useState('');
   const genre = searchParams.get('genre');
 
   const headerOptions = {
@@ -25,48 +33,67 @@ const Search = (): JSX.Element => {
   /**
    * fetch search data
    */
-  const fetchSearchData = useCallback(async (): Promise<any> => {
+  const fetchSearchData = (pageNumber: number): void => {
+    setIsLoading(true);
     let filters = '';
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     Boolean(genre) && (filters += `&genre=${genre}`);
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    await fetch(`https://moviesdatabase.p.rapidapi.com/titles/search/title/${query}/?info=mini_info&limit=20${filters}`, headerOptions)
+    fetch(`https://moviesdatabase.p.rapidapi.com/titles/search/title/${query}/?info=mini_info&limit=20&page=${pageNumber}${filters}`, headerOptions)
       .then(async response => await response.json())
-      .then(response => setData(response))
+      .then(response => {
+        setData({
+          page: response.page,
+          results: window.location.href !== previousUrl ? response.results : [...data.results, ...response.results],
+          next: response.next,
+          entries: response.entries
+        });
+        setPreviousUrl(window.location.href);
+        setIsLoading(false);
+      })
       .catch(err => console.error(err));
-  }, [genre]);
+  };
 
   /**
    * fetch genres
    */
-  const fetchGenres = useCallback(async (): Promise<any> => {
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    await fetch('https://moviesdatabase.p.rapidapi.com/titles/utils/genres', headerOptions)
+  const fetchGenres = (): void => {
+    fetch('https://moviesdatabase.p.rapidapi.com/titles/utils/genres', headerOptions)
       .then(async response => await response.json())
       .then(response => setGenresData(response))
       .catch(err => console.error(err));
-  }, []);
+  };
+
+  /**
+   * increase page count
+   */
+  const increasePageCount = (): void => {
+    setPage(page + 1);
+  };
 
   useEffect(() => {
     void fetchGenres();
   }, []);
 
   useEffect(() => {
-    void fetchSearchData();
-  }, [genre, query]);
+    void fetchSearchData(page);
+  }, [genre, query, page]);
 
   return (
     <Wrapper>
       <Container fluid py="lg">
         <Stack>
-          {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
-          <Text size='lg' weight={500}>Search results for: {`"${query}"`}</Text>
+          <Skeleton visible={isLoading}>
+            {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
+            <Text size="lg" weight={500}>Search results for: {`"${query}"`}</Text>
+          </Skeleton>
           <GenresList genres={genresData}/>
           <SimpleGrid cols={5}>
             {data?.results.map((d) =>
-              <MovieCard data={d} height={300} key={d.id}/>
+              <MovieCard data={d} height={300} key={d.id} isLoading={isLoading}/>
             )}
           </SimpleGrid>
+          <Button size="md" variant="outline" onClick={increasePageCount} loading={isLoading}>Load more</Button>
         </Stack>
       </Container>
     </Wrapper>
