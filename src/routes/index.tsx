@@ -11,7 +11,11 @@ import {
   UpcomingPage
 } from '../pages';
 
-const Router = (): JSX.Element => {
+interface RouterProps {
+  children?: React.ReactNode
+}
+
+const Router = ({ children }: RouterProps): JSX.Element => {
   return useRoutes([
     {
       path: '/',

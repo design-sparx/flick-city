@@ -15,7 +15,7 @@ const Revenues = ({
   return (
     <>
       <Card>
-        <Title order={3} my="mg">Revenue</Title>
+        <Title order={3} mb="md">Revenue</Title>
         <SimpleGrid cols={4}>
           <Skeleton visible={isLoading}>
             <Paper withBorder p="md">

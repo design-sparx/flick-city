@@ -27,6 +27,15 @@ const RouterTransition = ({ children }: RouterProps): JSX.Element => {
   useEffect(() => {
     setTimeout(() => {
       setProgress(false);
+
+      /**
+       * scroll to top after page load
+       */
+      document.documentElement.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth' // Optional if you want to skip the scrolling animation
+      });
     }, 1100);
   }, [prevLoc]);
 
