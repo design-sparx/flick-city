@@ -41,7 +41,7 @@ const Section = ({
         </Group>
         <Skeleton visible={isLoading} width={Boolean(isLoading) ? 300 : ''} height={40}>
           <Button
-            variant="subtle"
+            variant="light"
             rightIcon={<BsChevronRight/>}
             component={Link} to={`/lists/${listType}`}
           >

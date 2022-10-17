@@ -36,7 +36,7 @@ const GenresList = ({
         <Group>
           <Button
             mb="md"
-            variant="subtle"
+            variant="light"
             onClick={() => setOpened((o) => !o)}
             leftIcon={opened ? <BsChevronUp size={18}/> : <BsChevronDown size={18}/>}>
             Filter by genre:

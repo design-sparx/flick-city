@@ -32,8 +32,8 @@ const Home = (): JSX.Element => {
   const headerOptions = {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key': '4oMcDEyGMDmshx6PYmJkcJYSgoOhp198V0UjsnI7mPJqb4n5r8',
-      'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
+      'X-RapidAPI-Key': process.env.REACT_APP_API_KEY ?? '',
+      'X-RapidAPI-Host': process.env.REACT_APP_API_HOST ?? ''
     }
   };
 
@@ -42,7 +42,7 @@ const Home = (): JSX.Element => {
    */
   const fetchHeroTitles = (): void => {
     setIsHeroLoading(true);
-    fetch('https://moviesdatabase.p.rapidapi.com/titles/?info=custom_info&list=top_boxoffice_last_weekend_10', headerOptions)
+    fetch(`${process.env.REACT_APP_BASE_URL ?? ''}/titles/?info=custom_info&list=top_boxoffice_last_weekend_10`, headerOptions)
       .then(async response => await response.json())
       .then(response => {
         setHeroData(response);

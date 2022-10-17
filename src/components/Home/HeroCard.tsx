@@ -3,7 +3,7 @@ import {
   Title,
   createStyles,
   MantineTheme,
-  Container, Stack, Group, SimpleGrid, Avatar, UnstyledButton, Badge, Button, Divider, LoadingOverlay, Box
+  Container, Stack, Group, SimpleGrid, Avatar, UnstyledButton, Badge, Button, Divider, LoadingOverlay, Box, Tooltip
 } from '@mantine/core';
 import React from 'react';
 import { BoxOfficeTitle as MovieItem } from '../../constants/Titles';
@@ -15,7 +15,7 @@ import Video from '../Video';
 
 const useStyles = createStyles((theme: MantineTheme) => ({
   root: {
-    backgroundColor: '#11284b',
+    backgroundColor: '#252525',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
@@ -84,7 +84,7 @@ const useStyles = createStyles((theme: MantineTheme) => ({
     borderRadius: theme.radius.sm,
 
     '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.blue[8] : theme.colors.blue[9],
+      backgroundColor: theme.colors.dark[8],
       cursor: 'pointer'
     }
   }
@@ -135,7 +135,7 @@ const HeroCard = ({
     <div
       className={classes.root}
       style={{
-        backgroundImage: `linear-gradient(250deg, rgba(130, 201, 30, 0) 0%, #062343 70%), url(${primaryImage.url})`
+        backgroundImage: `linear-gradient(250deg, rgba(64, 64, 64, 0) 0%, #1d1d1d 70%), url(${primaryImage.url})`
       }}
     >
       <LoadingOverlay visible={isLoading} overlayBlur={2}/>
@@ -186,14 +186,16 @@ const HeroCard = ({
               </SimpleGrid>
             </Stack>
             {Boolean(trailer) &&
-              <Button
-                size="lg"
-                variant="white"
-                leftIcon={<BsPlay size={24}/>}
-                onClick={() => handleOpenVideoModal(trailer)}
-              >
-                Watch trailer
-              </Button>
+              <Tooltip label="watch trailer">
+                <Button
+                  size="lg"
+                  variant="white"
+                  leftIcon={<BsPlay size={24}/>}
+                  onClick={() => handleOpenVideoModal(trailer)}
+                >
+                  Watch trailer
+                </Button>
+              </Tooltip>
             }
           </div>
         </div>

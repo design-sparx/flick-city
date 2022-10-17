@@ -8,7 +8,7 @@ const ClearFiltersBtn = (): JSX.Element => {
   return (
     <div>
       <Button
-        variant="subtle"
+        variant="light"
         leftIcon={<BsX size={18}/>}
         color="red"
         onClick={() => navigate(location.pathname)}

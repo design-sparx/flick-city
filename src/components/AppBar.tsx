@@ -6,13 +6,18 @@ import {
   Burger,
   TextInput,
   Text,
-  Container
+  Container,
+  useMantineTheme,
+  ColorSwatch,
+  ActionIcon, Popover, Tooltip, useMantineColorScheme
 } from '@mantine/core';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { BsSearch } from 'react-icons/bs';
+import { upperFirst, useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { BsCheck2, BsMoonFill, BsSearch, BsSunFill } from 'react-icons/bs';
 import { FcFilmReel } from 'react-icons/fc';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useNavigateSearch } from '../hooks';
+import { IoIosColorWand } from 'react-icons/io';
+import { showNotification } from '@mantine/notifications';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -56,8 +61,14 @@ const useStyles = createStyles((theme) => ({
     textTransform: 'capitalize',
 
     '&:hover': {
-      backgroundColor: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).background,
-      color: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color,
+      backgroundColor: theme.fn.variant({
+        variant: 'light',
+        color: theme.primaryColor
+      }).background,
+      color: theme.fn.variant({
+        variant: 'light',
+        color: theme.primaryColor
+      }).color,
       cursor: 'pointer'
     }
   },
@@ -71,8 +82,14 @@ const useStyles = createStyles((theme) => ({
     fontSize: theme.fontSizes.sm,
     fontWeight: 500,
     cursor: 'pointer',
-    backgroundColor: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).background,
-    color: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color
+    backgroundColor: theme.fn.variant({
+      variant: 'light',
+      color: theme.primaryColor
+    }).background,
+    color: theme.fn.variant({
+      variant: 'light',
+      color: theme.primaryColor
+    }).color
   },
 
   linkLabel: {
@@ -82,17 +99,79 @@ const useStyles = createStyles((theme) => ({
 
 interface AppBarProps {
   links: Array<{ link: string, label: string, list?: string }>
+  onChange: (color: string) => void
+  value: string
 }
 
-const AppBar = ({ links }: AppBarProps): JSX.Element => {
+const AppBar = ({
+  links,
+  value,
+  onChange
+}: AppBarProps): JSX.Element => {
   const [opened, { toggle }] = useDisclosure(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [colorOpened, setColorOpened] = useState(false);
   const isMobile = useMediaQuery('(max-width: 600px)');
   const { classes } = useStyles();
   const { query } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const navigateSearch = useNavigateSearch();
+  const theme = useMantineTheme();
+  const colors = Object.keys(theme.colors).map((color) => ({
+    swatch: theme.colors[color][6],
+    color
+  }));
+  const {
+    colorScheme,
+    toggleColorScheme
+  } = useMantineColorScheme();
+
+  /**
+   * swatches items
+   */
+  const swatches = colors.map(({
+    color,
+    swatch
+  }) => (
+    <ColorSwatch
+      component="button"
+      type="button"
+      onClick={() => {
+        onChange(color);
+        showNotification({
+          title: 'Color theme update',
+          message: 'Your theme is awesome! 🤥',
+          styles: (theme) => ({
+            root: {
+              backgroundColor: colorScheme === 'dark' ? theme.colors.gray[7] : theme.colors.gray[2],
+              borderColor: colorScheme === 'dark' ? theme.colors.gray[7] : theme.colors.gray[2],
+
+              '&::before': {
+                backgroundColor: colorScheme === 'dark' ? theme.colors.gray[2] : theme.colors.gray[7]
+              }
+            },
+
+            title: { color: colorScheme === 'dark' ? theme.colors.gray[2] : theme.colors.gray[7] },
+            description: { color: colorScheme === 'dark' ? theme.colors.gray[2] : theme.colors.gray[7] },
+            closeButton: {
+              color: colorScheme === 'dark' ? theme.colors.gray[2] : theme.colors.gray[7],
+              '&:hover': { backgroundColor: theme.colors.red[5], color: theme.white }
+            }
+          })
+        });
+      }}
+      key={color}
+      color={swatch}
+      size={22}
+      style={{
+        color: theme.white,
+        cursor: 'pointer'
+      }}
+    >
+      {value === color && <BsCheck2 width={10}/>}
+    </ColorSwatch>
+  ));
 
   /**
    * resolve current location
@@ -134,38 +213,104 @@ const AppBar = ({ links }: AppBarProps): JSX.Element => {
     <Header height="100%" className={classes.header}>
       <Container fluid>
         <div className={classes.inner}>
-          <Group>
+          <Group align="center">
             {isMobile && <Burger opened={opened} onClick={toggle} size="sm"/>}
             <FcFilmReel size={32}/>
             <Text size="xl" weight={500} component={Link} to="/">Flickcity</Text>
+            <Tooltip label="search">
+              <TextInput
+                icon={<BsSearch size={14}/>}
+                placeholder="Search for movies, series, tv shows, people..."
+                className={classes.search}
+                onKeyDown={handleKeyDown}
+                onChange={(event) => setSearchTerm(event.currentTarget.value)}
+                value={searchTerm}
+                ml="sm"
+              />
+            </Tooltip>
           </Group>
-
-          <TextInput
-            icon={<BsSearch size={14}/>}
-            placeholder="Search for movies, series, tv shows, people..."
-            className={classes.search}
-            onKeyDown={handleKeyDown}
-            onChange={(event) => setSearchTerm(event.currentTarget.value)}
-            value={searchTerm}
-          />
-
-          <Group spacing='xs' className={classes.links}>
+          <Group spacing="xs" className={classes.links}>
             {links.map(link =>
-              <a
-                key={link.label}
-                className={urlResolver(link.link) ? classes.active : classes.link}
-                onClick={() => handleLinkOpen(link, Boolean(link.list))}
-              >
-                {link.label}
-              </a>
+              <Tooltip key={link.label} label={link.label}>
+                <a
+                  key={link.label}
+                  className={urlResolver(link.link) ? classes.active : classes.link}
+                  onClick={() => handleLinkOpen(link, Boolean(link.list))}
+                >
+                  {link.label}
+                </a>
+              </Tooltip>
             )}
-            <Link
-              key='upcoming'
-              className={classes.link}
-              to='/upcoming'
+            <Tooltip label="Upcoming">
+              <Link
+                key="upcoming"
+                className={classes.link}
+                to="/upcoming"
+              >
+                Upcoming
+              </Link>
+            </Tooltip>
+            <Tooltip label="switch to light/dark mode">
+              <ActionIcon
+                onClick={() => {
+                  toggleColorScheme();
+                  showNotification({
+                    title: `${upperFirst(colorScheme === 'dark' ? 'light' : 'dark')} is on`,
+                    message: `You just switched to ${colorScheme === 'dark' ? 'light' : 'dark'} mode. Hope you like it`,
+                    styles: (theme) => ({
+                      root: {
+                        backgroundColor: colorScheme === 'dark' ? theme.colors.gray[7] : theme.colors.gray[2],
+                        borderColor: colorScheme === 'dark' ? theme.colors.gray[7] : theme.colors.gray[2],
+
+                        '&::before': { backgroundColor: colorScheme === 'dark' ? theme.colors.gray[2] : theme.colors.gray[7] }
+                      },
+
+                      title: { color: colorScheme === 'dark' ? theme.colors.gray[2] : theme.colors.gray[7] },
+                      description: { color: colorScheme === 'dark' ? theme.colors.gray[2] : theme.colors.gray[7] },
+                      closeButton: {
+                        color: colorScheme === 'dark' ? theme.colors.gray[2] : theme.colors.gray[7],
+                        '&:hover': { backgroundColor: theme.colors.red[5], color: theme.white }
+                      }
+                    })
+                  });
+                }}
+                size="lg"
+                variant="filled"
+                color="primary"
+              >
+                {colorScheme === 'light' ? <BsMoonFill/> : <BsSunFill/>}
+              </ActionIcon>
+            </Tooltip>
+            <Popover
+              opened={colorOpened}
+              onClose={() => setColorOpened(false)}
+              transitionDuration={0}
+              width={152}
+              position="bottom-end"
+              withArrow
             >
-              Upcoming
-            </Link>
+              <Popover.Target>
+                <Tooltip label="switch color scheme">
+                  <ColorSwatch
+                    component="button"
+                    type="button"
+                    color={theme.colors[value][6]}
+                    onClick={() => setColorOpened((o) => !o)}
+                    size={34}
+                    radius="xs"
+                    style={{
+                      display: 'block',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <IoIosColorWand size={22} color="#fff"/>
+                  </ColorSwatch>
+                </Tooltip>
+              </Popover.Target>
+              <Popover.Dropdown>
+                <Group spacing="xs">{swatches}</Group>
+              </Popover.Dropdown>
+            </Popover>
           </Group>
         </div>
       </Container>

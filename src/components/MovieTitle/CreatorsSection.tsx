@@ -15,7 +15,7 @@ const CreatorsSection = ({ creatorsData, baseInfo, isLoading }: CreatorsSectionP
       <Card>
         <SimpleGrid cols={2}>
           <Skeleton visible={isLoading}>
-            <Paper>
+            <Paper sx={{ background: 'none' }}>
               <Title order={4} my="sm">Plot</Title>
               <Text>{baseInfo?.plot.plotText.plainText}</Text>
               <Group mt="md">

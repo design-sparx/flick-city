@@ -7,7 +7,7 @@ const BackBtn = (): JSX.Element => {
   const navigate = useNavigate();
   return (
     <div>
-      <Button leftIcon={<BsChevronLeft size={18}/>} variant="subtle" onClick={() => navigate(-1)}>Go back</Button>
+      <Button leftIcon={<BsChevronLeft size={18}/>} variant="light" onClick={() => navigate(-1)}>Go back</Button>
     </div>
   );
 };

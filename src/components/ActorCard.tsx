@@ -11,7 +11,7 @@ interface ActorProps {
 
 const useStyles = createStyles((theme) => ({
   card: {
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
+    backgroundColor: 'none',
 
     '&:hover': {
       backgroundColor: theme.fn.variant({

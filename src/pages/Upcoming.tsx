@@ -1,5 +1,5 @@
-import { Button, Container, Group, SimpleGrid, Skeleton, Stack, Title } from '@mantine/core';
-import React, { useEffect, useState } from 'react';
+import { Button, Center, Container, Group, Loader, SimpleGrid, Skeleton, Stack, Title } from '@mantine/core';
+import React, { useEffect, useRef, useState } from 'react';
 import Wrapper from './Wrapper';
 import { Titles } from '../constants/Titles';
 import { useLocation, useSearchParams } from 'react-router-dom';
@@ -38,6 +38,7 @@ const Upcoming = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const titleType = searchParams.get('titleType');
   const location = useLocation();
+  const bottomRef = useRef<any>(null);
 
   const headerOptions = {
     method: 'GET',
@@ -93,6 +94,11 @@ const Upcoming = (): JSX.Element => {
     console.log(queryParams);
   }, [page, titleType]);
 
+  useEffect(() => {
+    // 👇️ scroll to bottom every time messages change
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [data]);
+
   return (
     <Wrapper>
       <Helmet>
@@ -100,8 +106,8 @@ const Upcoming = (): JSX.Element => {
       </Helmet>
       <Container fluid py="xl">
         <Stack spacing="xl">
-          <Group>
-          <BackBtn />
+          <Group position="apart">
+            <BackBtn />
             {Boolean(location.search) &&
               <ClearFiltersBtn />
             }
@@ -132,25 +138,29 @@ const Upcoming = (): JSX.Element => {
               )}
             </Group>
           </Skeleton>
-          {data.results.length > 0
-            ? <>
-              <SimpleGrid cols={5}>
-                {Boolean(data.results) &&
-                  data?.results.map((d) =>
-                    <MovieCard data={d} height={300} key={d.id} isLoading={isLoading}/>
-                  )
-                }
-              </SimpleGrid>
-              <Button
-                size="md"
-                variant="subtle"
-                onClick={increasePageCount}
-                loading={isLoading} leftIcon={<BsChevronDown size={18}/>}
-              >
-                Load more
-              </Button>
-            </>
-            : <NoData/>
+          {!isLoading
+            ? (data.results.length > 0
+                ? <>
+                  <SimpleGrid cols={5}>
+                    {Boolean(data.results) &&
+                      data?.results.map((d) =>
+                        <MovieCard data={d} height={300} key={d.id} isLoading={isLoading}/>
+                      )
+                    }
+                  </SimpleGrid>
+                  <Button
+                    size="md"
+                    variant="light"
+                    onClick={increasePageCount}
+                    loading={isLoading} leftIcon={<BsChevronDown size={18}/>}
+                    ref={bottomRef}
+                  >
+                    Load more
+                  </Button>
+                </>
+                : <NoData/>
+              )
+            : <Center py="xl"><Loader size="xl" /></Center>
           }
         </Stack>
       </Container>
