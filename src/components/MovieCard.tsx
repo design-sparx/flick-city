@@ -68,7 +68,7 @@ interface MovieProps {
   data: MovieItem
   height: number
   isRanking?: boolean
-  isLoading?: boolean
+  isLoading: boolean
 }
 
 const MovieCard = ({
@@ -97,68 +97,68 @@ const MovieCard = ({
 
   return (
     <Skeleton visible={isLoading}>
-      <Card
-        p="lg"
-        shadow="lg"
-        className={classes.card}
-        radius="md"
-        component={Link}
-        to={`/title/${id}`}
-        style={{ height }}
-      >
-        <div
-          className={classes.image}
-          style={{
-            backgroundImage: `url(${pictureUrl})`,
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover'
-          }}
-        />
-        <div className={classes.overlay}/>
-        <div className={classes.content}>
-          {Boolean(isRanking) &&
-            <Box
-              component="span"
-              color={theme.white}
-              px="sm"
-              py={2}
-              sx={{
-                position: 'absolute',
-                top: 0,
-                background: 'white',
-                borderRadius: theme.radius.md,
-                fontWeight: 500,
-                boxShadow: theme.shadows.md
+          <Card
+            p="lg"
+            shadow="lg"
+            className={classes.card}
+            radius="md"
+            component={Link}
+            to={`/title/${id}`}
+            style={{ height }}
+          >
+            <div
+              className={classes.image}
+              style={{
+                backgroundImage: `url(${pictureUrl})`,
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover'
               }}
-            >
-              {position}
-            </Box>
-          }
-          <div>
-            <Text size="lg" className={classes.title} weight={500} lineClamp={2}>
-              {titleText.text}
-            </Text>
-
-            <Group position="apart" spacing="xs">
-              <Text size="sm" className={classes.author}>
-                {titleType.text}
-              </Text>
-
-              {Boolean(releaseYear) &&
-                <Group>
-                  <Center>
-                    <IconCalendar size={16} stroke={1.5} color={theme.white}/>
-                    <Text size="sm" className={classes.bodyText}>
-                      {Boolean(releaseYear) ? releaseYear.year : ''}
-                    </Text>
-                  </Center>
-                </Group>
+            />
+            <div className={classes.overlay}/>
+            <div className={classes.content}>
+              {Boolean(isRanking) &&
+                <Box
+                  component="span"
+                  color={theme.white}
+                  px="sm"
+                  py={2}
+                  sx={{
+                    position: 'absolute',
+                    top: 0,
+                    background: 'white',
+                    borderRadius: theme.radius.md,
+                    fontWeight: 500,
+                    boxShadow: theme.shadows.md
+                  }}
+                >
+                  {position}
+                </Box>
               }
-            </Group>
-          </div>
-        </div>
-      </Card>
+              <div>
+                <Text size="lg" className={classes.title} weight={500} lineClamp={2}>
+                  {titleText.text}
+                </Text>
+
+                <Group position="apart" spacing="xs">
+                  <Text size="sm" className={classes.author}>
+                    {titleType.text}
+                  </Text>
+
+                  {Boolean(releaseYear) &&
+                    <Group>
+                      <Center>
+                        <IconCalendar size={16} stroke={1.5} color={theme.white}/>
+                        <Text size="sm" className={classes.bodyText}>
+                          {Boolean(releaseYear) ? releaseYear.year : ''}
+                        </Text>
+                      </Center>
+                    </Group>
+                  }
+                </Group>
+              </div>
+            </div>
+          </Card>
     </Skeleton>
   );
 };

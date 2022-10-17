@@ -14,8 +14,14 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
 
     '&:hover': {
-      backgroundColor: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).background,
-      color: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color,
+      backgroundColor: theme.fn.variant({
+        variant: 'light',
+        color: theme.primaryColor
+      }).background,
+      color: theme.fn.variant({
+        variant: 'light',
+        color: theme.primaryColor
+      }).color,
       cursor: 'pointer'
     }
   }

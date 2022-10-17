@@ -8,6 +8,8 @@ import { BrowserRouter } from 'react-router-dom';
 import RouteTransition from './components/RouteTransition';
 import { ModalsProvider } from '@mantine/modals';
 import VideoModal from './components/VideoModal';
+import 'react-photo-view/dist/react-photo-view.css';
+import { PhotoProvider } from 'react-photo-view';
 
 const App = (): JSX.Element => {
   return (
@@ -15,9 +17,11 @@ const App = (): JSX.Element => {
       <QueryParamProvider adapter={ReactRouter6Adapter}>
         <MantineProvider withNormalizeCSS withGlobalStyles>
           <ModalsProvider modals={{ videoModal: VideoModal }}>
-            <RouteTransition>
-              <Router/>
-            </RouteTransition>
+            <PhotoProvider>
+              <RouteTransition>
+                <Router/>
+              </RouteTransition>
+            </PhotoProvider>
           </ModalsProvider>
         </MantineProvider>
       </QueryParamProvider>

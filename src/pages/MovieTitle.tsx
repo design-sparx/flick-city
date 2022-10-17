@@ -19,6 +19,7 @@ import {
 } from '../components/MovieTitle';
 import { Helmet } from 'react-helmet';
 import BackBtn from '../components/BackBtn';
+import { PhotoView } from 'react-photo-view';
 
 const useStyles = createStyles((theme: MantineTheme) => ({
   coverImage: {
@@ -122,13 +123,15 @@ const MovieTitle = (): JSX.Element => {
         <title>Flick city - Title - {`${baseInfoData?.titleText.text ?? ''}`}</title>
       </Helmet>
       <Skeleton visible={isLoading} radius={0}>
-        <Image
-          radius={0}
-          src={Boolean(baseInfoData?.primaryImage) ? baseInfoData?.primaryImage.url : 'https://img.freepik.com/free-vector/realistic-3d-cinema-film-strip-perspective-isolated_260559-136.jpg?w=900&t=st=1665596829~exp=1665597429~hmac=f4246a22f5b655d08befac083fa0d1d6055581e46c3a3728a36c83bc980b7c68'}
-          alt={Boolean(baseInfoData?.primaryImage) ? baseInfoData?.primaryImage.caption.plainText : 'empty image'}
-          height={450}
-          className={classes.coverImage}
-        />
+        <PhotoView src={Boolean(baseInfoData?.primaryImage) ? baseInfoData?.primaryImage.url : 'https://img.freepik.com/free-vector/realistic-3d-cinema-film-strip-perspective-isolated_260559-136.jpg?w=900&t=st=1665596829~exp=1665597429~hmac=f4246a22f5b655d08befac083fa0d1d6055581e46c3a3728a36c83bc980b7c68'}>
+          <Image
+            radius={0}
+            src={Boolean(baseInfoData?.primaryImage) ? baseInfoData?.primaryImage.url : 'https://img.freepik.com/free-vector/realistic-3d-cinema-film-strip-perspective-isolated_260559-136.jpg?w=900&t=st=1665596829~exp=1665597429~hmac=f4246a22f5b655d08befac083fa0d1d6055581e46c3a3728a36c83bc980b7c68'}
+            alt={Boolean(baseInfoData?.primaryImage) ? baseInfoData?.primaryImage.caption.plainText : 'empty image'}
+            height={450}
+            className={classes.coverImage}
+          />
+        </PhotoView>
       </Skeleton>
       <Container>
         <Stack>

@@ -149,7 +149,7 @@ const AppBar = ({ links }: AppBarProps): JSX.Element => {
             value={searchTerm}
           />
 
-          <Group spacing='sm' className={classes.links}>
+          <Group spacing='xs' className={classes.links}>
             {links.map(link =>
               <a
                 key={link.label}

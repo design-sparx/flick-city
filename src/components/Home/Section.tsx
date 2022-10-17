@@ -11,7 +11,7 @@ interface SectionProps {
   listType: string
   data?: Titles
   children?: React.ReactNode
-  isLoading?: boolean
+  isLoading: boolean
 }
 
 const PRIMARY_COL_HEIGHT = 600;
