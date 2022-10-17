@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
-import { Button, Container, SimpleGrid, Skeleton, Stack, Text } from '@mantine/core';
+import { useLocation, useParams, useSearchParams } from 'react-router-dom';
+import { Button, Container, Group, SimpleGrid, Skeleton, Stack, Text } from '@mantine/core';
 import Wrapper from './Wrapper';
 import { MovieCard } from '../components/Home';
 import { Titles } from '../constants/Titles';
@@ -8,6 +8,9 @@ import { Genres } from '../constants/Genres';
 import GenresList from '../components/GenresList';
 import { Helmet } from 'react-helmet';
 import BackBtn from '../components/BackBtn';
+import ClearFiltersBtn from '../components/ClearFiltersBtn';
+import { BsChevronDown } from 'react-icons/bs';
+import NoData from '../components/NoData';
 
 const Search = (): JSX.Element => {
   const { query } = useParams();
@@ -22,7 +25,9 @@ const Search = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [previousUrl, setPreviousUrl] = useState('');
+  const [isGenresLoading, setIsGenresLoading] = useState(false);
   const genre = searchParams.get('genre');
+  const location = useLocation();
 
   const headerOptions = {
     method: 'GET',
@@ -60,9 +65,13 @@ const Search = (): JSX.Element => {
    * fetch genres
    */
   const fetchGenres = (): void => {
+    setIsGenresLoading(true);
     fetch('https://moviesdatabase.p.rapidapi.com/titles/utils/genres', headerOptions)
       .then(async response => await response.json())
-      .then(response => setGenresData(response))
+      .then(response => {
+        setGenresData(response);
+        setIsGenresLoading(false);
+      })
       .catch(err => console.error(err));
   };
 
@@ -86,20 +95,39 @@ const Search = (): JSX.Element => {
       <Helmet>
         <title>Flick city - Search - {`${query ?? ''}`}</title>
       </Helmet>
-      <Container fluid py="lg">
-        <Stack>
-          <BackBtn />
+      <Container fluid py="xl">
+        <Stack spacing="xl">
+          <Group>
+            <BackBtn/>
+            {Boolean(location.search) &&
+              <ClearFiltersBtn/>
+            }
+          </Group>
           <Skeleton visible={isLoading}>
             {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
             <Text size="lg" weight={500}>Search results for: {`"${query}"`}</Text>
           </Skeleton>
-          <GenresList genres={genresData}/>
-          <SimpleGrid cols={5}>
-            {data?.results.map((d) =>
-              <MovieCard data={d} height={300} key={d.id} isLoading={isLoading}/>
-            )}
-          </SimpleGrid>
-          <Button size="md" variant="outline" onClick={increasePageCount} loading={isLoading}>Load more</Button>
+          <GenresList genres={genresData} isLoading={isGenresLoading}/>
+          {data.results.length > 0
+            ? <>
+              <SimpleGrid cols={5}>
+                {Boolean(data.results) &&
+                  data?.results.map((d) =>
+                    <MovieCard data={d} height={300} key={d.id} isLoading={isLoading}/>
+                  )
+                }
+              </SimpleGrid>
+              <Button
+                size="md"
+                variant="subtle"
+                onClick={increasePageCount}
+                loading={isLoading} leftIcon={<BsChevronDown size={18}/>}
+              >
+                Load more
+              </Button>
+            </>
+            : <NoData/>
+          }
         </Stack>
       </Container>
     </Wrapper>

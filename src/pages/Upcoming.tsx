@@ -2,11 +2,14 @@ import { Button, Container, Group, SimpleGrid, Skeleton, Stack, Title } from '@m
 import React, { useEffect, useState } from 'react';
 import Wrapper from './Wrapper';
 import { Titles } from '../constants/Titles';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { useQueryParams } from 'use-query-params';
 import { MovieCard } from '../components/Home';
 import { Helmet } from 'react-helmet';
 import BackBtn from '../components/BackBtn';
+import ClearFiltersBtn from '../components/ClearFiltersBtn';
+import { BsChevronDown } from 'react-icons/bs';
+import NoData from '../components/NoData';
 
 const titleTypes = [{
   label: 'TV Series',
@@ -34,6 +37,7 @@ const Upcoming = (): JSX.Element => {
   const [queryParams, setQueryParams] = useQueryParams();
   const [isLoading, setIsLoading] = useState(false);
   const titleType = searchParams.get('titleType');
+  const location = useLocation();
 
   const headerOptions = {
     method: 'GET',
@@ -94,9 +98,14 @@ const Upcoming = (): JSX.Element => {
       <Helmet>
         <title>Flick city - Upcoming</title>
       </Helmet>
-      <Container fluid py="lg">
-        <Stack>
+      <Container fluid py="xl">
+        <Stack spacing="xl">
+          <Group>
           <BackBtn />
+            {Boolean(location.search) &&
+              <ClearFiltersBtn />
+            }
+          </Group>
           <Skeleton visible={isLoading}>
             <Title>Upcoming </Title>
           </Skeleton>
@@ -123,14 +132,26 @@ const Upcoming = (): JSX.Element => {
               )}
             </Group>
           </Skeleton>
-          <SimpleGrid cols={5}>
-            {Boolean(data?.results) &&
-              data?.results.map((d) =>
-                <MovieCard data={d} height={300} key={d.id} isLoading={isLoading}/>
-              )
-            }
-          </SimpleGrid>
-          <Button size="md" variant="outline" onClick={increasePageCount} loading={isLoading}>Load more</Button>
+          {data.results.length > 0
+            ? <>
+              <SimpleGrid cols={5}>
+                {Boolean(data.results) &&
+                  data?.results.map((d) =>
+                    <MovieCard data={d} height={300} key={d.id} isLoading={isLoading}/>
+                  )
+                }
+              </SimpleGrid>
+              <Button
+                size="md"
+                variant="subtle"
+                onClick={increasePageCount}
+                loading={isLoading} leftIcon={<BsChevronDown size={18}/>}
+              >
+                Load more
+              </Button>
+            </>
+            : <NoData/>
+          }
         </Stack>
       </Container>
     </Wrapper>

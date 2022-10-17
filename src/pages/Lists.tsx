@@ -7,6 +7,8 @@ import { MovieCard } from '../components/Home';
 import { ListTypes } from '../constants/ListTypes';
 import { Helmet } from 'react-helmet';
 import BackBtn from '../components/BackBtn';
+import { BsChevronDown } from 'react-icons/bs';
+import NoData from '../components/NoData';
 
 const List = (): JSX.Element => {
   const { listType } = useParams();
@@ -104,10 +106,26 @@ const List = (): JSX.Element => {
           <Skeleton visible={isLoading} width={Boolean(isLoading) ? 300 : ''} height={Boolean(isLoading) ? 40 : ''}>
             <Title mb="xl">{listTitle}</Title>
           </Skeleton>
-          <SimpleGrid cols={5}>
-            {data?.results.map(d => <MovieCard key={d.id} data={d} height={300} isLoading={isLoading}/>)}
-          </SimpleGrid>
-          <Button size="md" variant="outline" onClick={increasePageCount} loading={isLoading}>Load more</Button>
+          {data.results.length > 0
+            ? <>
+              <SimpleGrid cols={5}>
+                {Boolean(data.results) &&
+                  data?.results.map((d) =>
+                    <MovieCard data={d} height={300} key={d.id} isLoading={isLoading}/>
+                  )
+                }
+              </SimpleGrid>
+              <Button
+                size="md"
+                variant="subtle"
+                onClick={increasePageCount}
+                loading={isLoading} leftIcon={<BsChevronDown size={18}/>}
+              >
+                Load more
+              </Button>
+            </>
+            : <NoData/>
+          }
         </Stack>
       </Container>
     </Wrapper>

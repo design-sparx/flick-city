@@ -133,8 +133,8 @@ const MovieTitle = (): JSX.Element => {
           />
         </PhotoView>
       </Skeleton>
-      <Container>
-        <Stack>
+      <Container py="xl">
+        <Stack spacing="xl">
           <BackBtn />
           <MovieHeader data={baseInfoData} isLoading={isLoading}/>
           <MovieSubHeader data={baseInfoData} isLoading={isLoading}/>

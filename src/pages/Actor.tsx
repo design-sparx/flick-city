@@ -99,7 +99,7 @@ const Actor = (): JSX.Element => {
           p="md"
           mt="xl"
         >
-          <Stack>
+          <Stack spacing="xl">
             <Skeleton visible={isLoading} className={classes.dFlex}>
               <Text size="xl" weight={600}>Actor information</Text>
             </Skeleton>

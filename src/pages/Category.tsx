@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 import Wrapper from './Wrapper';
 import { Titles } from '../constants/Titles';
-import { Button, Container, SimpleGrid, Skeleton, Stack } from '@mantine/core';
+import { Button, Container, Group, SimpleGrid, Stack } from '@mantine/core';
 import GenresList from '../components/GenresList';
 import { MovieCard } from '../components/Home';
 import { Genres } from '../constants/Genres';
 import { Helmet } from 'react-helmet';
 import BackBtn from '../components/BackBtn';
+import { BsChevronDown } from 'react-icons/bs';
+import ClearFiltersBtn from '../components/ClearFiltersBtn';
+import NoData from '../components/NoData';
 
 const Category = (): JSX.Element => {
   const [data, setData] = useState<Titles>({
@@ -25,6 +28,7 @@ const Category = (): JSX.Element => {
   const [searchParams] = useSearchParams();
   const list = searchParams.get('list');
   const genre = searchParams.get('genre');
+  const location = useLocation();
 
   const headerOptions = {
     method: 'GET',
@@ -103,27 +107,42 @@ const Category = (): JSX.Element => {
       <Helmet>
         <title>Flick city - Category - {`${title ?? ''}`}</title>
       </Helmet>
-      <Container fluid py="lg">
-        <Stack spacing="lg">
-          <BackBtn />
-          <Skeleton visible={isGenresLoading}>
-            <GenresList genres={genresData} handleReset={() => {
-              setData({
-                page: '',
-                entries: 0,
-                results: [],
-                next: ''
-              });
-            }}/>
-          </Skeleton>
-          <SimpleGrid cols={5}>
-            {Boolean(data?.results) &&
-              data?.results.map((d) =>
-                <MovieCard data={d} height={300} key={d.id} isLoading={isDataLoading}/>
-              )
+      <Container fluid py="xl">
+        <Stack spacing="xl">
+          <Group>
+            <BackBtn/>
+            {Boolean(location.search) &&
+              <ClearFiltersBtn/>
             }
-          </SimpleGrid>
-          <Button size="md" variant="outline" onClick={increasePageCount} loading={isDataLoading}>Load more</Button>
+          </Group>
+          <GenresList genres={genresData} isLoading={isGenresLoading} handleReset={() => {
+            setData({
+              page: '',
+              entries: 0,
+              results: [],
+              next: ''
+            });
+          }}/>
+          {data.results.length > 0
+            ? <>
+              <SimpleGrid cols={5}>
+                {Boolean(data.results) &&
+                  data?.results.map((d) =>
+                    <MovieCard data={d} height={300} key={d.id} isLoading={isDataLoading}/>
+                  )
+                }
+              </SimpleGrid>
+              <Button
+                size="md"
+                variant="subtle"
+                onClick={increasePageCount}
+                loading={isDataLoading} leftIcon={<BsChevronDown size={18}/>}
+              >
+                Load more
+              </Button>
+            </>
+            : <NoData/>
+          }
         </Stack>
       </Container>
     </Wrapper>
