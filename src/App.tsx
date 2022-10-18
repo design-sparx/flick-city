@@ -1,26 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core';
+import { QueryParamProvider } from 'use-query-params';
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
+import Router from './routes';
+import { BrowserRouter } from 'react-router-dom';
+import RouteTransition from './components/RouteTransition';
+import { ModalsProvider } from '@mantine/modals';
+import VideoModal from './components/VideoModal';
+import 'react-photo-view/dist/react-photo-view.css';
+import { PhotoProvider } from 'react-photo-view';
+import { useColorScheme } from '@mantine/hooks';
+import { NotificationsProvider } from '@mantine/notifications';
 
-function App() {
+const App = (): JSX.Element => {
+  const preferredColorScheme = useColorScheme();
+  const [colorScheme, setColorScheme] = useState<ColorScheme>(preferredColorScheme);
+  const toggleColorScheme = (value?: ColorScheme): void =>
+    setColorScheme(value ?? (colorScheme === 'dark' ? 'light' : 'dark'));
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <QueryParamProvider adapter={ReactRouter6Adapter}>
+        <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+          <MantineProvider
+            withNormalizeCSS
+            withGlobalStyles
+            theme={{
+              colorScheme,
+              primaryColor: 'dark'
+            }}
+          >
+            <ModalsProvider modals={{ videoModal: VideoModal }}>
+              <NotificationsProvider position="top-center">
+                <PhotoProvider>
+                  <RouteTransition>
+                    <Router/>
+                  </RouteTransition>
+                </PhotoProvider>
+              </NotificationsProvider>
+            </ModalsProvider>
+          </MantineProvider>
+        </ColorSchemeProvider>
+      </QueryParamProvider>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
