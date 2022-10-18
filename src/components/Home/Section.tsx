@@ -4,6 +4,8 @@ import { BsChevronRight } from 'react-icons/bs';
 import { Titles } from '../../constants/Titles';
 import { MovieCard } from './index';
 import { Link } from 'react-router-dom';
+import { Error500Page } from '../../pages';
+import { ErrorType } from '../../constants/Error';
 
 interface SectionProps {
   title: string
@@ -12,6 +14,7 @@ interface SectionProps {
   data?: Titles
   children?: React.ReactNode
   isLoading: boolean
+  error?: ErrorType
 }
 
 const PRIMARY_COL_HEIGHT = 600;
@@ -21,11 +24,13 @@ const Section = ({
   description,
   listType,
   title,
-  isLoading
+  isLoading,
+  error
 }: SectionProps): JSX.Element => {
   const theme = useMantineTheme();
   const SECONDARY_COL_HEIGHT = PRIMARY_COL_HEIGHT / 2 - theme.spacing.md / 2;
 
+  console.log(error);
   return (
     <Container fluid py="lg" m={0}>
       <Group position="apart" align="end" py="lg">
@@ -49,11 +54,14 @@ const Section = ({
           </Button>
         </Skeleton>
       </Group>
-      <SimpleGrid cols={5}>
-        {data?.results.map((d) =>
-          <MovieCard data={d} height={SECONDARY_COL_HEIGHT} key={d.id} isRanking isLoading={isLoading}/>
-        )}
-      </SimpleGrid>
+      {!Boolean(error?.error)
+        ? <SimpleGrid cols={5}>
+          {data?.results.map((d) =>
+            <MovieCard data={d} height={SECONDARY_COL_HEIGHT} key={d.id} isRanking isLoading={isLoading}/>
+          )}
+        </SimpleGrid>
+        : <Error500Page/>
+      }
     </Container>
   );
 };

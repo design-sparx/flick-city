@@ -39,8 +39,8 @@ const MovieTitle = (): JSX.Element => {
   const headerOptions = {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key': '4oMcDEyGMDmshx6PYmJkcJYSgoOhp198V0UjsnI7mPJqb4n5r8',
-      'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
+      'X-RapidAPI-Key': process.env.REACT_APP_API_KEY ?? '',
+      'X-RapidAPI-Host': process.env.REACT_APP_API_HOST ?? ''
     }
   };
 
@@ -50,7 +50,7 @@ const MovieTitle = (): JSX.Element => {
   const fetchMovieBaseInfo = (): void => {
     setIsLoading(true);
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    fetch(`https://moviesdatabase.p.rapidapi.com/titles/${id}?info=custom_info`, headerOptions)
+    fetch(`${process.env.REACT_APP_BASE_URL ?? ''}/titles/${id}?info=custom_info`, headerOptions)
       .then(async response => await response.json())
       .then(response => {
         setBaseInfoData(response.results);
@@ -65,7 +65,7 @@ const MovieTitle = (): JSX.Element => {
   const fetchMovieExtendedCast = (): void => {
     setIsLoading(true);
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    fetch(`https://moviesdatabase.p.rapidapi.com/titles/${id}?info=extendedCast`, headerOptions)
+    fetch(`${process.env.REACT_APP_BASE_URL ?? ''}/titles/${id}?info=extendedCast`, headerOptions)
       .then(async response => await response.json())
       .then(response => {
         setCastData(response.results);
@@ -80,7 +80,7 @@ const MovieTitle = (): JSX.Element => {
   const fetchMovieRevenue = (): void => {
     setIsLoading(false);
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    fetch(`https://moviesdatabase.p.rapidapi.com/titles/${id}?info=revenue_budget`, headerOptions)
+    fetch(`${process.env.REACT_APP_BASE_URL ?? ''}/titles/${id}?info=revenue_budget`, headerOptions)
       .then(async response => await response.json())
       .then(response => {
         setRevenueData(response.results);

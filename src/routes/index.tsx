@@ -3,7 +3,7 @@ import { useRoutes } from 'react-router-dom';
 import {
   ActorPage,
   CategoryPage,
-  Home404Page,
+  Error404Page,
   HomePage,
   ListPage,
   MovieTitlePage,
@@ -19,22 +19,22 @@ const Router = ({ children }: RouterProps): JSX.Element => {
   return useRoutes([
     {
       path: '/',
-      errorElement: <Home404Page/>,
+      errorElement: <Error404Page/>,
       children: [
         {
           path: '',
           element: <Suspense fallback={<>...</>}><HomePage/></Suspense>,
-          errorElement: <Home404Page/>
+          errorElement: <Error404Page/>
         },
         {
           path: '*',
-          element: <Suspense fallback={<>...</>}><Home404Page/></Suspense>
+          element: <Suspense fallback={<>...</>}><Error404Page/></Suspense>
         }
       ]
     },
     {
       path: 'titles',
-      errorElement: <Home404Page/>,
+      errorElement: <Error404Page/>,
       children: [
         {
           path: ':title',
@@ -44,39 +44,63 @@ const Router = ({ children }: RouterProps): JSX.Element => {
     },
     {
       path: 'lists',
-      errorElement: <Home404Page/>,
-      children: [{
-        path: ':listType',
-        element: <Suspense fallback={<>...</>}><ListPage/></Suspense>
-      }]
+      errorElement: <Error404Page/>,
+      children: [
+        {
+          path: ':listType',
+          element: <Suspense fallback={<>...</>}><ListPage/></Suspense>
+        },
+        {
+          path: '*',
+          element: <Suspense fallback={<>...</>}><Error404Page/></Suspense>
+        }
+      ]
     },
     {
       path: 'title',
-      errorElement: <Home404Page/>,
-      children: [{
-        path: ':id',
-        element: <Suspense fallback={<>...</>}><MovieTitlePage/></Suspense>
-      }]
+      errorElement: <Error404Page/>,
+      children: [
+        {
+          path: ':id',
+          element: <Suspense fallback={<>...</>}><MovieTitlePage/></Suspense>
+        },
+        {
+          path: '*',
+          element: <Suspense fallback={<>...</>}><Error404Page/></Suspense>
+        }
+      ]
     },
     {
       path: 'search',
-      errorElement: <Home404Page/>,
-      children: [{
-        path: ':query',
-        element: <Suspense fallback={<>...</>}><SearchPage/></Suspense>
-      }]
+      errorElement: <Error404Page/>,
+      children: [
+        {
+          path: ':query',
+          element: <Suspense fallback={<>...</>}><SearchPage/></Suspense>
+        },
+        {
+          path: '*',
+          element: <Suspense fallback={<>...</>}><Error404Page/></Suspense>
+        }
+      ]
     },
     {
       path: 'actor',
-      errorElement: <Home404Page/>,
-      children: [{
-        path: ':actorId',
-        element: <Suspense fallback={<>...</>}><ActorPage/></Suspense>
-      }]
+      errorElement: <Error404Page/>,
+      children: [
+        {
+          path: ':actorId',
+          element: <Suspense fallback={<>...</>}><ActorPage/></Suspense>
+        },
+        {
+          path: '*',
+          element: <Suspense fallback={<>...</>}><Error404Page/></Suspense>
+        }
+      ]
     },
     {
       path: 'upcoming',
-      errorElement: <Home404Page/>,
+      errorElement: <Error404Page/>,
       children: [
         {
           path: '',
@@ -85,6 +109,10 @@ const Router = ({ children }: RouterProps): JSX.Element => {
         {
           path: ':listType',
           element: <Suspense fallback={<>...</>}><UpcomingPage/></Suspense>
+        },
+        {
+          path: '*',
+          element: <Suspense fallback={<>...</>}><Error404Page/></Suspense>
         }
       ]
     }

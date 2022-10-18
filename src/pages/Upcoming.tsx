@@ -43,8 +43,8 @@ const Upcoming = (): JSX.Element => {
   const headerOptions = {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key': '4oMcDEyGMDmshx6PYmJkcJYSgoOhp198V0UjsnI7mPJqb4n5r8',
-      'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
+      'X-RapidAPI-Key': process.env.REACT_APP_API_KEY ?? '',
+      'X-RapidAPI-Host': process.env.REACT_APP_API_HOST ?? ''
     }
   };
 
@@ -60,7 +60,7 @@ const Upcoming = (): JSX.Element => {
     }
 
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    await fetch(`https://moviesdatabase.p.rapidapi.com/titles/x/upcoming?page=${pageNumber}&info=mini_info&sort=year.incr&limit=15${filters}`, headerOptions)
+    await fetch(`${process.env.REACT_APP_BASE_URL ?? ''}/titles/x/upcoming?page=${pageNumber}&info=mini_info&sort=year.incr&limit=15${filters}`, headerOptions)
       .then(async response => await response.json())
       .then((response: Titles) => {
         setData({

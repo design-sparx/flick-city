@@ -40,22 +40,22 @@ const AppFooter = (): JSX.Element => {
           <Text weight={500}>Flickcity</Text>
         </Group>
         <Group spacing='xs' className={classes.links} position="right" noWrap>
-          <ActionIcon size="lg" component='a' target="_blank" href="https://lnk.bio/kelvink96">
+          <ActionIcon size="lg" component='a' target="_blank" href="https://lnk.bio/kelvink96" color="primary" variant="light">
             <BsGlobe2 size={18} />
           </ActionIcon>
-          <ActionIcon size="lg" component='a' target="_blank" href="https://twitter.com/kelvink_96">
+          <ActionIcon size="lg" component='a' target="_blank" href="https://twitter.com/kelvink_96" color="primary" variant="light">
             <BsTwitter size={18} />
           </ActionIcon>
-          <ActionIcon size="lg" component='a' target="_blank" href="https://www.facebook.com/kelvinkk96">
+          <ActionIcon size="lg" component='a' target="_blank" href="https://www.facebook.com/kelvinkk96" color="primary" variant="light">
             <BsFacebook size={18} />
           </ActionIcon>
-          <ActionIcon size="lg" component='a' target="_blank" href="https://www.linkedin.com/in/kelvink96/">
+          <ActionIcon size="lg" component='a' target="_blank" href="https://www.linkedin.com/in/kelvink96/" color="primary" variant="light">
             <BsLinkedin size={18} />
           </ActionIcon>
-          <ActionIcon size="lg" component='a' target="_blank" href="https://www.instagram.com/kelvink_96/">
+          <ActionIcon size="lg" component='a' target="_blank" href="https://www.instagram.com/kelvink_96/" color="primary" variant="light">
             <BsInstagram size={18} />
           </ActionIcon>
-          <ActionIcon size="lg" component='a' target="_blank" href="https://github.com/kelvink96">
+          <ActionIcon size="lg" component='a' target="_blank" href="https://github.com/kelvink96" color="primary" variant="light">
             <BsGithub size={18} />
           </ActionIcon>
         </Group>

@@ -26,8 +26,8 @@ const List = (): JSX.Element => {
   const headerOptions = {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key': '4oMcDEyGMDmshx6PYmJkcJYSgoOhp198V0UjsnI7mPJqb4n5r8',
-      'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
+      'X-RapidAPI-Key': process.env.REACT_APP_API_KEY ?? '',
+      'X-RapidAPI-Host': process.env.REACT_APP_API_HOST ?? ''
     }
   };
 
@@ -38,7 +38,7 @@ const List = (): JSX.Element => {
   const fetchListData = (pageNumber: number): void => {
     setIsLoading(true);
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    fetch(`https://moviesdatabase.p.rapidapi.com/titles/?info=mini_info&list=${listType}&sort=pos.incr&limit=15&page=${pageNumber}`, headerOptions)
+    fetch(`${process.env.REACT_APP_BASE_URL ?? ''}/titles/?info=mini_info&list=${listType}&sort=pos.incr&limit=15&page=${pageNumber}`, headerOptions)
       .then(async response => await response.json())
       .then((response: Titles) => {
         setData({

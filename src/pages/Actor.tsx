@@ -34,8 +34,8 @@ const Actor = (): JSX.Element => {
   const headerOptions = {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key': '4oMcDEyGMDmshx6PYmJkcJYSgoOhp198V0UjsnI7mPJqb4n5r8',
-      'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
+      'X-RapidAPI-Key': process.env.REACT_APP_API_KEY ?? '',
+      'X-RapidAPI-Host': process.env.REACT_APP_API_HOST ?? ''
     }
   };
 
@@ -45,7 +45,7 @@ const Actor = (): JSX.Element => {
   const fetchActorData = (): void => {
     setIsLoading(true);
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    fetch(`https://moviesdatabase.p.rapidapi.com/actors/${actorId}`, headerOptions)
+    fetch(`${process.env.REACT_APP_BASE_URL ?? ''}/actors/${actorId}`, headerOptions)
       .then(async response => await response.json())
       .then(response => {
         setData(response);
@@ -64,7 +64,7 @@ const Actor = (): JSX.Element => {
     data?.results.knownForTitles.split(',').forEach((title: string, index: number) => {
       idsQuery += `idsList[${index}]=${title}&`;
     });
-    fetch(`https://moviesdatabase.p.rapidapi.com/titles/x/titles-by-ids?${idsQuery}`, headerOptions)
+    fetch(`${process.env.REACT_APP_BASE_URL ?? ''}/titles/x/titles-by-ids?${idsQuery}`, headerOptions)
       .then(async response => await response.json())
       .then(response => {
         setMoviesData(response);

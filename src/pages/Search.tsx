@@ -33,8 +33,8 @@ const Search = (): JSX.Element => {
   const headerOptions = {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key': '4oMcDEyGMDmshx6PYmJkcJYSgoOhp198V0UjsnI7mPJqb4n5r8',
-      'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
+      'X-RapidAPI-Key': process.env.REACT_APP_API_KEY ?? '',
+      'X-RapidAPI-Host': process.env.REACT_APP_API_HOST ?? ''
     }
   };
 
@@ -47,7 +47,7 @@ const Search = (): JSX.Element => {
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     Boolean(genre) && (filters += `&genre=${genre}`);
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    fetch(`https://moviesdatabase.p.rapidapi.com/titles/search/title/${query}/?info=mini_info&limit=15&page=${pageNumber}${filters}`, headerOptions)
+    fetch(`${process.env.REACT_APP_BASE_URL ?? ''}/titles/search/title/${query}/?info=mini_info&limit=15&page=${pageNumber}${filters}`, headerOptions)
       .then(async response => await response.json())
       .then(response => {
         setData({
@@ -67,7 +67,7 @@ const Search = (): JSX.Element => {
    */
   const fetchGenres = (): void => {
     setIsGenresLoading(true);
-    fetch('https://moviesdatabase.p.rapidapi.com/titles/utils/genres', headerOptions)
+    fetch(`${process.env.REACT_APP_BASE_URL ?? ''}/titles/utils/genres`, headerOptions)
       .then(async response => await response.json())
       .then(response => {
         setGenresData(response);

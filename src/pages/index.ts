@@ -7,4 +7,5 @@ export { default as ActorPage } from './Actor';
 export { default as UpcomingPage } from './Upcoming';
 
 // error pages
-export { default as Home404Page } from './Home404';
+export { default as Error404Page } from './Error404';
+export { default as Error500Page } from './Error404';

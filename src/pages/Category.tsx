@@ -34,8 +34,8 @@ const Category = (): JSX.Element => {
   const headerOptions = {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key': '4oMcDEyGMDmshx6PYmJkcJYSgoOhp198V0UjsnI7mPJqb4n5r8',
-      'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
+      'X-RapidAPI-Key': process.env.REACT_APP_API_KEY ?? '',
+      'X-RapidAPI-Host': process.env.REACT_APP_API_HOST ?? ''
     }
   };
   /**
@@ -54,7 +54,7 @@ const Category = (): JSX.Element => {
     }
 
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    await fetch(`https://moviesdatabase.p.rapidapi.com/titles/?titleType=${title}&info=mini_info&limit=15&page=${pageNumber}${filters}`, headerOptions)
+    await fetch(`${process.env.REACT_APP_BASE_URL ?? ''}/titles/?titleType=${title}&info=mini_info&limit=15&page=${pageNumber}${filters}`, headerOptions)
       .then(async response => await response.json())
       .then((response: Titles) => {
         setData({
@@ -75,7 +75,7 @@ const Category = (): JSX.Element => {
   const fetchGenres = (): void => {
     setIsGenresLoading(true);
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    fetch('https://moviesdatabase.p.rapidapi.com/titles/utils/genres', headerOptions)
+    fetch(`${process.env.REACT_APP_BASE_URL ?? ''}/titles/utils/genres`, headerOptions)
       .then(async response => await response.json())
       .then(response => {
         setGenresData(response);
