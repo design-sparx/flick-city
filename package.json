@@ -2,6 +2,7 @@
   "name": "flick-net",
   "description": "A website for movies, tv-shows, actors. Includes youtube trailer url, awards, full biography, and many other usefull informations.",
   "author": "Kelvin Kiptum Kiprop <kelvin.kiprop96@gmail.com>",
+  "homepage": "https://kelvink96ltd.github.io/flick-city",
   "main": "index.js",
   "license": "MIT",
   "version": "0.1.0",
@@ -76,6 +77,7 @@
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-react": "^7.31.8"
+    "eslint-plugin-react": "^7.31.8",
+    "gh-pages": "^4.0.0"
   }
 }
