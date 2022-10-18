@@ -117,7 +117,26 @@ const Search = (): JSX.Element => {
           {!isLoading
             ? (data.results.length > 0
                 ? <>
-                  <SimpleGrid cols={5}>
+                  <SimpleGrid
+                    cols={5}
+                    breakpoints={[
+                      {
+                        maxWidth: 'md',
+                        cols: 2,
+                        spacing: 'md'
+                      },
+                      {
+                        maxWidth: 'sm',
+                        cols: 2,
+                        spacing: 'sm'
+                      },
+                      {
+                        maxWidth: 'xs',
+                        cols: 1,
+                        spacing: 'sm'
+                      }
+                    ]}
+                  >
                     {Boolean(data.results) &&
                       data?.results.map((d) =>
                         <MovieCard data={d} height={300} key={d.id} isLoading={isLoading}/>

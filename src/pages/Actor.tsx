@@ -137,7 +137,26 @@ const Actor = (): JSX.Element => {
                   <Skeleton visible={isLoading}>
                     <Text>Appeared in: </Text>
                   </Skeleton>
-                  <SimpleGrid cols={4}>
+                  <SimpleGrid
+                    cols={4}
+                    breakpoints={[
+                      {
+                        maxWidth: 'md',
+                        cols: 2,
+                        spacing: 'md'
+                      },
+                      {
+                        maxWidth: 'sm',
+                        cols: 1,
+                        spacing: 'sm'
+                      },
+                      {
+                        maxWidth: 'xs',
+                        cols: 1,
+                        spacing: 'sm'
+                      }
+                    ]}
+                  >
                     {moviesData?.results.map(movie =>
                       <MovieCard key={movie.id} data={movie} height={250} isLoading={isLoading}/>
                     )}

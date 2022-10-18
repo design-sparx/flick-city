@@ -30,7 +30,6 @@ const Section = ({
   const theme = useMantineTheme();
   const SECONDARY_COL_HEIGHT = PRIMARY_COL_HEIGHT / 2 - theme.spacing.md / 2;
 
-  console.log(error);
   return (
     <Container fluid py="lg" m={0}>
       <Group position="apart" align="end" py="lg">
@@ -55,9 +54,28 @@ const Section = ({
         </Skeleton>
       </Group>
       {!Boolean(error?.error)
-        ? <SimpleGrid cols={5}>
+        ? <SimpleGrid
+          cols={5}
+          breakpoints={[
+            {
+              maxWidth: 'md',
+              cols: 2,
+              spacing: 'md'
+            },
+            {
+              maxWidth: 'sm',
+              cols: 2,
+              spacing: 'sm'
+            },
+            {
+              maxWidth: 'xs',
+              cols: 1,
+              spacing: 'sm'
+            }
+          ]}
+        >
           {data?.results.map((d) =>
-            <MovieCard data={d} height={SECONDARY_COL_HEIGHT} key={d.id} isRanking isLoading={isLoading}/>
+            <MovieCard data={d} height={SECONDARY_COL_HEIGHT} key={d.id} isRanking isLoading={isLoading} />
           )}
         </SimpleGrid>
         : <Error500Page/>

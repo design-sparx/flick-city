@@ -13,14 +13,33 @@ const CreatorsSection = ({ creatorsData, baseInfo, isLoading }: CreatorsSectionP
   return (
     <>
       <Card>
-        <SimpleGrid cols={2}>
+        <SimpleGrid
+          cols={2}
+          breakpoints={[
+            {
+              maxWidth: 'md',
+              cols: 2,
+              spacing: 'md'
+            },
+            {
+              maxWidth: 'sm',
+              cols: 2,
+              spacing: 'sm'
+            },
+            {
+              maxWidth: 'xs',
+              cols: 1,
+              spacing: 'sm'
+            }
+          ]}
+        >
           <Skeleton visible={isLoading}>
             <Paper sx={{ background: 'none' }}>
               <Title order={4} my="sm">Plot</Title>
               <Text>{baseInfo?.plot.plotText.plainText}</Text>
               <Group mt="md">
                 {baseInfo?.keywords.edges.map(keyword =>
-                  <Badge key={keyword.node.text}>{keyword.node.text}</Badge>)}
+                  <Badge key={keyword.node.text} variant="filled">{keyword.node.text}</Badge>)}
               </Group>
             </Paper>
           </Skeleton>

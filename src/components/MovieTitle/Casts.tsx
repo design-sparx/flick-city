@@ -19,7 +19,16 @@ const Casts = ({
       <Skeleton visible={isLoading} mb="md">
         <Title order={3} my="md">Cast</Title>
       </Skeleton>
-      <SimpleGrid cols={4}>
+      <SimpleGrid
+        cols={4}
+        breakpoints={[
+          {
+            maxWidth: 'md',
+            cols: 2,
+            spacing: 'md'
+          }
+        ]}
+      >
         {Boolean(credit?.principalCast) &&
           credit?.principalCast.map(cast =>
             cast.credits.map(credit => Boolean(credit.name.id) && <ActorCard key={credit.name.id} credit={credit} isLoading={isLoading}/>))

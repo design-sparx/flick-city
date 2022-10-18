@@ -22,7 +22,26 @@ const Seasons = ({
               To: {data?.episodes?.years[data?.episodes?.years.length - 1].year}</Text>
           </Group>
         </Skeleton>
-        <SimpleGrid cols={4}>
+        <SimpleGrid
+          cols={4}
+          breakpoints={[
+            {
+              maxWidth: 'md',
+              cols: 2,
+              spacing: 'md'
+            },
+            {
+              maxWidth: 'sm',
+              cols: 2,
+              spacing: 'sm'
+            },
+            {
+              maxWidth: 'xs',
+              cols: 1,
+              spacing: 'sm'
+            }
+          ]}
+        >
           {data?.episodes?.seasons.map((season, index) =>
             <Paper key={index}>
               <Skeleton visible={isLoading}>

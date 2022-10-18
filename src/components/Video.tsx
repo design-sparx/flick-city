@@ -13,12 +13,9 @@ const Video = ({
   isLoading,
   size
 }: VideoProps): JSX.Element => {
-  const height = size === 'sm' ? 315 : 430;
-  const width = size === 'sm' ? 472 : 672;
-
   return (
     <Skeleton visible={isLoading}>
-      <iframe width={width} height={height} src={url}/>
+      <iframe width='400' height='315' src={url}/>
     </Skeleton>
   );
 };

@@ -9,7 +9,7 @@ import {
   Container,
   useMantineTheme,
   ColorSwatch,
-  ActionIcon, Popover, Tooltip, useMantineColorScheme
+  ActionIcon, Popover, Tooltip, useMantineColorScheme, Drawer, Stack, Button, Divider
 } from '@mantine/core';
 import { upperFirst, useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { BsCheck2, BsMoonFill, BsSearch, BsSunFill } from 'react-icons/bs';
@@ -26,7 +26,13 @@ const useStyles = createStyles((theme) => ({
     paddingLeft: theme.spacing.xl,
     paddingRight: theme.spacing.xl,
     position: 'sticky',
-    boxShadow: theme.shadows.sm
+    boxShadow: theme.shadows.sm,
+
+    [theme.fn.smallerThan('md')]: {
+      paddingLeft: theme.spacing.xs,
+      paddingRight: theme.spacing.xs,
+      paddingTop: theme.spacing.sm
+    }
   },
 
   inner: {
@@ -44,8 +50,12 @@ const useStyles = createStyles((theme) => ({
 
   search: {
     width: 500,
-    [theme.fn.smallerThan('xs')]: {
-      display: 'none'
+
+    [theme.fn.smallerThan('md')]: {
+      width: 400
+    },
+    [theme.fn.smallerThan('sm')]: {
+      width: 200
     }
   },
 
@@ -94,6 +104,12 @@ const useStyles = createStyles((theme) => ({
 
   linkLabel: {
     marginRight: 5
+  },
+
+  burger: {
+    [theme.fn.largerThan('lg')]: {
+      display: 'none'
+    }
   }
 }));
 
@@ -108,10 +124,13 @@ const AppBar = ({
   value,
   onChange
 }: AppBarProps): JSX.Element => {
-  const [opened, { toggle }] = useDisclosure(false);
+  const [opened, {
+    toggle,
+    close
+  }] = useDisclosure(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [colorOpened, setColorOpened] = useState(false);
-  const isMobile = useMediaQuery('(max-width: 600px)');
+  const isMobile = useMediaQuery('(max-width: 800px)');
   const { classes } = useStyles();
   const { query } = useParams();
   const navigate = useNavigate();
@@ -156,7 +175,10 @@ const AppBar = ({
             description: { color: colorScheme === 'dark' ? theme.colors.gray[2] : theme.colors.gray[7] },
             closeButton: {
               color: colorScheme === 'dark' ? theme.colors.gray[2] : theme.colors.gray[7],
-              '&:hover': { backgroundColor: theme.colors.red[5], color: theme.white }
+              '&:hover': {
+                backgroundColor: theme.colors.red[5],
+                color: theme.white
+              }
             }
           })
         });
@@ -210,13 +232,19 @@ const AppBar = ({
   }, [query]);
 
   return (
-    <Header height="100%" className={classes.header}>
-      <Container fluid>
+    <Header height={isMobile ? 84 : '100%'} className={classes.header}>
+      <Container fluid px={0}>
         <div className={classes.inner}>
-          <Group align="center">
-            {isMobile && <Burger opened={opened} onClick={toggle} size="sm"/>}
-            <FcFilmReel size={32}/>
-            <Text size="xl" weight={500} component={Link} to="/">Flickcity</Text>
+          <Group
+            spacing={isMobile ? 'xs' : 'md'}
+            sx={{
+              width: isMobile ? '100%' : 'auto'
+            }}>
+            <Group align="center">
+              <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm"/>
+              <FcFilmReel size={32}/>
+              <Text size="xl" weight={500} component={Link} to="/">Flickcity</Text>
+            </Group>
             <Tooltip label="search">
               <TextInput
                 icon={<BsSearch size={14}/>}
@@ -235,7 +263,10 @@ const AppBar = ({
                 <a
                   key={link.label}
                   className={urlResolver(link.link) ? classes.active : classes.link}
-                  onClick={() => handleLinkOpen(link, Boolean(link.list))}
+                  onClick={() => {
+                    handleLinkOpen(link, Boolean(link.list));
+                    close();
+                  }}
                 >
                   {link.label}
                 </a>
@@ -269,7 +300,10 @@ const AppBar = ({
                       description: { color: colorScheme === 'dark' ? theme.colors.gray[2] : theme.colors.gray[7] },
                       closeButton: {
                         color: colorScheme === 'dark' ? theme.colors.gray[2] : theme.colors.gray[7],
-                        '&:hover': { backgroundColor: theme.colors.red[5], color: theme.white }
+                        '&:hover': {
+                          backgroundColor: theme.colors.red[5],
+                          color: theme.white
+                        }
                       }
                     })
                   });
@@ -312,6 +346,96 @@ const AppBar = ({
               </Popover.Dropdown>
             </Popover>
           </Group>
+          <Drawer
+            opened={opened}
+            onClose={close}
+            title="Menu"
+            padding="sm"
+            size="xl"
+          >
+            <Stack spacing="xs">
+              {links.map(link =>
+                <Tooltip key={link.label} label={link.label}>
+                  <Button
+                    component="a"
+                    variant="subtle"
+                    key={link.label}
+                    className={urlResolver(link.link) ? classes.active : ''}
+                    onClick={() => {
+                      handleLinkOpen(link, Boolean(link.list));
+                      close();
+                    }}
+                  >
+                    {link.label}
+                  </Button>
+                </Tooltip>
+              )}
+              <Tooltip label="Upcoming">
+                <Button
+                  component="a"
+                  variant="subtle"
+                  key="upcoming"
+                  href="/upcoming"
+                >
+                  Upcoming
+                </Button>
+              </Tooltip>
+              <Divider />
+              <Tooltip label="switch to light/dark mode">
+                <Button
+                  leftIcon={colorScheme === 'light' ? <BsMoonFill/> : <BsSunFill/>}
+                  onClick={() => {
+                    toggleColorScheme();
+                    showNotification({
+                      title: `${upperFirst(colorScheme === 'dark' ? 'light' : 'dark')} is on`,
+                      message: `You just switched to ${colorScheme === 'dark' ? 'light' : 'dark'} mode. Hope you like it`,
+                      styles: (theme) => ({
+                        root: {
+                          backgroundColor: colorScheme === 'dark' ? theme.colors.gray[7] : theme.colors.gray[2],
+                          borderColor: colorScheme === 'dark' ? theme.colors.gray[7] : theme.colors.gray[2],
+
+                          '&::before': { backgroundColor: colorScheme === 'dark' ? theme.colors.gray[2] : theme.colors.gray[7] }
+                        },
+
+                        title: { color: colorScheme === 'dark' ? theme.colors.gray[2] : theme.colors.gray[7] },
+                        description: { color: colorScheme === 'dark' ? theme.colors.gray[2] : theme.colors.gray[7] },
+                        closeButton: {
+                          color: colorScheme === 'dark' ? theme.colors.gray[2] : theme.colors.gray[7],
+                          '&:hover': {
+                            backgroundColor: theme.colors.red[5],
+                            color: theme.white
+                          }
+                        }
+                      })
+                    });
+                  }}
+                  variant="subtle"
+                >
+                  Switch to {colorScheme === 'light' ? 'dark' : 'light'} mode
+                </Button>
+              </Tooltip>
+              <Group position="center">
+                <Text>change color</Text>
+                <Tooltip label="switch color scheme">
+                  <ColorSwatch
+                    component="button"
+                    type="button"
+                    color={theme.colors[value][6]}
+                    onClick={() => setColorOpened((o) => !o)}
+                    size={34}
+                    radius="xs"
+                    style={{
+                      display: 'block',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <IoIosColorWand size={22} color="#fff"/>
+                  </ColorSwatch>
+                </Tooltip>
+                <Group spacing="xs">{swatches}</Group>
+              </Group>
+            </Stack>
+          </Drawer>
         </div>
       </Container>
     </Header>

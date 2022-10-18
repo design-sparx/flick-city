@@ -16,7 +16,26 @@ const Revenues = ({
     <>
       <Card>
         <Title order={3} mb="md">Revenue</Title>
-        <SimpleGrid cols={4}>
+        <SimpleGrid
+          cols={4}
+          breakpoints={[
+            {
+              maxWidth: 'md',
+              cols: 2,
+              spacing: 'md'
+            },
+            {
+              maxWidth: 'sm',
+              cols: 2,
+              spacing: 'sm'
+            },
+            {
+              maxWidth: 'xs',
+              cols: 1,
+              spacing: 'sm'
+            }
+          ]}
+        >
           <Skeleton visible={isLoading}>
             <Paper withBorder p="md">
               <Text mb="xs">Opening week</Text>

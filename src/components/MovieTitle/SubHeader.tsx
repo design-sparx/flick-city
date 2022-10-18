@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, Divider, Group, Grid, Skeleton, Text, Col } from '@mantine/core';
+import { Badge, Card, Divider, Group, Grid, Skeleton, Text, Col } from '@mantine/core';
 import { numberWithCommas, secondsToTime } from '../../utils';
 import { BaseInfo } from '../../constants/MovieTitle';
 
@@ -13,18 +13,18 @@ const SubHeader = ({ data, isLoading }: SubHeaderProps): JSX.Element => {
     <>
       <Card>
         <Grid style={{ alignItems: 'start' }}>
-          <Col span={4}>
-            {Boolean(data?.genres) &&
+          {Boolean(data?.genres) &&
+            <Col sm={12} lg={6}>
               <Skeleton visible={isLoading}>
                 <Group spacing="xs">
-                  {data?.genres.genres.map(g => <Button key={g.id} compact variant="light">{g.text}</Button>)}
+                  {data?.genres.genres.map(g => <Badge key={g.id} variant="filled">{g.text}</Badge>)}
                 </Group>
               </Skeleton>
-            }
-          </Col>
-          <Col span={8}>
+            </Col>
+          }
+          <Col sm={12} lg={6}>
             <Skeleton visible={isLoading}>
-              <Group position={Boolean(data?.genres) ? 'right' : 'left'}>
+              <Group>
                 <Text>Release year: {data?.releaseYear.year}</Text>
                 {Boolean(data?.runtime) && <Text>Runtime: {secondsToTime(data?.runtime.seconds)}</Text>}
                 {Boolean(data?.ratingsSummary.voteCount) &&
