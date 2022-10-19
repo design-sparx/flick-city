@@ -28,7 +28,6 @@ const Home = (): JSX.Element => {
   const [isBoxOfficeLoading, setIsBoxOfficeLoading] = useState(false);
   const [isTopEnglishLoading, setIsTopEnglishLoading] = useState(false);
   const [isLowRatedLoading, setIsLowRatedLoading] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [heroError, setHeroError] = useState<ErrorType>();
   const [popularMovieError, setPopularMovieError] = useState<ErrorType>();
   const [popularSeriesError, setPopularSeriesError] = useState<ErrorType>();

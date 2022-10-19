@@ -4,7 +4,6 @@ import {
   ActorPage,
   CategoryPage,
   Error404Page,
-  HomePage,
   ListPage,
   MovieTitlePage,
   SearchPage,
@@ -17,22 +16,6 @@ interface RouterProps {
 
 const Router = ({ children }: RouterProps): JSX.Element => {
   return useRoutes([
-    {
-      path: '/',
-      errorElement: <Error404Page/>,
-      children: [
-        {
-          path: '',
-          index: true,
-          element: <Suspense fallback={<>...</>}><HomePage/></Suspense>,
-          errorElement: <Error404Page/>
-        },
-        {
-          path: '*',
-          element: <Suspense fallback={<>...</>}><Error404Page/></Suspense>
-        }
-      ]
-    },
     {
       path: 'titles',
       errorElement: <Error404Page/>,
