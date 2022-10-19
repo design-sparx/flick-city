@@ -36,14 +36,7 @@ const App = (): JSX.Element => {
               <NotificationsProvider position="top-center">
                 <PhotoProvider>
                   <RouteTransition>
-                    <Router>
-                      <Route
-                        element={<HomePage />}
-                        path="/"
-                        index={true}
-                        errorElement={<Error500Page />}
-                      />
-                    </Router>
+                    <Router />
                   </RouteTransition>
                 </PhotoProvider>
               </NotificationsProvider>
