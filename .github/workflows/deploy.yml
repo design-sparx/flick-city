@@ -11,6 +11,7 @@ jobs:
   build-and-deploy:
     concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
     runs-on: ubuntu-latest
+    environment: github-pages
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v3
@@ -18,6 +19,11 @@ jobs:
           REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
           REACT_APP_API_HOST: ${{ secrets.REACT_APP_API_HOST }}
           REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
+
+      - name: Store variables 🔐
+        run: |
+          touch .env
+          REACT_APP_BASE_URL=${{ secrets.REACT_APP_BASE_URL }} >> .env
 
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
