@@ -4,7 +4,6 @@ import { BsChevronRight } from 'react-icons/bs';
 import { Titles } from '../../constants/Titles';
 import { MovieCard } from './index';
 import { Link } from 'react-router-dom';
-import { Error500Page } from '../../pages';
 import { ErrorType } from '../../constants/Error';
 
 interface SectionProps {
