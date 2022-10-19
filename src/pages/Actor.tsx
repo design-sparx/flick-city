@@ -78,13 +78,7 @@ const Actor = (): JSX.Element => {
   }, [actorId]);
 
   useEffect(() => {
-    const unsub = (): void => {
-      fetchActorMovies();
-    };
-
-    return () => {
-      unsub();
-    };
+    fetchActorMovies();
   }, [data]);
 
   return (

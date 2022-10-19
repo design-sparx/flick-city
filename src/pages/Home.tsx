@@ -207,20 +207,14 @@ const Home = (): JSX.Element => {
   };
 
   useEffect(() => {
-    const unsub = (): void => {
-      void fetchHeroTitles();
-      void fetchPopularMovies();
-      void fetchLowRatedMovies();
-      void fetchPopularSeries();
-      void fetchTopRatedSeries();
-      void fetchTopRatedMovies();
-      void fetchTopBoxOfficeMovies();
-      void fetchTopRatedMoviesEnglish();
-    };
-
-    return () => {
-      unsub();
-    };
+    void fetchHeroTitles();
+    void fetchPopularMovies();
+    void fetchLowRatedMovies();
+    void fetchPopularSeries();
+    void fetchTopRatedSeries();
+    void fetchTopRatedMovies();
+    void fetchTopBoxOfficeMovies();
+    void fetchTopRatedMoviesEnglish();
   }, []);
 
   return (
@@ -249,7 +243,8 @@ const Home = (): JSX.Element => {
           }
         }}
       >
-        {heroData?.results.map(data => <Slide key={data.id}><HeroCard data={data} isLoading={isHeroLoading} error={heroError}/></Slide>)}
+        {heroData?.results.map(data => <Slide key={data.id}><HeroCard data={data} isLoading={isHeroLoading}
+                                                                      error={heroError}/></Slide>)}
       </Carousel>
       <Container fluid px="xl">
         <Stack>
@@ -267,11 +262,13 @@ const Home = (): JSX.Element => {
           }
           {Boolean(topEnglishMovies) &&
             <Section title="top english movies" description="English movies with highest user rating"
-                     listType="top_rated_english_250" data={topEnglishMovies} isLoading={isTopEnglishLoading} error={topEnglishError}/>
+                     listType="top_rated_english_250" data={topEnglishMovies} isLoading={isTopEnglishLoading}
+                     error={topEnglishError}/>
           }
           {Boolean(lowRatedMovies) &&
             <Section title="low rated movies" description="Movies with lowest user rating"
-                     listType="top_rated_lowest_100" data={lowRatedMovies} isLoading={isLowRatedLoading} error={lowRatedError}/>
+                     listType="top_rated_lowest_100" data={lowRatedMovies} isLoading={isLowRatedLoading}
+                     error={lowRatedError}/>
           }
           {Boolean(popularSeries) &&
             <Section title="popular series" description="Most popular tv series" listType="most_pop_series"
