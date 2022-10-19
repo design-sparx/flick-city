@@ -249,7 +249,7 @@ const Home = (): JSX.Element => {
           }
         }}
       >
-        {heroData?.results.map(data => <Slide key={data.id}><HeroCard data={data} isLoading={isHeroLoading} error={heroError}/></Slide>)}
+        {heroData?.results.map(data => <Slide key={data.id}><HeroCard data={data} isLoading={isHeroLoading}/></Slide>)}
       </Carousel>
       <Container fluid px="xl">
         <Stack>
