@@ -4,7 +4,7 @@ import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import Router from './routes';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import RouteTransition from './components/RouteTransition';
 import { ModalsProvider } from '@mantine/modals';
 import VideoModal from './components/VideoModal';
@@ -20,7 +20,7 @@ const App = (): JSX.Element => {
     setColorScheme(value ?? (colorScheme === 'dark' ? 'light' : 'dark'));
 
   return (
-    <HashRouter>
+    <BrowserRouter>
       <QueryParamProvider adapter={ReactRouter6Adapter}>
         <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
           <MantineProvider
@@ -43,7 +43,7 @@ const App = (): JSX.Element => {
           </MantineProvider>
         </ColorSchemeProvider>
       </QueryParamProvider>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 
