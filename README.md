@@ -1,5 +1,7 @@
 # Flick city entertainment application
 
+![Github pages](https://github.com/kelvink96ltd/flick-city/actions/workflows/deploy.yml/badge.svg)
+
 [Online Demo](https://kelvink96ltd.github.io/flick-city/ "Online Demo")
 
 ### About:
