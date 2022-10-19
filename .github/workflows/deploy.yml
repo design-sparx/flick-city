@@ -16,9 +16,9 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v3
         env:
-          REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
-          REACT_APP_API_HOST: ${{ secrets.REACT_APP_API_HOST }}
-          REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
+          REACT_APP_BASE_URL=${{ secrets.REACT_APP_BASE_URL }}
+          REACT_APP_API_HOST=${{ secrets.REACT_APP_API_HOST }}
+          REACT_APP_API_KEY=${{ secrets.REACT_APP_API_KEY }}
 
       - name: Store variables 🔐
         run: |
