@@ -53,33 +53,30 @@ const Section = ({
           </Button>
         </Skeleton>
       </Group>
-      {!Boolean(error?.error)
-        ? <SimpleGrid
-          cols={5}
-          breakpoints={[
-            {
-              maxWidth: 'md',
-              cols: 2,
-              spacing: 'md'
-            },
-            {
-              maxWidth: 'sm',
-              cols: 2,
-              spacing: 'sm'
-            },
-            {
-              maxWidth: 'xs',
-              cols: 1,
-              spacing: 'sm'
-            }
-          ]}
-        >
-          {data?.results.map((d) =>
-            <MovieCard data={d} height={SECONDARY_COL_HEIGHT} key={d.id} isRanking isLoading={isLoading} />
-          )}
-        </SimpleGrid>
-        : <Error500Page/>
-      }
+      <SimpleGrid
+        cols={5}
+        breakpoints={[
+          {
+            maxWidth: 'md',
+            cols: 2,
+            spacing: 'md'
+          },
+          {
+            maxWidth: 'sm',
+            cols: 2,
+            spacing: 'sm'
+          },
+          {
+            maxWidth: 'xs',
+            cols: 1,
+            spacing: 'sm'
+          }
+        ]}
+      >
+        {data?.results.map((d) =>
+          <MovieCard data={d} height={SECONDARY_COL_HEIGHT} key={d.id} isRanking isLoading={isLoading}/>
+        )}
+      </SimpleGrid>
     </Container>
   );
 };
