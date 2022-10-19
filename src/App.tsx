@@ -4,7 +4,7 @@ import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import Router from './routes';
-import { HashRouter, Route } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import RouteTransition from './components/RouteTransition';
 import { ModalsProvider } from '@mantine/modals';
 import VideoModal from './components/VideoModal';
@@ -12,7 +12,6 @@ import 'react-photo-view/dist/react-photo-view.css';
 import { PhotoProvider } from 'react-photo-view';
 import { useColorScheme } from '@mantine/hooks';
 import { NotificationsProvider } from '@mantine/notifications';
-import { Error500Page, HomePage } from './pages';
 
 const App = (): JSX.Element => {
   const preferredColorScheme = useColorScheme();
