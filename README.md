@@ -61,3 +61,13 @@ Clone the repo to your machine
    `yarn run start OR npm run start`
 
 Your app should be running on: http://localhost:3000
+
+### Versions
+v1.0
+- Default project implementation
+
+### Authors
+1. Kelvin Kiptum Kiprop - https://github.com/kelvink96
+
+### License
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/kelvink96ltd/flick-city/blob/master/LICENSE.md) file for details
