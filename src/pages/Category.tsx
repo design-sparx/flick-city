@@ -92,11 +92,7 @@ const Category = (): JSX.Element => {
   };
 
   useEffect(() => {
-    const unsub = (): void => fetchGenres();
-
-    return () => {
-      unsub();
-    };
+    fetchGenres();
   }, []);
 
   useEffect(() => {

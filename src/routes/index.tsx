@@ -20,6 +20,7 @@ const Router = ({ children }: RouterProps): JSX.Element => {
     {
       path: '/',
       errorElement: <Error404Page/>,
+      element: <Suspense fallback={<>...</>}><HomePage/></Suspense>,
       children: [
         {
           path: '',
