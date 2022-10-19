@@ -1,35 +1,62 @@
-# Flick city 
+# Flick city entertainment application
 
-## Full Stack Nano - IAM Final Project
+[Online Demo](https://kelvink96ltd.github.io/flick-city/ "Online Demo")
 
-Udacity has decided to open a new digitally enabled cafe for students to order drinks, socialize, and study hard. But they need help setting up their menu experience.
+### About:
+This is a web application built using React (Create React App), template - Typescript.
 
-You have been called on to demonstrate your newly learned skills to create a full stack drink menu application. The application must:
+#### Available Pages
+1. Home - landing page
+2. Categoies - lists all items based on categories, i.e. movies, upcoming, podcast, tv series & video games
+3. List - lists all items based on the sections selected on home page
+4. Search
+4. Movie title - displays a selected movie information
+5. Actor - displays an actor's basic information
 
-1. Display graphics representing the ratios of ingredients in each drink.
-2. Allow public users to view drink names and graphics.
-3. Allow the shop baristas to see the recipe information.
-4. Allow the shop managers to create new drinks and edit existing drinks.
+#### APIs
+The data on the application is from the following endpoint - https://rapidapi.com/SAdrian/api/moviesdatabase
 
-## Tasks
+### Tech Stack:
+- embla-carousel-react v7.0.3 - https://www.embla-carousel.com/get-started/
+- mantine v5.5.0 - https://mantine.dev/pages/getting-started/
+- react v18.2.0 - https://reactjs.org/docs/getting-started.html
+- react-router-dom v6.4.1 - https://reactrouter.com/en/main
+- react-icons v4.4.0 - https://react-icons.github.io/react-icons/
+- react-photo-view v1.2.2 - https://react-photo-view.vercel.app/
+- use-query-params v2.1.1 - https://github.com/pbeshai/use-query-params#readme
+- react-helmet v6.1.0 - https://github.com/nfl/react-helmet#readme
 
-There are `@TODO` comments throughout the project. We recommend tackling the sections in order. Start by reading the READMEs in:
+**Dev dependencies**
+- eslint v8.0.1 - https://eslint.org/docs/latest/user-guide/getting-started
 
-1. [`./backend/`](./backend/README.md)
-2. [`./frontend/`](./frontend/README.md)
+### Screenshot
 
-## About the Stack
+### Software
+Before proceeding, please ensure you have the following software installed on your computer.
+- Node
+- Yarn (optional but recommended)
+- Git command line tools
 
-We started the full stack application for you. It is designed with some key functional areas:
+### Useful links
+- Download Git cli -
+    - Windows: https://git-scm.com/download/windows
+    - Mac: https://git-scm.com/download/mac
+- Download Node - https://nodejs.org/en/
+- Download Yarn cli - https://yarnpkg.com/lang/en/docs/install/
+- Download VSCode - https://code.visualstudio.com/
 
-### Backend
+### Getting started
+Please fork a copy of this repository. Forking a repository allows you to freely experiment with changes without affecting the original project. Alternatively download or clone the master branch.
 
-The `./backend` directory contains a partially completed Flask server with a pre-written SQLAlchemy module to simplify your data needs. You will need to complete the required endpoints, configure, and integrate Auth0 for authentication.
+##### Download & Install Dependencies on your machine
+Clone the repo to your machine
+`git clone <CloneURL>`
 
-[View the README.md within ./backend for more details.](./backend/README.md)
+##### Launch the frontend
+1. Open a new terminal window and navigate in your root folder
+   `cd <../root>`
+   `yarn install OR npm install`
+2. Run the start script
+   `yarn run start OR npm run start`
 
-### Frontend
-
-The `./frontend` directory contains a complete Ionic frontend to consume the data from the Flask server. You will only need to update the environment variables found within (./frontend/src/environment/environment.ts) to reflect the Auth0 configuration details set up for the backend app.
-
-[View the README.md within ./frontend for more details.](./frontend/README.md)
+Your app should be running on: http://localhost:3000

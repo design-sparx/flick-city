@@ -20,7 +20,7 @@ const App = (): JSX.Element => {
     setColorScheme(value ?? (colorScheme === 'dark' ? 'light' : 'dark'));
 
   return (
-    <HashRouter>
+    <HashRouter basename='/'>
       <QueryParamProvider adapter={ReactRouter6Adapter}>
         <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
           <MantineProvider

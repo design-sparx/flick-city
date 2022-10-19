@@ -1,5 +1,4 @@
 import React from 'react';
-import 'video-react/dist/video-react.css';
 import { MantineSize, Skeleton } from '@mantine/core';
 
 interface VideoProps {
