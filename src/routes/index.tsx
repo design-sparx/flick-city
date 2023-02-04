@@ -4,6 +4,7 @@ import {
   ActorPage,
   CategoryPage,
   Error404Page,
+  Error500Page,
   HomePage,
   ListPage,
   MovieTitlePage,
@@ -115,6 +116,11 @@ const Router = ({ children }: RouterProps): JSX.Element => {
           element: <Suspense fallback={<>...</>}><Error404Page/></Suspense>
         }
       ]
+    },
+    {
+      path: '500',
+      errorElement: <Error404Page/>,
+      element: <Error500Page/>
     }
   ]) as JSX.Element;
 };

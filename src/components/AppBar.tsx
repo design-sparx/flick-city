@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import {
-  createStyles,
-  Header,
-  Group,
+  ActionIcon,
   Burger,
-  TextInput,
-  Text,
-  Container,
-  useMantineTheme,
+  Button,
   ColorSwatch,
-  ActionIcon, Popover, Tooltip, useMantineColorScheme, Drawer, Stack, Button, Divider
+  Container,
+  createStyles,
+  Divider,
+  Drawer,
+  Group,
+  Header,
+  Popover,
+  Stack,
+  Text,
+  TextInput,
+  Tooltip,
+  useMantineColorScheme,
+  useMantineTheme
 } from '@mantine/core';
 import { upperFirst, useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { BsCheck2, BsMoonFill, BsSearch, BsSunFill } from 'react-icons/bs';
+import { BsCheck2, BsGithub, BsMoonFill, BsSearch, BsSunFill } from 'react-icons/bs';
 import { FcFilmReel } from 'react-icons/fc';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useNavigateSearch } from '../hooks';
@@ -345,6 +352,12 @@ const AppBar = ({
                 <Group spacing="xs">{swatches}</Group>
               </Popover.Dropdown>
             </Popover>
+            <Button
+              variant="outline"
+              leftIcon={<BsGithub size={14}/>}
+              component="a"
+              href="https://github.com/kelvins-lab/flick-city"
+              target="_blank">Github</Button>
           </Group>
           <Drawer
             opened={opened}
@@ -380,7 +393,7 @@ const AppBar = ({
                   Upcoming
                 </Button>
               </Tooltip>
-              <Divider />
+              <Divider/>
               <Tooltip label="switch to light/dark mode">
                 <Button
                   leftIcon={colorScheme === 'light' ? <BsMoonFill/> : <BsSunFill/>}
@@ -434,6 +447,12 @@ const AppBar = ({
                 </Tooltip>
                 <Group spacing="xs">{swatches}</Group>
               </Group>
+              <Button
+                variant="outline"
+                leftIcon={<BsGithub size={14}/>}
+                component="a"
+                href="https://github.com/kelvins-lab/flick-city"
+                target="_blank">Github</Button>
             </Stack>
           </Drawer>
         </div>

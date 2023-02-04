@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Wrapper from './Wrapper';
-import { BoxOfficeTitles, Titles } from '../constants/Titles';
 import { Carousel } from '@mantine/carousel';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import Autoplay from 'embla-carousel-autoplay';
 import { Container, Stack } from '@mantine/core';
-import { HeroCard, Section } from '../components/Home';
 import { Helmet } from 'react-helmet';
+import { useNavigate } from 'react-router-dom';
+import Wrapper from './Wrapper';
 import { ErrorType } from '../constants/Error';
+import { HeroCard, Section } from '../components/Home';
+import { BoxOfficeTitles, Titles } from '../constants/Titles';
 
 const { Slide } = Carousel;
 
@@ -37,6 +38,7 @@ const Home = (): JSX.Element => {
   const [topEnglishError, setTopEnglishError] = useState<ErrorType>();
   const [lowRatedError, setLowRatedError] = useState<ErrorType>();
   const autoplay = useRef(Autoplay({ delay: 30000 }));
+  const navigate = useNavigate();
 
   const headerOptions = {
     method: 'GET',
@@ -51,19 +53,29 @@ const Home = (): JSX.Element => {
    */
   const fetchHeroTitles = (): void => {
     setIsHeroLoading(true);
-    fetch(`${process.env.REACT_APP_BASE_URL ?? ''}/titles/?info=custom_info&list=top_boxoffice_last_weekend_10`, headerOptions)
-      .then(async response => await response.json())
-      .then(response => {
-        setHeroData(response);
-        setIsHeroLoading(false);
-      })
-      .catch(err => {
-        setHeroError({
-          error: true,
-          message: err
+    try {
+      fetch(`${process.env.REACT_APP_BASE_URL ?? ''}/titles/?info=custom_info&list=top_boxoffice_last_weekend_10`, headerOptions)
+        .then(async response => await response.json())
+        .then(response => {
+          setHeroData(response);
+          setIsHeroLoading(false);
+        })
+        .catch(err => {
+          setHeroError({
+            error: true,
+            message: err
+          });
+          console.error(err);
+          navigate('/500', { state: err });
         });
-        console.error(err);
+    } catch (e) {
+      setHeroError({
+        error: true,
+        message: e
       });
+      console.error(e);
+      navigate('/500', { state: e });
+    }
   };
 
   /**
@@ -83,6 +95,7 @@ const Home = (): JSX.Element => {
           error: true,
           message: err
         });
+        navigate('/500', { state: err });
       });
   };
 
@@ -103,6 +116,7 @@ const Home = (): JSX.Element => {
           error: true,
           message: err
         });
+        navigate('/500', { state: err });
       });
   };
 
@@ -123,6 +137,7 @@ const Home = (): JSX.Element => {
           error: true,
           message: err
         });
+        navigate('/500', { state: err });
       });
   };
 
@@ -143,6 +158,7 @@ const Home = (): JSX.Element => {
           error: true,
           message: err
         });
+        navigate('/500', { state: err });
       });
   };
 
@@ -163,6 +179,7 @@ const Home = (): JSX.Element => {
           error: true,
           message: err
         });
+        navigate('/500', { state: err });
       });
   };
 
@@ -183,6 +200,7 @@ const Home = (): JSX.Element => {
           error: true,
           message: err
         });
+        navigate('/500', { state: err });
       });
   };
 
@@ -203,6 +221,7 @@ const Home = (): JSX.Element => {
           error: true,
           message: err
         });
+        navigate('/500', { state: err });
       });
   };
 
@@ -222,30 +241,32 @@ const Home = (): JSX.Element => {
       <Helmet>
         <title>Flick city - Home</title>
       </Helmet>
-      <Carousel
-        mx="auto"
-        withIndicators
-        controlSize={48}
-        nextControlIcon={<BsChevronRight size={20}/>}
-        previousControlIcon={<BsChevronLeft size={20}/>}
-        plugins={[autoplay.current]}
-        onMouseEnter={autoplay.current.stop}
-        onMouseLeave={autoplay.current.reset}
-        styles={{
-          indicator: {
-            width: 12,
-            height: 4,
-            transition: 'width 250ms ease',
+      {Boolean(heroData?.results.length)
+        ? <Carousel
+          mx="auto"
+          withIndicators
+          controlSize={48}
+          nextControlIcon={<BsChevronRight size={20}/>}
+          previousControlIcon={<BsChevronLeft size={20}/>}
+          plugins={[autoplay.current]}
+          onMouseEnter={autoplay.current.stop}
+          onMouseLeave={autoplay.current.reset}
+          styles={{
+            indicator: {
+              width: 12,
+              height: 4,
+              transition: 'width 250ms ease',
 
-            '&[data-active]': {
-              width: 40
+              '&[data-active]': {
+                width: 40
+              }
             }
-          }
-        }}
-      >
-        {heroData?.results.map(data => <Slide key={data.id}><HeroCard data={data} isLoading={isHeroLoading}
-                                                                      error={heroError}/></Slide>)}
-      </Carousel>
+          }}
+        >
+          {heroData?.results.map(data => <Slide key={data.id}>
+            <HeroCard data={data} isLoading={isHeroLoading} error={heroError}/></Slide>)}
+        </Carousel>
+        : <p>empty</p>}
       <Container fluid px="xl">
         <Stack>
           {Boolean(popularMovies) &&
