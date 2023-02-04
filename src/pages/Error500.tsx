@@ -1,11 +1,15 @@
 import React from 'react';
-import { createStyles, Title, Text, Button, Container, Group } from '@mantine/core';
+import { Button, Container, createStyles, Group, Text, Title } from '@mantine/core';
+import { useLocation } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
   root: {
     paddingTop: 80,
     paddingBottom: 120,
-    backgroundColor: theme.fn.variant({ variant: 'filled', color: theme.primaryColor }).background
+    backgroundColor: theme.fn.variant({
+      variant: 'filled',
+      color: theme.primaryColor
+    }).background
   },
 
   label: {
@@ -43,6 +47,7 @@ const useStyles = createStyles((theme) => ({
 
 const ServerError = (): JSX.Element => {
   const { classes } = useStyles();
+  const { state } = useLocation();
 
   return (
     <div className={classes.root}>
@@ -53,6 +58,8 @@ const ServerError = (): JSX.Element => {
           Our servers could not handle your request. Don&apos;t worry, our development team was
           already notified. Try refreshing the page.
         </Text>
+        <Text>{state?.error}</Text>
+        <Text>{state?.message}</Text>
         <Group position="center">
           <Button variant="white" size="md">
             Refresh the page

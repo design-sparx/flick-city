@@ -1,9 +1,20 @@
 import {
+  Avatar,
+  Badge,
+  Box,
+  Button,
+  Container,
+  createStyles,
+  Divider,
+  Group,
+  LoadingOverlay,
+  MantineTheme,
+  SimpleGrid,
+  Stack,
   Text,
   Title,
-  createStyles,
-  MantineTheme,
-  Container, Stack, Group, SimpleGrid, Avatar, UnstyledButton, Badge, Button, Divider, LoadingOverlay, Box, Tooltip
+  Tooltip,
+  UnstyledButton
 } from '@mantine/core';
 import React from 'react';
 import { BoxOfficeTitle as MovieItem } from '../../constants/Titles';
@@ -150,7 +161,7 @@ const HeroCard = ({
         ? <div
           className={classes.root}
           style={{
-            backgroundImage: `linear-gradient(250deg, rgba(64, 64, 64, 0) 0%, #1d1d1d 70%), url(${primaryImage.url})`
+            backgroundImage: `linear-gradient(250deg, rgba(64, 64, 64, 0) 0%, #1d1d1d 70%), url(${primaryImage?.url})`
           }}
         >
           <LoadingOverlay visible={isLoading} overlayBlur={2}/>
@@ -181,7 +192,8 @@ const HeroCard = ({
                         {plot.plotText.plainText}
                       </Text>
                       <Group spacing="sm">
-                        {keywords?.edges.map((k) => <Badge key={`keyword-${k.node.text}`} variant="filled">{k.node.text}</Badge>)}
+                        {keywords?.edges.map((k) => <Badge key={`keyword-${k.node.text}`}
+                                                           variant="filled">{k.node.text}</Badge>)}
                       </Group>
                       <SimpleGrid cols={2} spacing={0}>
                         {principalCast[0].credits.map(p =>
