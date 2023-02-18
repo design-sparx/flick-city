@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/flick-city/static/css/main.e24c1c51.css",
-    "main.js": "/flick-city/static/js/main.9ca70175.js",
+    "main.js": "/flick-city/static/js/main.a2a49f9c.js",
     "static/js/787.cb13a34a.chunk.js": "/flick-city/static/js/787.cb13a34a.chunk.js",
     "index.html": "/flick-city/index.html",
     "main.e24c1c51.css.map": "/flick-city/static/css/main.e24c1c51.css.map",
-    "main.9ca70175.js.map": "/flick-city/static/js/main.9ca70175.js.map",
+    "main.a2a49f9c.js.map": "/flick-city/static/js/main.a2a49f9c.js.map",
     "787.cb13a34a.chunk.js.map": "/flick-city/static/js/787.cb13a34a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e24c1c51.css",
-    "static/js/main.9ca70175.js"
+    "static/js/main.a2a49f9c.js"
   ]
 }
