@@ -189,14 +189,14 @@ const HeroCard = ({
                         {genres?.genres.map((g) => <Badge key={`genre-${g.text}`} variant="filled">{g.text}</Badge>)}
                       </Group>
                       <Text>
-                        {plot.plotText.plainText}
+                        {plot?.plotText?.plainText}
                       </Text>
                       <Group spacing="sm">
-                        {keywords?.edges.map((k) => <Badge key={`keyword-${k.node.text}`}
-                                                           variant="filled">{k.node.text}</Badge>)}
+                        {keywords?.edges.map((k) =>
+                          <Badge key={`keyword-${k.node.text}`} variant="filled">{k.node.text}</Badge>)}
                       </Group>
                       <SimpleGrid cols={2} spacing={0}>
-                        {principalCast[0].credits.map(p =>
+                        {Boolean(principalCast) && principalCast[0].credits.map(p =>
                           <UnstyledButton
                             key={p.name.id}
                             className={classes.user}
