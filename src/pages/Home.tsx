@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Carousel } from '@mantine/carousel';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import Autoplay from 'embla-carousel-autoplay';
-import { Container, Stack } from '@mantine/core';
+import { Center, Container, Loader, Stack } from '@mantine/core';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
 import Wrapper from './Wrapper';
@@ -236,6 +236,8 @@ const Home = (): JSX.Element => {
     void fetchTopRatedMoviesEnglish();
   }, []);
 
+  console.log(Boolean(popularMovies?.results.length));
+
   return (
     <Wrapper>
       <Helmet>
@@ -266,36 +268,36 @@ const Home = (): JSX.Element => {
           {heroData?.results.map(data => <Slide key={data.id}>
             <HeroCard data={data} isLoading={isHeroLoading} error={heroError}/></Slide>)}
         </Carousel>
-        : <p>empty</p>}
+        : <Center py="lg"><Loader size="lg"/> </Center>}
       <Container fluid px="xl">
         <Stack>
-          {Boolean(popularMovies) &&
+          {Boolean(popularMovies?.results.length) &&
             <Section title="popular movies" description="Most popular movies" listType="most_pop_movies"
                      data={popularMovies} isLoading={isPopularMovieLoading} error={popularMovieError}/>
           }
-          {Boolean(boxOfficeMovies) &&
+          {Boolean(boxOfficeMovies?.results.length) &&
             <Section title="box office movies" description="Top selling movies of all time" listType="top_boxoffice_200"
                      data={boxOfficeMovies} isLoading={isBoxOfficeLoading} error={boxOfficeError}/>
           }
-          {Boolean(topMovies) &&
+          {Boolean(topMovies?.results.length) &&
             <Section title="top rated movies" description="Movies with highest user rating" listType="top_rated_250"
                      data={topMovies} isLoading={isTopMoviesLoading} error={topMoviesError}/>
           }
-          {Boolean(topEnglishMovies) &&
+          {Boolean(topEnglishMovies?.results.length) &&
             <Section title="top english movies" description="English movies with highest user rating"
                      listType="top_rated_english_250" data={topEnglishMovies} isLoading={isTopEnglishLoading}
                      error={topEnglishError}/>
           }
-          {Boolean(lowRatedMovies) &&
+          {Boolean(lowRatedMovies?.results.length) &&
             <Section title="low rated movies" description="Movies with lowest user rating"
                      listType="top_rated_lowest_100" data={lowRatedMovies} isLoading={isLowRatedLoading}
                      error={lowRatedError}/>
           }
-          {Boolean(popularSeries) &&
+          {Boolean(popularSeries?.results.length) &&
             <Section title="popular series" description="Most popular tv series" listType="most_pop_series"
                      data={popularSeries} isLoading={isPopularSeriesLoading} error={popularSeriesError}/>
           }
-          {Boolean(topSeries) &&
+          {Boolean(topSeries?.results.length) &&
             <Section title="top series" description="Tv series with highest user rating" listType="top_rated_series_250"
                      data={topSeries} isLoading={isTopSeriesLoading} error={topSeriesError}/>
           }

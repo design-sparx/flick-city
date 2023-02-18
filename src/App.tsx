@@ -13,6 +13,7 @@ import { PhotoProvider } from 'react-photo-view';
 import { useColorScheme } from '@mantine/hooks';
 import { NotificationsProvider } from '@mantine/notifications';
 import ErrorBoundary from './components/ErrorBoundary';
+import CustomFont from './fonts';
 
 const App = (): JSX.Element => {
   const preferredColorScheme = useColorScheme();
@@ -29,9 +30,12 @@ const App = (): JSX.Element => {
             withGlobalStyles
             theme={{
               colorScheme,
-              primaryColor: 'dark'
+              primaryColor: 'dark',
+              fontFamily: 'Inter, sans-serif',
+              fontFamilyMonospace: 'Monaco, Courier, monospace'
             }}
           >
+            <CustomFont/>
             <ModalsProvider modals={{ videoModal: VideoModal }}>
               <NotificationsProvider position="top-center">
                 <PhotoProvider>
