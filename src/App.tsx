@@ -12,6 +12,7 @@ import 'react-photo-view/dist/react-photo-view.css';
 import { PhotoProvider } from 'react-photo-view';
 import { useColorScheme } from '@mantine/hooks';
 import { NotificationsProvider } from '@mantine/notifications';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const App = (): JSX.Element => {
   const preferredColorScheme = useColorScheme();
@@ -20,7 +21,7 @@ const App = (): JSX.Element => {
     setColorScheme(value ?? (colorScheme === 'dark' ? 'light' : 'dark'));
 
   return (
-    <HashRouter basename='/'>
+    <HashRouter basename="/">
       <QueryParamProvider adapter={ReactRouter6Adapter}>
         <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
           <MantineProvider
@@ -35,7 +36,9 @@ const App = (): JSX.Element => {
               <NotificationsProvider position="top-center">
                 <PhotoProvider>
                   <RouteTransition>
-                    <Router />
+                    <ErrorBoundary>
+                      <Router/>
+                    </ErrorBoundary>
                   </RouteTransition>
                 </PhotoProvider>
               </NotificationsProvider>
