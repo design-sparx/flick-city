@@ -1,3 +1,5 @@
+![mockup](https://github.com/design-sparx/flick-city/assets/26582923/bf5f6398-7bd9-4191-a8d9-569b47cc7793)
+
 # Flick city entertainment application
 
 ![Github pages](https://github.com/kelvink96ltd/flick-city/actions/workflows/deploy.yml/badge.svg)
@@ -9,8 +11,8 @@ This is a web application built using React (Create React App), template - Types
 
 #### Available Pages
 1. Home - landing page
-2. Categoies - lists all items based on categories, i.e. movies, upcoming, podcast, tv series & video games
-3. List - lists all items based on the sections selected on home page
+2. Categories - lists all items based on categories, i.e. movies, upcoming, podcasts, tv series & video games
+3. List - lists all items based on the sections selected on the home page
 4. Search
 4. Movie title - displays a selected movie information
 5. Actor - displays an actor's basic information
