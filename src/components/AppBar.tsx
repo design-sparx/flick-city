@@ -56,8 +56,11 @@ const useStyles = createStyles((theme) => ({
   },
 
   search: {
-    width: 500,
+    width: 300,
 
+    [theme.fn.largerThan('xl')]: {
+      width: 600
+    },
     [theme.fn.smallerThan('md')]: {
       width: 400
     },
@@ -357,7 +360,10 @@ const AppBar = ({
               leftIcon={<BsGithub size={14}/>}
               component="a"
               href="https://github.com/kelvins-lab/flick-city"
-              target="_blank">Github</Button>
+              target="_blank"
+            >
+              Github
+            </Button>
           </Group>
           <Drawer
             opened={opened}

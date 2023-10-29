@@ -196,7 +196,7 @@ const HeroCard = ({
                           <Badge key={`keyword-${k.node.text}`} variant="filled">{k.node.text}</Badge>)}
                       </Group>
                       <SimpleGrid cols={2} spacing={0}>
-                        {Boolean(principalCast) && principalCast[0].credits.map(p =>
+                        {Boolean(principalCast) && principalCast[0]?.credits.map(p =>
                           <UnstyledButton
                             key={p.name.id}
                             className={classes.user}
